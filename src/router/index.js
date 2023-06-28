@@ -11,28 +11,26 @@ import AdminLayout from "@/views/teacherLayout/index.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-   {
-      path:'/',
-      component: Open,
-      children:[
-        {
-          path:'/login',
-          component: Login
-        }
-      ]
-   },
-   {
+    {
+    path:'/',
+    component: Open,
+    },
+    {
+    path:'/login',
+    component: Login
+	},
+    {
     path:'/student',
     component: StudentLayout
-   },
-   {
+    },
+    {
     path:'/teacher',
     component: TeacherLayout
-   },
-   {
+    },
+    {
     path:'/admin',
     component: AdminLayout
-   }
+    }
   ]
 })
 
