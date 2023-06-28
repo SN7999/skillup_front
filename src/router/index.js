@@ -7,6 +7,11 @@ import Login from "@/views/login/index.vue"
 import StudentLayout from "@/views/studentLayout/index.vue"
 import TeacherLayout from "@/views/teacherLayout/index.vue"
 import AdminLayout from "@/views/teacherLayout/index.vue"
+import StudentCurriculum from "@/views/studentLayout/component/studentCurriculum.vue"
+import StudentExam from "@/views/studentLayout/component/studentExam.vue"
+import StudentScore from "@/views/studentLayout/component/studentScore.vue"
+import StudentTraining from "@/views/studentLayout/component/studentTraining.vue"
+import StudentDetail from "@/views/studentLayout/component/StudentDetail.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,12 +23,34 @@ const router = createRouter({
     {
     path:'/login',
     component: Login
-	},
+	  },
     {
     path:'/student',
-    component: StudentLayout
-    },
-    {
+    component: StudentLayout,
+    children:[
+      {
+        path:'/student/curriculum',
+        component: StudentCurriculum,
+      },
+      {
+        path:'/student/exam',
+        component: StudentExam,
+      },
+      {
+        path:'/student/score',
+        component: StudentScore,
+      },
+      {
+        path:'/student/training',
+        component: StudentTraining,
+      },
+      {
+        path:'/student/detail',
+        component: StudentDetail,
+      }
+    ]
+   },
+   {
     path:'/teacher',
     component: TeacherLayout
     },
