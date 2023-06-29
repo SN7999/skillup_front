@@ -5,10 +5,6 @@
 
 <template>
   <!--一级路由出口组件-->
-<<<<<<< Updated upstream
-=======
-  <!-- <el-button type="primary">Primary</el-button> -->
->>>>>>> Stashed changes
   <RouterView />
 </template>
 
