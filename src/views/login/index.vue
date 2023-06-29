@@ -1,9 +1,53 @@
 <script setup>
 	import { ref } from 'vue'
-
+	// 表单对象
 	const form = ref({
-	  // name: '',
+		identity: '',
+		account:'',
+		password:''
 	})
+	// 规则对象
+	const rules = {
+		identity:[
+			{
+				required: true, 
+				message: "请选择身份", 
+				trigger: "change",
+			}
+		],
+		account:[
+			{
+				required: true,
+				message:'账号不能为空',
+				trigger:"blur",
+			}
+		],
+		password:[
+			{
+				required: true,
+				message:'密码不能为空',
+				trigger:"blur",
+			},
+			{
+				min:6,
+				max:14,
+				message:'密码长度为6-14个字符',
+				trigger:'blur'
+			}
+		]
+	}
+	// 获取form实例做统一校验
+	const formRef = ref(null)
+	// 点击登录按钮执行函数
+	const doLogin = ()=>{
+		// 调用实例方法
+		formRef.value.validate((valid) => {
+			console.log(valid)
+			if (valid) {
+				// 执行登录
+			}
+		})
+	}
 </script>
 
 <template>
@@ -35,15 +79,15 @@
 					label-width="60px"
 					status-icon
 					>
-				
-					<el-form-item label="身份">
-						<el-select v-model="form.region" placeholder="选择身份">
+				<!-- prop指定rules中项 -->
+					<el-form-item prop="identity" label="身份">
+						<el-select v-model="form.identity" placeholder="选择身份">
 							<el-option label="学生登录" value="student" />
 							<el-option label="老师登录" value="teacher" />
 						</el-select>
 					</el-form-item>
 					
-					<el-form-item prop="account" label="账户">
+					<el-form-item prop="account" label="账号">
 						<el-input v-model="form.account" />
 					</el-form-item>
 					
