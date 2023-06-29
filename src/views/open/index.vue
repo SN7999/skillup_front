@@ -3,23 +3,26 @@
 </script>
 
 <template>
-    <div id="openBox">
-        我是开屏主页?
-    </div>
+    <div id="building">
+    	<div id="mask">
+		</div>
+	</div>
 </template>
 
 <style scoped>
-	#body {
-		margin: 0px;
-		border: 0px;
-	}
-	#openBox {
-		margin: 0px;
-		border: 0px;
+	#building{
+		background: url("../../assets/images/backgroud1.jpg");
 		width: 100%;
 		height: 100%;
 		position: fixed;
-		background-color: #93d2f3;
 		background-size: 100% 100%;
-		}
+	}
+	/* 蒙版 */
+	#mask{
+		background-color: rgba(0, 0, 0, 0.6);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		background-size: 100% 100%;
+	}
 </style>
