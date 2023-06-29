@@ -38,8 +38,8 @@
 				
 					<el-form-item label="身份">
 						<el-select v-model="form.region" placeholder="选择身份">
-							<el-option label="学生登录" value="学生" />
-							<el-option label="老师登录" value="老师" />
+							<el-option label="学生登录" value="student" />
+							<el-option label="老师登录" value="teacher" />
 						</el-select>
 					</el-form-item>
 					
@@ -119,7 +119,8 @@
 	}
 	
 	.login-section {
-		background: url('@/assets/images/background1.jpg') no-repeat center / cover;
+		background: url("@/assets/images/background3.jpg") no-repeat center 18px / 100% 100%;
+		/* background-repeat: repeat;  */
 		height: 630px;
 		position: relative;
 	
@@ -155,7 +156,7 @@
 	}
 	
 	.login-footer {
-		padding: 60px 0 30px;
+		padding: 0px 0 0px;
 		background: #fff;
 	
 		p {
