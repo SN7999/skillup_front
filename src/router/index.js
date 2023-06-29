@@ -7,7 +7,8 @@ import Login from "@/views/login/index.vue"
 import StudentLayout from "@/views/studentLayout/index.vue"
 import TeacherLayout from "@/views/teacherLayout/index.vue"
 import AdminLayout from "@/views/adminLayout/index.vue"
-import StudentCurriculum from "@/views/studentLayout/component/studentCurriculum.vue"
+import StudentCurriculum from "@/views/studentLayout/component/curriculum/studentCurriculum.vue"
+import studentCurriculumDetail from '@/views/studentLayout/component/curriculum/curriculumDetail.vue'
 import StudentExam from "@/views/studentLayout/component/studentExam.vue"
 import StudentScore from "@/views/studentLayout/component/studentScore.vue"
 import StudentTraining from "@/views/studentLayout/component/studentTraining.vue"
@@ -37,6 +38,12 @@ const router = createRouter({
         {
           path:'/student',
           component: StudentCurriculum,
+          children:[
+            {
+              path:'/student',
+              component: studentCurriculumDetail
+            }
+          ]
         },
         {
           path:'/student/exam',
@@ -54,7 +61,7 @@ const router = createRouter({
           path:'/student/detail',
           component: StudentDetail,
         }
-        ]
+      ]
     },
     {
       path:'/teacher',
