@@ -7,7 +7,8 @@ const httpInstance = axios.create({
     //基地址-wmz测试
     // baseURL: 'https://jsonplaceholder.typicode.com',
 	//基地址-zjt测试
-	baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+	// baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+	baseURL: 'http://10.255.0.98:8080',
     //响应时间最长为
     timeout: 5000
 })
