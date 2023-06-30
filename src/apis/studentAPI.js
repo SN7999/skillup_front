@@ -1,8 +1,8 @@
 import request from "@/utils/http";
 
-//获取用户头像（学生）
-export const getStudentAPI = () => {
+//获取课程封面和名字
+export const getCurriculumAPI = () => {
     return request({
-      url: '/'
+      url: '/photos'
     })
 }

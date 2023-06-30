@@ -11,7 +11,7 @@
 
 <style scoped>
 	#building{
-		background: url("../../assets/images/backgroud1.jpg");
+		/* background: url("@/assets/images/backgroud1.jpg"); */
 		width: 100%;
 		height: 100%;
 		position: fixed;

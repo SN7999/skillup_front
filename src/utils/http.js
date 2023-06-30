@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const httpInstance = axios.create({
     //基地址
-    baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+    baseURL: 'https://jsonplaceholder.typicode.com',
     //响应时间最长为
     timeout: 5000
 })
