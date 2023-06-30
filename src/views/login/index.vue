@@ -1,5 +1,10 @@
 <script setup>
 	import { ref } from 'vue'
+		
+	import { ElMessage } from 'element-plus'
+	import 'element-plus/theme-chalk/el-message.css'
+	import { loginAPI } from '@/apis/user'
+	import { useRouter } from 'vue-router'
 	// 表单对象
 	const form = ref({
 		identity: '',
@@ -38,13 +43,28 @@
 	}
 	// 获取form实例做统一校验
 	const formRef = ref(null)
+	
+	const router = useRouter()
 	// 点击登录按钮执行函数
 	const doLogin = ()=>{
+		// 解构赋值
+		// const { identity, account, password } = form.value
+		// 测试用
+		const { account, password } = form.value
 		// 调用实例方法
-		formRef.value.validate((valid) => {
+		formRef.value.validate(async (valid) => {
 			console.log(valid)
 			if (valid) {
 				// 执行登录
+				// const res = await loginAPI({ identity, account, password })
+				//测试用
+				const res = await loginAPI({ account, password })
+				console.log(res)
+				// 1.提示用户
+				ElMessage({ type: 'success', message: '登录成功'})
+				// 2.跳转首页
+				router.replace({ path: '/' })
+				
 			}
 		})
 	}
