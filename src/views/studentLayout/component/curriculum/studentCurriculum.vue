@@ -3,11 +3,12 @@
     import { onMounted, ref } from 'vue'
     const curriculumList = ref([])
     const getCurriculumList = async () => {
-        const res = await getCurriculumAPI()
-        curriculumList.value = res.result
+        const { result } = await getCurriculumAPI()
+        curriculumList.value = result
     }
     onMounted(()=>{
         getCurriculumList()
+        console.log(curriculumList)
     })
 </script>
 
@@ -15,19 +16,21 @@
 <template>
     <div>
         我是学生课程界面
+        <!-- 课程列表 -->
+        <div class='curriculum-list' >
+            <div  class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(curriculum,index) in curriculumList" :key="index">
+                <RouterLink :to="'/student/curriculum/'+curriculum.name">
+                    <img :src="curriculum.picture">
+                    <div style='font-weight: 400;
+                    font-size:20px;margin-left:10px;
+                    margin-top:10px;
+                    margin-bottom:10px'>{{curriculum.name}}</div>
+                </RouterLink>
+            </div>
+        </div>
+        <!--课程列表 end-->
         <RouterView/>
     </div>
-    <!-- 课程列表 -->
-    <div class='curriculum-list' >
-        <div  class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(curriculum,index) in curriculumList" :key="index">
-        <img :src="curriculum.url">
-        <div style='font-weight: 400;
-        font-size:20px;margin-left:10px;
-        margin-top:10px;
-        margin-bottom:10px'>{{curriculum.title}}</div>
-        </div>
-    </div>
-    <!--课程列表 end-->
 </template>
 
 <style lang = "scss">

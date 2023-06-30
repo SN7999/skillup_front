@@ -1,6 +1,7 @@
 <script setup>
 import { useLogoStore } from '@/stores/getlogo'
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import { useRoute } from 'vue-router'
 //1.导入use打头的方法
 import { useEndoutStore } from '@/stores/endout'
 //2.执行方法得到store实例对象
@@ -18,6 +19,19 @@ const hideInfo = ()=>{
 const showInfo = () => {
   userInfo.value = true
 }
+
+const route = useRoute()
+
+let activePath = () =>{
+    if(route.meta.active){
+      return route.meta.active
+    }
+    return route.path
+}
+
+onBeforeMount(()=>{
+  activePath()
+})
 </script>
 
 <template>
@@ -26,7 +40,7 @@ const showInfo = () => {
       <el-menu
       :ellipsis="false"
       @select="handleSelect"
-      :default-active="$route.path"
+      :default-active="activePath()"
       class="el-menu-demo"
       mode="horizontal"
       background-color="#fff"

@@ -26,76 +26,128 @@ const router = createRouter({
     {
       path:'/',
       component: Open,
+      meta:{
+        title:'Skillup'
+      },
     },
     {
       path:'/login',
       component: Login,
+      meta:{
+        title:'登录'
+      },
 	  },
     {
       path:'/student',
       component: StudentLayout,
+      meta:{
+        active:'/student',
+        title:'学生主页'
+      },
       children:[
         {
           path:'/student',
           component: StudentCurriculum,
-          children:[
-            {
-              path:'/student',
-              component: studentCurriculumDetail
-            }
-          ]
+          meta:{
+            active:'/student',
+            title:'学生课程'
+          },
         },
         {
           path:'/student/exam',
           component: StudentExam,
+          meta:{
+            title:'学生考试'
+          },
         },
         {
           path:'/student/score',
           component: StudentScore,
+          meta:{
+            title:'学生成绩'
+          },
         },
         {
           path:'/student/training',
           component: StudentTraining,
+          meta:{
+            title:'学生培训'
+          },
         },
         {
           path:'/student/detail',
           component: StudentDetail,
-        }
+          meta:{
+            title:'学生个人中心'
+          },
+        },
+        {
+          path:'/student/curriculum/:id',
+          component: studentCurriculumDetail,
+          meta:{
+            active:'/student',
+            title:'学生选课'
+          }
+        },
       ]
     },
     {
       path:'/teacher',
       component: TeacherLayout,
+      meta:{
+        title:'老师课程'
+      },
       children:[
         {
           path:"/teacher",
           component:TeacherCurriculum,
+          meta:{
+            title:'老师课程'
+          },
         },
         {
           path:"/teacher/student",
           component:TeacherStudent,
+          meta:{
+            title:'老师查看学生'
+          },
         },
         {
           path:"/teacher/detail",
           component:TeacherDetail,
+          meta:{
+            title:'老师个人中心'
+          },
         },
         ]
     },
     {
       path:'/admin',
       component: AdminLayout,
+      meta:{
+        title:'管理员主页'
+      },
       children:[
         {
           path:"/admin",
           component:AdminCurriculum,
+          meta:{
+            title:'管理员课程'
+          },
         },
         {
           path:"/admin/student",
           component:AdminStudent,
+          meta:{
+            title:'管理学生'
+          },
         },
         {
           path:"/admin/teacher",
           component:AdminTeacher,
+          meta:{
+            title:'管理老师'
+          },
         }
       ]
 
