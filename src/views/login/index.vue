@@ -1,10 +1,12 @@
 <script setup>
 	import { ref } from 'vue'
-		
 	import { ElMessage } from 'element-plus'
 	import 'element-plus/theme-chalk/el-message.css'
-	import { loginAPI } from '@/apis/user'
 	import { useRouter } from 'vue-router'
+	
+	import { useUserStore } from '@/stores/user'
+	
+	const userStore = useUserStore()
 	// 表单对象
 	const form = ref({
 		identity: '',
@@ -56,10 +58,12 @@
 			console.log(valid)
 			if (valid) {
 				// 执行登录
+				// await userStore.getUserInfo({ identity, account, password })
 				// const res = await loginAPI({ identity, account, password })
 				//测试用
-				const res = await loginAPI({ account, password })
-				console.log(res)
+				await userStore.getUserInfo({ account, password })
+				// const res = await loginAPI({ account, password })
+				// console.log(res)
 				// 1.提示用户
 				ElMessage({ type: 'success', message: '登录成功'})
 				// 2.跳转首页
