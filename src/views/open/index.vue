@@ -1,10 +1,15 @@
-<script>
-	
+<script setup>
+	import { useRouter } from 'vue-router'
+	const router = useRouter()
+	const goforLogin = ()=>{
+		router.replace({ path: '/login' })
+	}
 </script>
 
 <template>
     <div id="building">
     	<div id="mask">
+			<el-button size="large" class="subBtn" @click="goforLogin">测试用按钮跳转到登录界面</el-button>
 		</div>
 	</div>
 </template>

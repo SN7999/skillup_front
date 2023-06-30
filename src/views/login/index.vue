@@ -67,7 +67,7 @@
 				// 1.提示用户
 				ElMessage({ type: 'success', message: '登录成功'})
 				// 2.跳转首页
-				router.replace({ path: '/' })
+				router.replace({ path: '/student' })
 			}
 		})
 	}
@@ -111,11 +111,11 @@
 					</el-form-item>
 					
 					<el-form-item prop="account" label="账号">
-						<el-input v-model="form.account" />
+						<el-input type="text" v-model="form.account" />
 					</el-form-item>
 					
 					<el-form-item prop="password" label="密码">
-						<el-input v-model="form.password" />
+						<el-input type="password" v-model="form.password" />
 					</el-form-item>
 					
 					立即注册<br><br>
