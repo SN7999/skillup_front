@@ -64,7 +64,6 @@
 				ElMessage({ type: 'success', message: '登录成功'})
 				// 2.跳转首页
 				router.replace({ path: '/' })
-				
 			}
 		})
 	}
