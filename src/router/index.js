@@ -1,6 +1,7 @@
 // createRouter: 创建router实例对象
 // createWebHistory：创建history模式的路由
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 import Open from "@/views/open/index.vue"
 import Login from "@/views/login/index.vue"
@@ -41,6 +42,7 @@ const router = createRouter({
       path:'/student',
       component: StudentLayout,
       meta:{
+		isLogin:true,
         active:'/student',
         title:'学生主页'
       },
@@ -153,6 +155,24 @@ const router = createRouter({
 
    }
   ]
+})
+
+router.beforeEach(( to, from, next) => {
+	if(to.meta.isLogin){    
+		// 判断当前路由是否需要路由验证
+		const userStore = useUserStore()
+		const token = userStore.userInfo.token
+		// 测试打印
+		console.log('if函数成功执行hengaaa')
+		// let user = JSON.parse(localStorage.getItem('user'));
+		if(token){  // 判断当前的token是否存在
+			next()  // 存在继续执行
+		}else{
+			next('/login')  //不存在需要跳到登陆页
+		}
+	    }else{   // 不需要验证路由，继续执行
+	        next()
+	    }
 })
 
 export default router
