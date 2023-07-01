@@ -9,9 +9,9 @@
 	const userStore = useUserStore()
 	// 表单对象
 	const form = ref({
-		identity: '',
-		account:'',
-		password:''
+		identity: 'student',
+		account:'xiaotuxian001',
+		password:'123456'
 	})
 	// 规则对象
 	const rules = {
@@ -47,6 +47,10 @@
 	const formRef = ref(null)
 	
 	const router = useRouter()
+	// 测试函数
+	const test = ()=>{
+		console.log('测试函数被调用')
+	}
 	// 点击登录按钮执行函数
 	const doLogin = ()=>{
 		// 解构赋值
@@ -118,8 +122,11 @@
 						<el-input type="password" v-model="form.password" />
 					</el-form-item>
 					
-					立即注册<br><br>
-					
+					<div class="txtBox">
+						<div class="leftTxt"><a href="/">前往注册</a></div>
+						<div class="rightTxt">忘记密码</div>
+					</div>
+					<br><br>
 					<el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
 					
 				</el-form>
@@ -237,6 +244,20 @@
 		
 		.form {
 			padding: 0 10px 10px 10px;
+		}
+		.txtBox {
+			a{
+				text-decoration: none;
+				color: #000000;
+			}
+			.leftTxt{
+				margin-left: 10px;
+				float: left;
+			}
+			.rightTxt{
+				margin-right: 10px;
+				float: right;
+			}
 		}
 	}
 	
