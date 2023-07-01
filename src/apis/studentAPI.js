@@ -5,7 +5,7 @@ import request from '@/utils/http'
 //最终使用
 // export const getCurriculumAPI = () => {
 //     return request({
-//       url: '/classes/showClasses',
+//       url: '/classes/showClassesname',
 //     })
 // }
 
@@ -32,7 +32,7 @@ export const getSearchCurriculumAPI = ({classname}) => {
 //最终使用
 // export const getCurriculumDetailAPI = ({classname}) => {
 //   return request({
-//     url: '/DTO/getclass',
+//     url: '/classes/showClassDetail',
 //     method:'POST',
 //     data:{
 //       classname

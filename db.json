@@ -47,26 +47,6 @@
         "msg": "success",
         "data": null
     },
-    "person":
-    {
-        "code": 200,
-        "msg": "修改成功",
-        "data": {
-            "id": 16742263,
-            "name": "Liu",
-            "password": null,
-            "gender": null,
-            "age": 80000,
-            "academy": "cs",
-            "contact": "135xxxxxxxxxx",
-            "email": null,
-            "selfintroduction": null,
-            "status": null,
-            "salt": null,
-            "score": null,
-            "imageurl": null
-        }
-    },
     "exams":
     [
         {
@@ -113,5 +93,144 @@
             "chapterId":1,
             "classId":1674231545390477313
         }
-    ]
+    ],
+    "studentinfo":
+    {
+        "code": 200,
+        "msg": "success",
+        "data": {
+            "id": 1674226,
+            "name": "Liu",
+            "password": "9d11989efa631exxxxxxxxxxxxxx",
+            "gender": true,
+            "age": 80,
+            "academy": "cs",
+            "contact": "135xxxxxxxxx",
+            "email": "123@1.com",
+            "selfintroduction": "这个人很懒，什么都没写~",
+            "status": "已注册",
+            "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
+            "score": 20,
+            "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expiresxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+    },
+    "examcount":
+    {
+        "code": 200,
+        "msg": "查询到2个考试。 ",
+        "data": [
+            {
+                "id": 1,
+                "name": null,
+                "totalScore": null,
+                "totalTime": null,
+                "classid": 1674231545390477313,
+                "date": null
+            },
+            {
+                "id": 2,
+                "name": null,
+                "totalScore": null,
+                "totalTime": null,
+                "classid": 1674231545390477313,
+                "date": null
+            }
+        ]
+    },
+    "classcount":
+    {
+        "code": 200,
+        "msg": "查询到2个已选课程。",
+        "data": [
+            {
+                "classid": 1674231545390477313,
+                "studentid": 1674226398820048898,
+                "classname": "data structure",
+                "studentname": null,
+                "date": null,
+                "status": "已选",
+                "score": null
+            },
+            {
+                "classid": 1674255941190578177,
+                "studentid": 1674226398820048898,
+                "classname": "csapp",
+                "studentname": null,
+                "date": null,
+                "status": "已选",
+                "score": null
+            }
+        ]
+    },
+    "passwordreset":
+    {
+        "code": 200,
+        "msg": "重置密码成功",
+        "data": {
+            "id": 1674663728592723970,
+            "name": null,
+            "password": "26e67cad662cdad38b43757a5b4f6442",
+            "gender": null,
+            "age": null,
+            "academy": null,
+            "contact": null,
+            "email": "3356309819@qq.com",
+            "selfintroduction": null,
+            "status": "已注册",
+            "salt": "34133c60-463d-4333-8c56-770f4fd1df23",
+            "score": null,
+            "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expires=1688710834&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=QP2vADP2BEHPkFxRNPCNABmeEK4%3D"
+        }
+    },
+    "emailreset":
+    {
+        "code": 200,
+        "msg": "修改成功！",
+        "data": {
+            "id": 11111111111111,
+            "name": null,
+            "password": null,
+            "gender": null,
+            "age": null,
+            "academy": null,
+            "contact": null,
+            "email": "11@11.com",
+            "selfintroduction": null,
+            "status": null,
+            "salt": null,
+            "score": null,
+            "imageurl": null
+        }
+    },
+    "vercode":
+    {
+        "code": 200,
+        "msg": "验证码已发送到xxxxxxxxxx@qq.com, 有效期10分钟，请及时进行验证",
+        "data": null
+    },
+    "cancel":
+    {
+        "code": 200,
+        "msg": "注销成功",
+        "data": null
+    },
+    "saveinfo":{
+        "code": 200,
+        "msg": "修改成功",
+        "data": {
+            "id": 16742263,
+            "name": "Liu",
+            "password": null,
+            "gender": null,
+            "age": 80000,
+            "academy": "cs",
+            "contact": "135xxxxxxxxxx",
+            "email": null,
+            "selfintroduction": null,
+            "status": null,
+            "salt": null,
+            "score": null,
+            "imageurl": null
+        }
+    }
 }
