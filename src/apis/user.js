@@ -4,6 +4,7 @@ import request from '@/utils/http'
 
 export const loginAPI = ({ account, password }) => {
 	return request({
+		//测试用url，未改
 		url:'/login',
 		method:'POST',
 		data: {

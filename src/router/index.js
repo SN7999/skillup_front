@@ -42,7 +42,7 @@ const router = createRouter({
       path:'/student',
       component: StudentLayout,
       meta:{
-		//isLogin:true,
+		isLogin:true,
         active:'/student',
         title:'学生主页'
       },

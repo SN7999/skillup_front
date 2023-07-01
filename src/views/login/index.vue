@@ -5,7 +5,7 @@
 	import { useRouter } from 'vue-router'
 	
 	import { useUserStore } from '@/stores/user'
-	
+	//控制显示内容切换
 	const testStatus = ref(0)
 	console.log(testStatus.value)
 	const setTestStatusLog = () => {
@@ -25,17 +25,15 @@
 	}
 	
 	const userStore = useUserStore()
-	// 表单对象
-	const form = ref({
+	
+	// 表单对象-登录
+	const formLog = ref({
 		identity: 'student',
-		account:'xiaotuxian001',
-		password:'123456',
-		identityReg: '',
-		accountReg:'',
-		passwordReg:''
+		email:'xiaotuxian001',
+		password:'123456'
 	})
-	// 规则对象
-	const rules = {
+	// 规则对象-登录
+	const rulesLog = {
 		identity:[
 			{
 				required: true, 
@@ -43,10 +41,10 @@
 				trigger: "change",
 			}
 		],
-		account:[
+		email:[
 			{
 				required: true,
-				message:'账号不能为空',
+				message:'邮箱不能为空',
 				trigger:"blur",
 			}
 		],
@@ -64,8 +62,68 @@
 			}
 		]
 	}
-	// 获取form实例做统一校验
-	const formRef = ref(null)
+	// 获取formReg实例做统一校验
+	const formRefLog = ref(null)
+	
+	
+	
+	// 表单对象-注册
+	const formReg = ref({
+		identity: 'student',
+		email:'xiaotuxian001',
+		password:'123456',
+		passwordCK:'123456',
+		verCode:''
+	})
+	const equalToPassword = (rule, value, callback) => {
+	      if (formReg.password !== value) {
+	        callback(new Error("两次输入的密码不一致"));
+	      } else {
+	        callback();
+	      }
+	};
+	// 规则对象-注册
+	const rulesReg = {
+		identity:[
+			{
+				required: true, 
+				message: "请选择身份", 
+				trigger: "change",
+			}
+		],
+		email:[
+			{
+				required: true,
+				message:'邮箱不能为空',
+				trigger:"blur",
+			}
+		],
+		password:[
+			{
+				required: true,
+				message:'密码不能为空',
+				trigger:"blur",
+			},
+			{
+				min:6,
+				max:14,
+				message:'密码长度为6-14个字符',
+				trigger:'blur'
+			}
+		],
+		passwordCK:[
+			{
+				required: true,
+				message:'请确认密码',
+				trigger:"blur",
+			},
+			{
+				required: true, 
+				validator: equalToPassword, 
+				trigger: "blur"
+			}
+		]
+	}
 	
 	const router = useRouter()
 	// 测试函数
@@ -77,15 +135,16 @@
 		// 解构赋值
 		// const { identity, account, password } = form.value
 		// 测试用
-		const { account, password } = form.value
+		const { email, password } = formLog.value
 		// 调用实例方法
-		formRef.value.validate(async (valid) => {
-			console.log(valid)
+		formRefLog.value.validate(async (valid) => {
+			console.log(valid+'登录表单合法')
 			if (valid) {
 				// 执行登录
 				// await userStore.getUserInfo({ identity, account, password })
 				// const res = await loginAPI({ identity, account, password })
 				//测试用
+				const account = email
 				await userStore.getUserInfo({ account, password })
 				// const res = await loginAPI({ account, password })
 				// console.log(res)
@@ -122,27 +181,27 @@
 				<!-- ————————————————————登录模块———————————————— -->
 				<el-form
 					v-if='testStatus==0'
-					ref="formRef"
-					:model="form"
-					:rules="rules"
+					ref="formRefLog"
+					:model="formLog"
+					:rules="rulesLog"
 					label-position="right"
 					label-width="60px"
 					status-icon
 					>
 				<!-- prop指定rules中项 -->
 					<el-form-item prop="identity" label="身份">
-						<el-select v-model="form.identity" placeholder="选择身份">
+						<el-select v-model="formLog.identity" placeholder="选择身份">
 							<el-option label="学生登录" value="student" />
 							<el-option label="老师登录" value="teacher" />
 						</el-select>
 					</el-form-item>
 					
-					<el-form-item prop="account" label="账号">
-						<el-input type="text" v-model="form.account" />
+					<el-form-item prop="email" label="账号">
+						<el-input type="text" v-model="formLog.email" />
 					</el-form-item>
 					
 					<el-form-item prop="password" label="密码">
-						<el-input type="password" v-model="form.password" />
+						<el-input type="password" v-model="formLog.password" />
 					</el-form-item>
 					
 					<div class="txtBox">
@@ -158,28 +217,44 @@
 				<!-- ————————————————————注册模块———————————————— -->
 				<el-form
 					v-if='testStatus==1'
-					ref="formRef"
-					:model="form"
-					:rules="rules"
+					ref="formRefReg"
+					:model="formReg"
+					:rules="rulesReg"
 					label-position="right"
-					label-width="60px"
+					label-width="80px"
 					status-icon
 					>
 				<!-- prop指定rules中项 -->
 					<el-form-item prop="identity" label="身份">
-						<el-select v-model="form.identityReg" placeholder="选择身份">
-							<el-option label="学生登录" value="student" />
-							<el-option label="老师登录" value="teacher" />
+						<el-select v-model="formReg.identity" placeholder="选择身份">
+							<el-option label="学生注册" value="student" />
+							<el-option label="老师注册" value="teacher" />
 						</el-select>
 					</el-form-item>
 					
-					<el-form-item prop="account" label="账号">
-						<el-input type="text" v-model="form.accountReg" />
+					<el-form-item prop="email" label="注册邮箱">
+						<el-input type="text" v-model="formReg.email" />
 					</el-form-item>
 					
-					<el-form-item prop="password" label="密码">
-						<el-input type="password" v-model="form.passwordReg" />
+					<el-form-item prop="password" label="输入密码">
+						<el-input type="password" v-model="formReg.password" />
 					</el-form-item>
+					
+					<el-form-item prop="passwordCK" label="确认密码">
+						<el-input type="password" v-model="formReg.passwordCK" />
+					</el-form-item>
+					
+					<div class="formBox">
+						<div class="leftBox">
+							<el-form-item prop="passwordCK" label="验证码">
+								<el-input type="password" v-model="formReg.verCode" />
+							</el-form-item>
+						</div>
+						<div class="rightBox">
+							<el-button size="middle" class="subBtn">获取验证码</el-button>
+						</div>
+					</div>
+					<br><br>
 					
 					<div class="txtBox">
 						<div class="leftTxt" @click="setTestStatusLog"><a href="javascript:void(0);" >前往登录</a></div>
@@ -325,7 +400,20 @@
 		.form {
 			padding: 0 10px 10px 10px;
 		}
+		.formBox {
+			.leftBox{
+				width: 60%;
+				margin-left: 0px;
+				float: left;
+			}
+			.rightBox{
+				width: 35%;
+				margin-right: 0px;
+				float: right;
+			}
+		}
 		.txtBox {
+			width: 100%;
 			.leftTxt{
 				margin-left: 10px;
 				float: left;

@@ -6,9 +6,9 @@ import { useUserStore } from '@/stores/user'
 import router from '@/router'
 const httpInstance = axios.create({
     //基地址-wmz测试
-    baseURL: 'http://localhost:3000',
+    // baseURL: 'http://localhost:3000',
 	//基地址-zjt测试
-	//baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+	baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
 	//baseURL: 'http://10.255.0.98:8080',
     //响应时间最长为
     timeout: 5000
@@ -27,22 +27,22 @@ httpInstance.interceptors.request.use(config => {
 	}
 	return config
 }, e => Promise.reject(e))
-// //axios响应式拦截器
-// httpInstance.interceptors.response.use(res => res.data,e=>{
+//axios响应式拦截器
+httpInstance.interceptors.response.use(res => res.data,e=>{
 	
-// 	const userStore = useUserStore()
-// 	//统一错误提示
-// 	ElMessage({
-// 		type: 'warning',
-// 		message: e.response.data.message
-// 	})
-// 	// 401token失效处理
-// 	// 清除本地用户数据跳转到登录页
-// 	if(e.response.status === 401){
-// 		userStore.clearUserInfo()
-// 		router.push('/login')
-// 	}
-//     return Promise.reject(e)
-// })
+	const userStore = useUserStore()
+	//统一错误提示
+	ElMessage({
+		type: 'warning',
+		message: e.response.data.message
+	})
+	// 401token失效处理
+	// 清除本地用户数据跳转到登录页
+	if(e.response.status === 401){
+		userStore.clearUserInfo()
+		router.push('/login')
+	}
+    return Promise.reject(e)
+})
 
 export default httpInstance

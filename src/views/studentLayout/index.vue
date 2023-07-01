@@ -70,7 +70,7 @@ onBeforeMount(()=>{
   </el-container>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .container {
     min-height: 100vh;
     position: relative;
