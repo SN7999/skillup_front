@@ -6,12 +6,33 @@
 	
 	import { useUserStore } from '@/stores/user'
 	
+	const testStatus = ref(0)
+	console.log(testStatus.value)
+	const setTestStatusLog = () => {
+	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
+	    testStatus.value = 0
+		console.log(testStatus.value)
+	}
+	const setTestStatusReg = () => {
+	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
+	    testStatus.value = 1
+		console.log(testStatus.value)
+	}
+	const setTestStatusFog = () => {
+	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
+	    testStatus.value = 2
+		console.log(testStatus.value)
+	}
+	
 	const userStore = useUserStore()
 	// 表单对象
 	const form = ref({
 		identity: 'student',
 		account:'xiaotuxian001',
-		password:'123456'
+		password:'123456',
+		identityReg: '',
+		accountReg:'',
+		passwordReg:''
 	})
 	// 规则对象
 	const rules = {
@@ -94,11 +115,15 @@
     <section class="login-section">
       <div class="wrapper">
         <nav>
-			<a>账户登录</a>
+			<a v-if='testStatus==0'>账户登录</a>
+			<a v-if='testStatus==1'>账户注册</a>
+			<a v-if='testStatus==2'>忘记密码</a>
         </nav>
 		<div class="account-box">
 			<div class="form">
+				<!-- ————————————————————登录模块———————————————— -->
 				<el-form
+					v-if='testStatus==0'
 					ref="formRef"
 					:model="form"
 					:rules="rules"
@@ -123,13 +148,70 @@
 					</el-form-item>
 					
 					<div class="txtBox">
-						<div class="leftTxt"><a href="/">前往注册</a></div>
-						<div class="rightTxt">忘记密码</div>
+						<div class="leftTxt" @click="setTestStatusReg"><a href="javascript:void(0);" >前往注册</a></div>
+						<div class="rightTxt" @click="setTestStatusFog"><a href="javascript:void(0);" >忘记密码?</a></div>
 					</div>
 					<br><br>
 					<el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
 					
 				</el-form>
+				
+				
+				<!-- ————————————————————注册模块———————————————— -->
+				<el-form
+					v-if='testStatus==1'
+					ref="formRef"
+					:model="form"
+					:rules="rules"
+					label-position="right"
+					label-width="60px"
+					status-icon
+					>
+				<!-- prop指定rules中项 -->
+					<el-form-item prop="identity" label="身份">
+						<el-select v-model="form.identityReg" placeholder="选择身份">
+							<el-option label="学生登录" value="student" />
+							<el-option label="老师登录" value="teacher" />
+						</el-select>
+					</el-form-item>
+					
+					<el-form-item prop="account" label="账号">
+						<el-input type="text" v-model="form.accountReg" />
+					</el-form-item>
+					
+					<el-form-item prop="password" label="密码">
+						<el-input type="password" v-model="form.passwordReg" />
+					</el-form-item>
+					
+					<div class="txtBox">
+						<div class="leftTxt" @click="setTestStatusLog"><a href="javascript:void(0);" >前往登录</a></div>
+						<div class="rightTxt" @click="setTestStatusFog"><a href="javascript:void(0);" >忘记密码?</a></div>
+					</div>
+					<br><br>
+					<el-button size="large" class="subBtn">确认注册</el-button>
+					
+				</el-form>
+				
+				
+				<!-- ————————————————————忘记密码模块———————————————— -->
+				<el-form
+					v-if='testStatus==2'
+					ref="formRef"
+					:model="form"
+					:rules="rules"
+					label-position="right"
+					label-width="60px"
+					status-icon
+					>
+					<div class="txtBox">
+						<div class="leftTxt" @click="setTestStatusLog"><a href="javascript:void(0);" >前往登录</a></div>
+						<div class="rightTxt" @click="setTestStatusReg"><a href="javascript:void(0);" >前往注册</a></div>
+					</div>
+					<br><br>
+					<el-button size="large" class="subBtn">确认注册</el-button>
+					
+				</el-form>
+				
 			</div>
         </div>
       </div>
