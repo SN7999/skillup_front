@@ -10,7 +10,7 @@
     }
     onMounted(()=>{
         getCurriculumList()
-        //console.log(curriculumList.value)
+        console.log(curriculumList.value)
     })
     const searchCurriculumList = ref([])
     const getSearchCurriculumList = async (curriculumName) => {

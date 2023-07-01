@@ -1,0 +1,50 @@
+{
+    "data":
+    [
+        {
+            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+            "classname":"csapp"
+        },
+        {
+            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+            "classname":"data structure"
+        }
+    ],
+    "classes":
+    [
+        {
+            "classid":1674231545390477313,
+            "teacherid":1,
+            "classname":"data structure",
+            "teacher":"Liao Kwok Yin",
+            "period":null,
+            "starttime":null,
+            "endtime":"2023-07-16T00:00:00",
+            "status":"已通过",
+            "studentcount":6,
+            "introduction":null,
+            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+            "announcement":"明天考试"
+        },
+        {
+            "classid":1674231545390477312,
+            "teacherid":1,
+            "classname":"data structure",
+            "teacher":"Liao Kwok Yin",
+            "period":null,
+            "starttime":null,
+            "endtime":"2023-07-16T00:00:00",
+            "status":"已通过",
+            "studentcount":6,
+            "introduction":null,
+            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+            "announcement":"明天考试"
+        }
+    ],
+    "attend":
+    {
+        "code": 200,
+        "msg": "success",
+        "data": null
+    }
+}
