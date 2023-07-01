@@ -105,11 +105,9 @@
         <h1 class="logo">
           <RouterLink to="/">Skillup</RouterLink>
         </h1>
-        <RouterLink class="entry" to="/">
+        <a class="entry" href="/">
           进入开屏页
-          <i class="iconfont icon-angle-right"></i>
-          <i class="iconfont icon-angle-right"></i>
-        </RouterLink>
+        </a>
       </div>
     </header>
     <section class="login-section">
@@ -328,10 +326,6 @@
 			padding: 0 10px 10px 10px;
 		}
 		.txtBox {
-			a{
-				text-decoration: none;
-				color: #000000;
-			}
 			.leftTxt{
 				margin-left: 10px;
 				float: left;
@@ -341,6 +335,11 @@
 				float: right;
 			}
 		}
+	}
+	
+	a{
+		text-decoration: none;
+		color: #000000;
 	}
 	
 	/* .account-box {
