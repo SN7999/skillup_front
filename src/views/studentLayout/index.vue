@@ -35,8 +35,8 @@ onBeforeMount(()=>{
 </script>
 
 <template>
-  <el-container>
-    <el-header>
+  <el-container class="container">
+    <el-header class="fixed-header">
       <el-menu
       :ellipsis="false"
       @select="handleSelect"
@@ -63,7 +63,7 @@ onBeforeMount(()=>{
         </div>
       </el-menu>
     </el-header>
-    <el-main>
+    <el-main class="main-content">
     <!-- 二级路由入口 -->
     <RouterView/>
     </el-main>
@@ -71,6 +71,23 @@ onBeforeMount(()=>{
 </template>
 
 <style lang="scss">
+  .container {
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .fixed-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  .main-content {
+  margin-top: 40px;  /* 根据 .fixed-header 的高度来调整 margin-top */
+  }
+
   .flex-grow {
       flex-grow: 1;
   }
