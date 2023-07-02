@@ -12,8 +12,9 @@ import StudentCurriculum from "@/views/studentLayout/component/curriculum/studen
 import studentCurriculumDetail from '@/views/studentLayout/component/curriculum/curriculumDetail.vue'
 import StudentExam from "@/views/studentLayout/component/studentExam.vue"
 import StudentScore from "@/views/studentLayout/component/studentScore.vue"
-import StudentTraining from "@/views/studentLayout/component/studentTraining.vue"
+import StudentTraining from "@/views/studentLayout/component/training/studentTraining.vue"
 import StudentDetail from "@/views/studentLayout/component/studentDetail.vue"
+import TrainingDetail from "@/views/studentLayout/component/training/trainingDetail.vue"
 import TeacherCurriculum from "@/views/teacherLayout/component/teacherCurriculum.vue"
 import TeacherStudent from "@/views/teacherLayout/component/teacherStudent.vue"
 import TeacherDetail from "@/views/teacherLayout/component/teacherDetail.vue"
@@ -42,7 +43,7 @@ const router = createRouter({
       path:'/student',
       component: StudentLayout,
       meta:{
-		isLogin:true,
+		//isLogin:true,
         active:'/student',
         title:'学生主页'
       },
@@ -91,6 +92,14 @@ const router = createRouter({
             title:'学生选课'
           }
         },
+        {
+          path:'/student/training/detail/:id',
+          component:TrainingDetail,
+          meta:{
+            active:'/student/training',
+            title:'培训详情'
+          }
+        }
       ]
     },
     {

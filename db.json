@@ -232,5 +232,110 @@
             "score": null,
             "imageurl": null
         }
-    }
+    },
+    "showselectclass":
+    {
+        "code": 200,
+        "msg": "success",
+        "data": [
+            {
+                "classid": 1674231545390477313,
+                "teacherid": 1,
+                "classname": "data structure",
+                "teacher": "Liao Kwok Yin",
+                "period": null,
+                "starttime": null,
+                "endtime": "2023-07-16T00:00:00",
+                "status": "已通过",
+                "studentcount": 6,
+                "introduction": null,
+                "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=16886081xxxxx",
+                "announcement": "明天考试"
+            },
+            {
+                "classid": 1674255941190578177,
+                "teacherid": 1674249729564778497,
+                "classname": "csapp",
+                "teacher": "glen",
+                "period": null,
+                "starttime": null,
+                "endtime": "2023-07-17T00:00:00",
+                "status": "已通过",
+                "studentcount": 1,
+                "introduction": null,
+                "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
+                "announcement": null
+            }
+        ]
+    },
+    "getclass":
+    {
+        "code":200,
+        "msg":"success",
+        "data":
+        {
+            "classes":
+            {
+                "classid":1674231545390477313,
+                "teacherid":1,
+                "classname":"data structure",
+                "teacher":"Liao Kwok Yin",
+                "period":null,
+                "starttime":null,
+                "endtime":"2023-07-16T00:00:00",
+                "status":"已通过",
+                "studentcount":6,
+                "introduction":null,
+                "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+                "announcement":"明天考试"
+            },
+            "resources":
+            [
+                {
+                    "resourceId":1674241480593612801,
+                    "resourcename":null,
+                    "type":"文档",
+                    "url":"http://skillup.oss-cn-beijing.aliyuncs.com/ppt/Gionis.pdf?Expires=1688610049&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=oL6rUjqzKMBHm1tZZcg4WV%2Fga68%3D",
+                    "status":"已通过",
+                    "chapterId":1,
+                    "classId":1674231545390477313
+                }
+            ],
+            "chapters":
+            [
+                {
+                    "chapterid":1,
+                    "classid":1674231545390477313,
+                    "introduction":"令人愉悦的数据结构，欢迎各位同学前来选修"
+                }
+            ], 
+            "exams":
+            [
+                {
+                    "id":1,
+                    "name":null,
+                    "totalScore":null,
+                    "totalTime":null,
+                    "classid":1674231545390477313,
+                    "date":null
+                },
+                {
+                    "id":2,
+                    "name":null,
+                    "totalScore":null,
+                    "totalTime":null,
+                    "classid":1674231545390477313,
+                    "date":null
+                },
+                {
+                    "id":3,
+                    "name":null,
+                    "totalScore":null,
+                    "totalTime":null,
+                    "classid":1674231545390477313,
+                    "date":null
+                }
+            ]
+        }
+    }    
 }
