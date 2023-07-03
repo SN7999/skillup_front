@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
 					router.replace({ path: '/teacher' })
 				}
 			}else{
-				ElMessage({ type: 'success', message: '登录失败'})
+				ElMessage({ type: 'error', message: '登录失败'})
 			}
 		}
 		userInfo.value = res.value.data

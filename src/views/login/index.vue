@@ -3,7 +3,8 @@
 	import { ElMessage } from 'element-plus'
 	import 'element-plus/theme-chalk/el-message.css'
 	import { useRouter } from 'vue-router'
-	import { getVercodeAPI } from '@/apis/loginVercodeAPI'
+	import { getVercodeAPI, getVercodeAPIT } from '@/apis/loginVercodeAPI'
+	import { registerAPI, registerAPIT } from '@/apis/registerAPI'
 	import { useUserStore } from '@/stores/user'
 	//控制显示内容切换
 	const testStatus = ref(0)
@@ -11,17 +12,17 @@
 	const setTestStatusLog = () => {
 	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
 	    testStatus.value = 0
-		console.log(testStatus.value)
+		// console.log(testStatus.value)
 	}
 	const setTestStatusReg = () => {
 	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
 	    testStatus.value = 1
-		console.log(testStatus.value)
+		// console.log(testStatus.value)
 	}
 	const setTestStatusFog = () => {
 	    //脚本区域修改ref产生的响应式对象数据 必须通过.value属性
 	    testStatus.value = 2
-		console.log(testStatus.value)
+		// console.log(testStatus.value)
 	}
 	
 	const userStore = useUserStore()
@@ -64,23 +65,25 @@
 	}
 	// 获取formReg实例做统一校验
 	const formRefLog = ref(null)
-	
+	const formRefReg = ref(null)
 	
 	
 	// 表单对象-注册
 	const formReg = ref({
 		identity: 'student',
-		email:'xiaotuxian001',
+		email:'2394713985@qq.com',
 		password:'123456',
 		passwordCK:'123456',
 		verCode:''
 	})
+	//验证两次输入密码相同
 	const equalToPassword = (rule, value, callback) => {
-	      if (formReg.password !== value) {
+		// console.log(formReg.value.password+value)
+	    if (formReg.value.password != value) {
 	        callback(new Error("两次输入的密码不一致"));
-	      } else {
+	    } else {
 	        callback();
-	      }
+	    }
 	};
 	// 规则对象-注册
 	const rulesReg = {
@@ -122,14 +125,85 @@
 				validator: equalToPassword, 
 				trigger: "blur"
 			}
+		],
+		verCode:[
+			{
+				required: true,
+				message:'请输入验证码',
+				trigger:"blur",
+			}
 		]
 	}
 	
-	const getVercode = async (email) => {
+	// 表单对象-忘记密码
+	const formFog = ref({
+		identity: 'student',
+		email:'2394713985@qq.com',
+		password:'123456',
+		passwordCK:'123456',
+		verCode:''
+	})
+	
+	const rulesFog = {
+		identity:[
+			{
+				required: true, 
+				message: "请选择身份", 
+				trigger: "change",
+			}
+		],
+		email:[
+			{
+				required: true,
+				message:'邮箱不能为空',
+				trigger:"blur",
+			}
+		],
+		password:[
+			{
+				required: true,
+				message:'密码不能为空',
+				trigger:"blur",
+			},
+			{
+				min:6,
+				max:14,
+				message:'密码长度为6-14个字符',
+				trigger:'blur'
+			}
+		],
+		passwordCK:[
+			{
+				required: true,
+				message:'请确认密码',
+				trigger:"blur",
+			}
+		],
+		verCode:[
+			{
+				required: true,
+				message:'请输入验证码',
+				trigger:"blur",
+			}
+		]
+	}
+	
+	const getVercode = async ( identity, email) => {
 		console.log('获取验证码函数被调用')
 	    const getCodeMsg = ref(null)
-	    const result = await getVercodeAPI(email)
-	    getCodeMsg.value = result.data
+		const result = ref(null)
+		console.log(email)
+		if (identity == "student") {
+			result.value = await getVercodeAPI(email)
+			// result.value = '学生'
+		} else if (identity == "teacher") {
+			result.value = await getVercodeAPIT(email)
+			// result.value = '老师'
+		} else {
+			ElMessage.error('身份错误')
+		}
+	    
+	    getCodeMsg.value = result.value.data
 	    if(getCodeMsg.value.code == 200){
 	        ElMessage.success(getCodeMsg.value.msg)
 	    }
@@ -137,6 +211,10 @@
 	        ElMessage.error('获取验证码失败')
 	    }
 	    getCodeMsg.value = null
+	}
+	
+	const getVercode1 = async ( identity, email) => {
+		console.log('忘记密码获取验证码函数被调用')
 	}
 	
 	const router = useRouter()
@@ -184,6 +262,35 @@
 			}
 		})
 	}
+	// 注册提交
+	const doRegister = ()=>{
+		const { identity, email, password, verCode } = formReg.value
+		// 调用实例方法
+		formRefReg.value.validate(async (valid) => {
+			console.log(valid+'注册表单合法')
+			if (valid) {
+				const res = ref(null)
+				if (identity == "student") {
+					res.value = await registerAPI({ email, password, verCode })
+				} else if (identity == "teacher") {
+					res.value = await registerAPIT({ email, password, verCode })
+				} else {
+					ElMessage.error('提交失败')
+				}
+				
+				if(res != null){
+					console.log('res.data.code '+res.value.data.code)
+					if(res.value.data.code == 200) {
+						ElMessage({ type: 'success', message: res.value.data.msg})
+						testStatus.value = 0
+					}else{
+						ElMessage({ type: 'error', message: '注册失败'})
+					}
+				}
+				
+			}
+		})
+	}
 </script>
 
 <template>
@@ -207,7 +314,7 @@
         </nav>
 		<div class="account-box">
 			<div class="form">
-				<!-- ————————————————————登录模块———————————————— -->
+				<!-- ————————————————————登录模块———————测试完毕————————— -->
 				<el-form
 					v-if='testStatus==0'
 					ref="formRefLog"
@@ -275,12 +382,12 @@
 					
 					<div class="formBox">
 						<div class="leftBox">
-							<el-form-item prop="passwordCK" label="验证码">
-								<el-input type="password" v-model="formReg.verCode" />
+							<el-form-item prop="verCode" label="验证码">
+								<el-input type="text" v-model="formReg.verCode" />
 							</el-form-item>
 						</div>
 						<div class="rightBox">
-							<el-button size="middle" class="subBtn" @click="getVercode(formReg.email)">获取验证码</el-button>
+							<el-button size="middle" class="subBtn" @click="getVercode(formReg.identity,formReg.email)">获取验证码</el-button>
 						</div>
 					</div>
 					<br><br>
@@ -290,7 +397,7 @@
 						<div class="rightTxt" @click="setTestStatusFog"><a href="javascript:void(0);" >忘记密码?</a></div>
 					</div>
 					<br><br>
-					<el-button size="large" class="subBtn">确认注册</el-button>
+					<el-button size="large" class="subBtn" @click="doRegister">确认注册</el-button>
 					
 				</el-form>
 				
@@ -298,13 +405,44 @@
 				<!-- ————————————————————忘记密码模块———————————————— -->
 				<el-form
 					v-if='testStatus==2'
-					ref="formRef"
-					:model="form"
-					:rules="rules"
+					ref="formRefFog"
+					:model="formFog"
+					:rules="rulesFog"
 					label-position="right"
 					label-width="60px"
 					status-icon
 					>
+					
+					<el-form-item prop="identity" label="身份">
+						<el-select v-model="formFog.identity" placeholder="选择身份">
+							<el-option label="学生注册" value="student" />
+							<el-option label="老师注册" value="teacher" />
+						</el-select>
+					</el-form-item>
+					
+					<el-form-item prop="email" label="邮箱">
+						<el-input type="text" v-model="formFog.email" />
+					</el-form-item>
+					
+					<el-form-item prop="password" label="新密码">
+						<el-input type="password" v-model="formFog.password" />
+					</el-form-item>
+					
+					<el-form-item prop="passwordCK" label="确认密码">
+						<el-input type="password" v-model="formFog.passwordCK" />
+					</el-form-item>
+					
+					<div class="formBox">
+						<div class="leftBox">
+							<el-form-item prop="verCode" label="验证码">
+								<el-input type="text" v-model="formFog.verCode" />
+							</el-form-item>
+						</div>
+						<div class="rightBox">
+							<el-button size="middle" class="subBtn" @click="getVercode1(formFog.identity,formReg.email)">获取验证码</el-button>
+						</div>
+					</div>
+					<br><br>
 					<div class="txtBox">
 						<div class="leftTxt" @click="setTestStatusLog"><a href="javascript:void(0);" >前往登录</a></div>
 						<div class="rightTxt" @click="setTestStatusReg"><a href="javascript:void(0);" >前往注册</a></div>
