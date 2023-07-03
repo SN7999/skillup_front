@@ -3,7 +3,7 @@
 	import { ElMessage } from 'element-plus'
 	import 'element-plus/theme-chalk/el-message.css'
 	import { useRouter } from 'vue-router'
-	
+	import { getVercodeAPI } from '@/apis/loginVercodeAPI'
 	import { useUserStore } from '@/stores/user'
 	//控制显示内容切换
 	const testStatus = ref(0)
@@ -29,8 +29,8 @@
 	// 表单对象-登录
 	const formLog = ref({
 		identity: 'student',
-		email:'xiaotuxian001',
-		password:'123456'
+		email:'123@qq.com',
+		password:'123'
 	})
 	// 规则对象-登录
 	const rulesLog = {
@@ -55,7 +55,7 @@
 				trigger:"blur",
 			},
 			{
-				min:6,
+				min:1,
 				max:14,
 				message:'密码长度为6-14个字符',
 				trigger:'blur'
@@ -125,6 +125,20 @@
 		]
 	}
 	
+	const getVercode = async (email) => {
+		console.log('获取验证码函数被调用')
+	    const getCodeMsg = ref(null)
+	    const result = await getVercodeAPI(email)
+	    getCodeMsg.value = result.data
+	    if(getCodeMsg.value.code == 200){
+	        ElMessage.success(getCodeMsg.value.msg)
+	    }
+	    else{
+	        ElMessage.error('获取验证码失败')
+	    }
+	    getCodeMsg.value = null
+	}
+	
 	const router = useRouter()
 	// 测试函数
 	const test = ()=>{
@@ -135,7 +149,7 @@
 		// 解构赋值
 		// const { identity, account, password } = form.value
 		// 测试用
-		const { email, password } = formLog.value
+		const { identity, email, password } = formLog.value
 		// 调用实例方法
 		formRefLog.value.validate(async (valid) => {
 			console.log(valid+'登录表单合法')
@@ -144,14 +158,29 @@
 				// await userStore.getUserInfo({ identity, account, password })
 				// const res = await loginAPI({ identity, account, password })
 				//测试用
-				const account = email
-				await userStore.getUserInfo({ account, password })
-				// const res = await loginAPI({ account, password })
-				// console.log(res)
-				// 1.提示用户
-				ElMessage({ type: 'success', message: '登录成功'})
-				// 2.跳转首页
-				router.replace({ path: '/student' })
+				if (identity == "student") {
+					console.log('身份是学生 '+email+' '+password)
+					//测试用，不用管
+					// const account = email
+					await userStore.getUserInfo({ identity, email, password })
+					// const res = await loginAPI({ account, password })
+					// console.log(res)
+					// 1.提示用户
+					// ElMessage({ type: 'success', message: '登录成功'})
+					// 2.跳转首页
+					// router.replace({ path: '/student' })
+				} else if (identity == "teacher") {
+					console.log('身份是老师 '+email+' '+password)
+					// const account = email
+					await userStore.getUserInfo({ identity, email, password })
+					// const res = await loginAPI({ account, password })
+					// console.log(res)
+					// 1.提示用户
+					// ElMessage({ type: 'success', message: '登录成功'})
+					// 2.跳转首页
+					// router.replace({ path: '/teacher' })
+				}
+				
 			}
 		})
 	}
@@ -251,7 +280,7 @@
 							</el-form-item>
 						</div>
 						<div class="rightBox">
-							<el-button size="middle" class="subBtn">获取验证码</el-button>
+							<el-button size="middle" class="subBtn" @click="getVercode(formReg.email)">获取验证码</el-button>
 						</div>
 					</div>
 					<br><br>
