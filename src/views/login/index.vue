@@ -4,7 +4,9 @@
 	import 'element-plus/theme-chalk/el-message.css'
 	import { useRouter } from 'vue-router'
 	import { getVercodeAPI, getVercodeAPIT } from '@/apis/loginVercodeAPI'
+	import { getVercodeFogAPI, getVercodeFogAPIT } from '@/apis/resetVercodeAPI'
 	import { registerAPI, registerAPIT } from '@/apis/registerAPI'
+	import { resetAPI, resetAPIT } from '@/apis/resetAPI'
 	import { useUserStore } from '@/stores/user'
 	//控制显示内容切换
 	const testStatus = ref(0)
@@ -66,7 +68,7 @@
 	// 获取formReg实例做统一校验
 	const formRefLog = ref(null)
 	const formRefReg = ref(null)
-	
+	const formRefFog = ref(null)
 	
 	// 表单对象-注册
 	const formReg = ref({
@@ -80,6 +82,14 @@
 	const equalToPassword = (rule, value, callback) => {
 		// console.log(formReg.value.password+value)
 	    if (formReg.value.password != value) {
+	        callback(new Error("两次输入的密码不一致"));
+	    } else {
+	        callback();
+	    }
+	};
+	const equalToPasswordF = (rule, value, callback) => {
+		// console.log(formReg.value.password+value)
+	    if (formFog.value.password != value) {
 	        callback(new Error("两次输入的密码不一致"));
 	    } else {
 	        callback();
@@ -177,6 +187,11 @@
 				required: true,
 				message:'请确认密码',
 				trigger:"blur",
+			},
+			{
+				required: true, 
+				validator: equalToPasswordF, 
+				trigger: "blur"
 			}
 		],
 		verCode:[
@@ -187,7 +202,7 @@
 			}
 		]
 	}
-	
+	//获取验证码-主策
 	const getVercode = async ( identity, email) => {
 		console.log('获取验证码函数被调用')
 	    const getCodeMsg = ref(null)
@@ -213,8 +228,30 @@
 	    getCodeMsg.value = null
 	}
 	
-	const getVercode1 = async ( identity, email) => {
-		console.log('忘记密码获取验证码函数被调用')
+	//获取验证码-忘记密码
+	const getVercodeF = async ( identity, email) => {
+		console.log('获取验证码函数被调用')
+	    const getCodeMsg = ref(null)
+		const result = ref(null)
+		console.log(email)
+		if (identity == "student") {
+			result.value = await getVercodeFogAPI(email)
+			// result.value = '学生'
+		} else if (identity == "teacher") {
+			result.value = await getVercodeFogAPIT(email)
+			// result.value = '老师'
+		} else {
+			ElMessage.error('身份错误')
+		}
+	    
+	    getCodeMsg.value = result.value.data
+	    if(getCodeMsg.value.code == 200){
+	        ElMessage.success(getCodeMsg.value.msg)
+	    }
+	    else{
+	        ElMessage.error('获取验证码失败')
+	    }
+	    getCodeMsg.value = null
 	}
 	
 	const router = useRouter()
@@ -238,25 +275,10 @@
 				//测试用
 				if (identity == "student") {
 					console.log('身份是学生 '+email+' '+password)
-					//测试用，不用管
-					// const account = email
 					await userStore.getUserInfo({ identity, email, password })
-					// const res = await loginAPI({ account, password })
-					// console.log(res)
-					// 1.提示用户
-					// ElMessage({ type: 'success', message: '登录成功'})
-					// 2.跳转首页
-					// router.replace({ path: '/student' })
 				} else if (identity == "teacher") {
 					console.log('身份是老师 '+email+' '+password)
-					// const account = email
 					await userStore.getUserInfo({ identity, email, password })
-					// const res = await loginAPI({ account, password })
-					// console.log(res)
-					// 1.提示用户
-					// ElMessage({ type: 'success', message: '登录成功'})
-					// 2.跳转首页
-					// router.replace({ path: '/teacher' })
 				}
 				
 			}
@@ -285,6 +307,35 @@
 						testStatus.value = 0
 					}else{
 						ElMessage({ type: 'error', message: '注册失败'})
+					}
+				}
+				
+			}
+		})
+	}
+	//重置密码提交
+	const doReset = ()=>{
+		const { identity, email, password, verCode } = formFog.value
+		// 调用实例方法
+		formRefFog.value.validate(async (valid) => {
+			console.log(valid+'重置密码表单合法')
+			if (valid) {
+				const res = ref(null)
+				if (identity == "student") {
+					res.value = await resetAPI({ email, password, verCode })
+				} else if (identity == "teacher") {
+					res.value = await resetAPIT({ email, password, verCode })
+				} else {
+					ElMessage.error('提交失败')
+				}
+				
+				if(res != null){
+					console.log('res.data.code '+res.value.data.code)
+					if(res.value.data.code == 200) {
+						ElMessage({ type: 'success', message: res.value.data.msg})
+						testStatus.value = 0
+					}else{
+						ElMessage({ type: 'error', message: '修改失败'})
 					}
 				}
 				
@@ -409,7 +460,7 @@
 					:model="formFog"
 					:rules="rulesFog"
 					label-position="right"
-					label-width="60px"
+					label-width="80px"
 					status-icon
 					>
 					
@@ -439,7 +490,7 @@
 							</el-form-item>
 						</div>
 						<div class="rightBox">
-							<el-button size="middle" class="subBtn" @click="getVercode1(formFog.identity,formReg.email)">获取验证码</el-button>
+							<el-button size="middle" class="subBtn" @click="getVercodeF(formFog.identity,formFog.email)">获取验证码</el-button>
 						</div>
 					</div>
 					<br><br>
@@ -448,7 +499,7 @@
 						<div class="rightTxt" @click="setTestStatusReg"><a href="javascript:void(0);" >前往注册</a></div>
 					</div>
 					<br><br>
-					<el-button size="large" class="subBtn">确认注册</el-button>
+					<el-button size="large" class="subBtn" @click="doReset">修改密码</el-button>
 					
 				</el-form>
 				

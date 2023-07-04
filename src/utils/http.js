@@ -6,10 +6,10 @@ import { useUserStore } from '@/stores/user'
 import router from '@/router'
 const httpInstance = axios.create({
     //基地址-wmz测试
-     baseURL: 'http://localhost:3000',
+     // baseURL: 'http://localhost:3000',
 	//基地址-zjt测试
 	// baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
-	// baseURL: 'http://10.128.145.54:8080',
+	baseURL: 'http://10.128.145.54:8080',
     //响应时间最长为
     timeout: 5000
 })
