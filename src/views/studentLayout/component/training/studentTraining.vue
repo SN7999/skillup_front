@@ -4,15 +4,15 @@
     import { Search } from "@element-plus/icons-vue"
     import { ElMessage } from 'element-plus'
     const curriculumList = ref([])
-    // const getCurriculumList = async (studentid) => {
-    //     const result = await getSelectCurriculumAPI(studentid)
-    //     curriculumList.value = result.data.data
-    // }
-    //测试使用
     const getCurriculumList = async () => {
         const result = await getSelectCurriculumAPI()
         curriculumList.value = result.data.data
     }
+    //测试使用
+    // const getCurriculumList = async () => {
+    //     const result = await getSelectCurriculumAPI()
+    //     curriculumList.value = result.data.data
+    // }
     onMounted(()=>{
         getCurriculumList()
         console.log(curriculumList.value)

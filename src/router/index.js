@@ -15,7 +15,8 @@ import StudentScore from "@/views/studentLayout/component/studentScore.vue"
 import StudentTraining from "@/views/studentLayout/component/training/studentTraining.vue"
 import StudentDetail from "@/views/studentLayout/component/studentDetail.vue"
 import TrainingDetail from "@/views/studentLayout/component/training/trainingDetail.vue"
-import TeacherCurriculum from "@/views/teacherLayout/component/teacherCurriculum.vue"
+import TeacherCurriculum from "@/views/teacherLayout/component/class/teacherCurriculum.vue"
+import TeachetPublishClass from "@/views/teacherLayout/component/class/publishClass.vue"
 import TeacherStudent from "@/views/teacherLayout/component/teacherStudent.vue"
 import TeacherDetail from "@/views/teacherLayout/component/teacherDetail.vue"
 import AdminCurriculum from "@/views/adminLayout/component/adminCurriculum.vue"
@@ -130,6 +131,14 @@ const router = createRouter({
             title:'老师个人中心'
           },
         },
+        {
+          path:"/teacher/publish",
+          component:TeachetPublishClass,
+          meta:{
+            title:"老师发布课程",
+            active:'/teacher'
+          }
+        }
         ]
     },
     {
@@ -179,9 +188,9 @@ router.beforeEach(( to, from, next) => {
 		}else{
 			next('/login')  //不存在需要跳到登陆页
 		}
-	    }else{   // 不需要验证路由，继续执行
-	        next()
-	    }
+    }else{   // 不需要验证路由，继续执行
+        next()
+    }
 })
 
 export default router

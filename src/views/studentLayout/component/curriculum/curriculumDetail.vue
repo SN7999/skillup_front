@@ -4,31 +4,52 @@
     import { ElMessage } from 'element-plus'
     import { useRoute } from 'vue-router'
     import { useRouter } from 'vue-router';
+    import { useUserStore } from '@/stores/user'
+
+    const userStore = useUserStore()
+    console.log(userStore.userInfo)
+
     const route = useRoute()
-    const curriculumName = route.params.id
+    const classname = route.params.id
    
     //根据课程名称获取课程信息
     //最终使用
     const detialList = ref([])
-    // const getDetailList = async (curriculumName) => {
-    //     const  result  = await getCurriculumDetailAPI(curriculumName)
-    //     detialList.value = result.data
-    // }
+    const getDetailList = async (classname) => {
+        const  result  = await getCurriculumDetailAPI(classname)
+        detialList.value = result.data.data
+    }
 
     //测试使用
-    const getDetailList = async () => {
-        const  result  = await getCurriculumDetailAPI()
-        detialList.value = result.data
-    }
+    // const getDetailList = async () => {
+    //     const  result  = await getCurriculumDetailAPI()
+    //     detialList.value = result.data
+    // }
 
     //const attendMsg = ref(null)
     //选课
     //最终使用
+    const getAttend = async (course) => {
+      const classid = course.classid
+      console.log(course)
+      const attendMsg = ref(null)
+      const  result  = await getAttendAPI(classid)
+      attendMsg.value = result
+      console.log(attendMsg.value)
+      if(attendMsg.value.code == 200){
+        ElMessage.success('选课成功')
+        selectedCourse.value = course;
+        deselecting.value = true;
+      }
+      else{
+        ElMessage.error('选课失败')
+      }
+      attendMsg.value = null
+    }
+    //测试使用
     // const getAttend = async (course) => {
-    //   const classid = course.classid
-    //   const studentid = course.studentid
     //   const attendMsg = ref(null)
-    //   const  result  = await getAttendAPI({classid,studentid})
+    //   const  result  = await getAttendAPI()
     //   attendMsg.value = result.data
     //   if(attendMsg.value.code == 200 && attendMsg.value.msg=="success"){
     //     ElMessage.success('选课成功')
@@ -40,30 +61,29 @@
     //   }
     //   attendMsg.value = null
     // }
-    //测试使用
-    const getAttend = async (course) => {
-      const attendMsg = ref(null)
-      const  result  = await getAttendAPI()
-      attendMsg.value = result.data
-      if(attendMsg.value.code == 200 && attendMsg.value.msg=="success"){
-        ElMessage.success('选课成功')
-        selectedCourse.value = course;
-        deselecting.value = true;
-      }
-      else{
-        ElMessage.error('选课失败')
-      }
-      attendMsg.value = null
-    }
 
     //const dropMsg = ref('')
     //退课
     //最终使用
+    const getDrop = async (course) => {
+      const classid = course.classid
+      const dropMsg = ref(null)
+      const  result  = await getDropAPI(classid)
+      dropMsg.value = result.data
+      if(dropMsg.value.code == 200){
+        ElMessage.success('退课成功')
+        selectedCourse.value = null;
+        deselecting.value = false;
+      }
+      else{
+        ElMessage.error('退课失败')
+      }
+      dropMsg.value = null
+    }
+    //测试使用
     // const getDrop = async (course) => {
-    //   const classid = course.classid
-    //   const studentid = course.studentid
     //   const dropMsg = ref(null)
-    //   const  result  = await getDropAPI({classid,studentid})
+    //   const  result  = await getDropAPI()
     //   dropMsg.value = result.data
     //   if(dropMsg.value.code == 200 && dropMsg.value.msg=="success"){
     //     ElMessage.success('退课成功')
@@ -75,27 +95,12 @@
     //   }
     //   dropMsg.value = null
     // }
-    //测试使用
-    const getDrop = async (course) => {
-      const dropMsg = ref(null)
-      const  result  = await getDropAPI()
-      dropMsg.value = result.data
-      if(dropMsg.value.code == 200 && dropMsg.value.msg=="success"){
-        ElMessage.success('退课成功')
-        selectedCourse.value = null;
-        deselecting.value = false;
-      }
-      else{
-        ElMessage.error('退课失败')
-      }
-      dropMsg.value = null
-    }
 
     onMounted(()=>{
         //最终使用
-        //getDetailList(curriculumName)
+        getDetailList(classname)
         //测试使用
-        getDetailList()
+        //getDetailList()
     })
 
     //回退到上一页
@@ -121,7 +126,7 @@
     <el-button @click="gotoPrevious()">
       返回
     </el-button>
-    {{ curriculumName }}
+    {{ classname }}
   </div>
   <div class="container">
     <el-row>

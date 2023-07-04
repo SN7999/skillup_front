@@ -5,8 +5,7 @@ import { ref } from 'vue'
 import { loginAPI ,loginAPIT } from '@/apis/user'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-	
-
+import { setSessionCookie } from '@/cookie.js'
 	
 export const useUserStore = defineStore('user', () => {
 	// 定义管理用户数据的state
@@ -29,7 +28,7 @@ export const useUserStore = defineStore('user', () => {
 		}
 		
 		console.log(res)
-		if(res != null){
+		if(res.value != null){
 			console.log('res.data.code '+res.value.data.code)
 			if(res.value.data.code == 200) {
 				ElMessage({ type: 'success', message: res.value.data.msg})
@@ -43,6 +42,10 @@ export const useUserStore = defineStore('user', () => {
 			}
 		}
 		userInfo.value = res.value.data
+
+		// 假设您成功获得了 session ID，将其存储到 cookie 中
+		const JSESSIONID = userInfo.value.data.value;
+		setSessionCookie(JSESSIONID);
 	}
 	
 	//退出时清除用户数据

@@ -1,31 +1,22 @@
 <script setup>
 import { onBeforeMount, onMounted, ref } from 'vue';
-import { getStudentInfoAPI, getExamCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI} from '@/apis/studentDetialAPI'
+import { getStudentInfoAPI, getExamCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI, getAdvatarAPI} from '@/apis/studentDetialAPI'
 import { ElMessage } from 'element-plus'
-
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
+console.log(userStore.userInfo)
 //获取学生信息
 //最终使用
 const infoList = ref(null)
-// const getStudentInfo = async (studentid) => {
-//     const  result  = await getStudentInfoAPI(studentid)
-//     infoList.value = result.data
-// }
-//测试使用
 const getStudentInfo = async () => {
     const  result  = await getStudentInfoAPI()
     infoList.value = result.data.data
-    //infoList.value = eval("(" + infoList.value + ")")
-    //infoList.value = JSON.parse(infoList.value)
+    console.log(infoList.value)
 }
 
 //获取学生已考试数
 const examCount = ref([])
 //最终使用
-// const getExamCount = async (studentid) => {
-//     const result = await getExamCountAPI(studentid)
-//     examCout.value = result.data
-// }
-//测试使用
 const getExamCount = async () => {
     const result = await getExamCountAPI()
     examCount.value = result.data.data
@@ -34,14 +25,23 @@ const getExamCount = async () => {
 //获取学生已选课数
 const classCount = ref([])
 //最终使用
-// const getClassCount = async (studentid) => {
-//     const result = await getClassCountAPI(studentid)
-//     classCount.value = result.data
-// }
-//测试使用
 const getClassCount = async () => {
     const result = await getClassCountAPI()
     classCount.value = result.data.data
+}
+
+//获取学生头像
+const getAdvatar = async (file) => {
+  const imageurl = file.url;
+  const id = infoList.value.studentid;
+  const result = await getAdvatarAPI({id,imageurl});
+  if(result.value.code == 200){
+    ElMessage.success('上传头像成功')
+  }
+  else{
+    ElMessage.error('上传头像失败')
+  }
+  result.value = null
 }
 
 //修改密码
@@ -50,9 +50,42 @@ const oldPassword = ref('');
 const newPassword1 = ref('');
 const newPassword2 = ref('');
 //最终使用 待argue 感觉应该把旧密码一起传给后台校验 因为密码进行过加密，前端无法对密码进行比对
-// const getPasswordReset = async ({studentid,password}) => {
+const getPasswordReset = async (oldPassword,newPassword1,newPassword2) =>{
+  const rstPwdMsg = ref(null)
+  const result = await getPasswordResetAPI({oldPassword,newPassword1})
+  rstPwdMsg.value = result.data
+  if(rstPwdMsg.value.code == 200){
+      ElMessage.success('修改密码成功')
+  }
+  else{
+  ElMessage.error('修改密码失败')
+  }
+  rstPwdMsg.value = null
+    showChangePwd.value = false
+    oldPassword.value = '';
+    newPassword1.value = '';
+    newPassword2.value = '';
+}
+// const getPasswordReset = async ({originalPassword,newPassword}) => {
 //     const rstPwdMsg = ref(null)
-//     const result = await getPasswordResetAPI({studentid,password})
+//     const result = await getPasswordResetAPI({originalPassword,newPassword})
+//     rstPwdMsg.value = result.data
+//     if(rstPwdMsg.value.code == 200){
+//         ElMessage.success('修改密码成功')
+//     }
+//     else{
+//     ElMessage.error('修改密码失败')
+//     }
+//     rstPwdMsg.value = null
+//       showChangePwd.value = false
+//       oldPassword.value = '';
+//       newPassword1.value = '';
+//       newPassword2.value = '';
+// }
+//测试使用 还需要对两个新的密码进行验证
+// const getPasswordReset = async () => {
+//     const rstPwdMsg = ref(null)
+//     const result = await getPasswordResetAPI()
 //     rstPwdMsg.value = result.data
 //     if(rstPwdMsg.value.code == 200 && rstPwdMsg.value.msg=="重置密码成功"){
 //         ElMessage.success('修改密码成功')
@@ -61,52 +94,22 @@ const newPassword2 = ref('');
 //     ElMessage.error('修改密码失败')
 //     }
 //     rstPwdMsg.value = null
-      // showChangePwd.value = false
-      // oldPassword.value = '';
-      // newPassword1.value = '';
-      // newPassword2.value = '';
+//     showChangePwd.value = false
+//     oldPassword.value = '';
+//     newPassword1.value = '';
+//     newPassword2.value = '';
 // }
-//测试使用 还需要对两个新的密码进行验证
-const getPasswordReset = async () => {
-    const rstPwdMsg = ref(null)
-    const result = await getPasswordResetAPI()
-    rstPwdMsg.value = result.data
-    if(rstPwdMsg.value.code == 200 && rstPwdMsg.value.msg=="重置密码成功"){
-        ElMessage.success('修改密码成功')
-    }
-    else{
-    ElMessage.error('修改密码失败')
-    }
-    rstPwdMsg.value = null
-    showChangePwd.value = false
-    oldPassword.value = '';
-    newPassword1.value = '';
-    newPassword2.value = '';
-}
 
 //修改邮箱
 const showChangeEmail = ref(false)
 const newEmail = ref('')
 const emailCode = ref('')
 //最终使用
-// const getEmailReset = async ({studentid,newEmail,verCode}) => {
-//     const rstEmailMsg = ref(null)
-//     const result = await getEmailResetAPI({studentid,newEmail,verCode})
-//     rstEmailMsg.value = result.data
-//     if(rstEmailMsg.value.code == 200 && rstEmailMsg.value.msg=="修改成功！"){
-//         ElMessage.success('修改邮箱成功')
-//     }
-//     else{
-//         ElMessage.error('修改邮箱失败')
-//     }
-//     rstEmailMsg.value = null
-// }
-//测试使用 
-const getEmailReset = async () => {
+const getEmailReset = async (newEmail,verCode) => {
     const rstEmailMsg = ref(null)
-    const result = await getEmailResetAPI()
+    const result = await getEmailResetAPI({newEmail,verCode})
     rstEmailMsg.value = result.data
-    if(rstEmailMsg.value.code == 200 && rstEmailMsg.value.msg=="修改成功！"){
+    if(rstEmailMsg.value.code == 200){
         ElMessage.success('修改邮箱成功')
     }
     else{
@@ -118,25 +121,29 @@ const getEmailReset = async () => {
     emailCode.value = ''
     getStudentInfo()
 }
+//测试使用 
+// const getEmailReset = async () => {
+//     const rstEmailMsg = ref(null)
+//     const result = await getEmailResetAPI()
+//     rstEmailMsg.value = result.data
+//     if(rstEmailMsg.value.code == 200 && rstEmailMsg.value.msg=="修改成功！"){
+//         ElMessage.success('修改邮箱成功')
+//     }
+//     else{
+//         ElMessage.error('修改邮箱失败')
+//     }
+//     rstEmailMsg.value = null
+//     showChangeEmail.value = false
+//     newEmail.value = ''
+//     emailCode.value = ''
+//     getStudentInfo()
+// }
 
 //获取验证码
 //最终使用
-// const getVercode = async (email) => {
-//     const getCodeMsg = ref(null)
-//     const result = await getVercodeAPI(email)
-//     getCodeMsg.value = result.data
-//     if(getCodeMsg.value.code == 200){
-//         ElMessage.success(getCodeMsg.value.msg)
-//     }
-//     else{
-//         ElMessage.error('获取验证码失败')
-//     }
-//     getCodeMsg.value = null
-// }
-//测试使用 还需要写邮箱的格式验证
-const getVercode = async () => {
+const getVercode = async (email) => {
     const getCodeMsg = ref(null)
-    const result = await getVercodeAPI()
+    const result = await getVercodeAPI(email)
     getCodeMsg.value = result.data
     if(getCodeMsg.value.code == 200){
         ElMessage.success(getCodeMsg.value.msg)
@@ -146,6 +153,19 @@ const getVercode = async () => {
     }
     getCodeMsg.value = null
 }
+//测试使用 还需要写邮箱的格式验证
+// const getVercode = async () => {
+//     const getCodeMsg = ref(null)
+//     const result = await getVercodeAPI()
+//     getCodeMsg.value = result.data
+//     if(getCodeMsg.value.code == 200){
+//         ElMessage.success(getCodeMsg.value.msg)
+//     }
+//     else{
+//         ElMessage.error('获取验证码失败')
+//     }
+//     getCodeMsg.value = null
+// }
 
 //注销账号
 const showCancel = ref(false)
@@ -153,26 +173,9 @@ const cancelEmail = ref('')
 const cancelCode = ref('')
 const showFile = ref(false)
 //最终使用
-// const getCancel = async (studentid) => {
-//     const cancelMsg = ref(null)
-//     const result = await getCancelAPI(studentid)
-//     cancelMsg.value = result.data
-//     if(getCodeMsg.value.code == 200){
-//         ElMessage.success('注销成功')
-//     }
-//     else{
-//         ElMessage.error('获取验证码失败')
-//     }
-//     cancelMsg.value = null
-//  showCancel.value = false
-// cancelEmail.value = ''
-//   cancelCode.value = ''
-//   showFile.value = false
-// }
-//测试使用
-const getCancel = async () => {
+const getCancel = async (email,verCode) => {
     const cancelMsg = ref(null)
-    const result = await getCancelAPI()
+    const result = await getCancelAPI({email,verCode})
     cancelMsg.value = result.data
     if(cancelMsg.value.code == 200){
         ElMessage.success('注销成功')
@@ -186,6 +189,23 @@ const getCancel = async () => {
     cancelCode.value = ''
     showFile.value = false
 }
+//测试使用
+// const getCancel = async () => {
+//     const cancelMsg = ref(null)
+//     const result = await getCancelAPI()
+//     cancelMsg.value = result.data
+//     if(cancelMsg.value.code == 200){
+//         ElMessage.success('注销成功')
+//     }
+//     else{
+//         ElMessage.error('获取验证码失败')
+//     }
+//     cancelMsg.value = null
+//     showCancel.value = false
+//     cancelEmail.value = ''
+//     cancelCode.value = ''
+//     showFile.value = false
+// }
 
 //这里应该还要验证，验证码是否正确 后台需要传数据给前端验证，看是否是获取验证码时就传过来，还是再调一个方法验证
 const gotoFile = () => {
@@ -201,22 +221,9 @@ const cancelback= () => {
 }
 //更新个人信息
 //最终使用
-// const getSaveInfo = async ({name,contact,gender,academy,selfintroduction,age}) => {
-//     const saveMsg = ref(null)
-//     const result = await getSaveInfoAPI({name,contact,gender,academy,selfintroduction,age})
-//     saveMsg.value = result.data
-//     if(saveMsg.value.code == 200){
-//         ElMessage.success('更新个人信息成功')
-//     }
-//     else{
-//         ElMessage.error('更新个人信息失败')
-//     }
-//     saveMsg.value = null
-// }
-//测试使用
-const getSaveInfo = async () => {
+const getSaveInfo = async ({name,contact,gender,academy,selfintroduction,age}) => {
     const saveMsg = ref(null)
-    const result = await getSaveInfoAPI()
+    const result = await getSaveInfoAPI({name,contact,gender,academy,selfintroduction,age})
     saveMsg.value = result.data
     if(saveMsg.value.code == 200){
         ElMessage.success('更新个人信息成功')
@@ -226,21 +233,109 @@ const getSaveInfo = async () => {
     }
     saveMsg.value = null
 }
+//测试使用
+// const getSaveInfo = async () => {
+//     const saveMsg = ref(null)
+//     const result = await getSaveInfoAPI()
+//     saveMsg.value = result.data
+//     if(saveMsg.value.code == 200){
+//         ElMessage.success('更新个人信息成功')
+//     }
+//     else{
+//         ElMessage.error('更新个人信息失败')
+//     }
+//     saveMsg.value = null
+// }
 
 onMounted(()=>{
   getStudentInfo()
-  getExamCount()
-  getClassCount()
+  console.log(infoList.value)
+  // getExamCount()
+  // console.log(examCount)
+  // getClassCount()
+  // console.log(classCount)
 }
 )
+
+const userAvatarUrl = ref('');
+const uploadButtonText = ref('上传头像');
+const previewDialogVisible = ref(false);
+const previewImageUrl = ref('');
+let resizeBoxWidth = 300;
+
+const beforeUpload = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      previewImageUrl.value = reader.result;
+      previewDialogVisible.value = true;
+      resolve();
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+const onUploadSuccess = (response) => {
+  // 处理上传成功的逻辑
+};
+
+const cancelPreview = () => {
+  previewImageUrl.value = '';
+  previewDialogVisible.value = false;
+};
+
+const confirmPreview = () => {
+  const img = new Image();
+  const previewImg = ref(null);
+  const resizeBox = ref(null);
+
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = resizeBoxWidth; // 设置画布的宽度为300px
+    canvas.height = resizeBoxWidth; // 设置画布的高度为300px
+    ctx.drawImage(img, 0, 0, resizeBoxWidth, resizeBoxWidth);
+    userAvatarUrl.value = canvas.toDataURL('image/jpeg');
+
+    previewImageUrl.value = '';
+    previewDialogVisible.value = false;
+  };
+
+  img.src = previewImageUrl.value;
+};
 </script>
 
 <template>
   <div>
     <div class="top-section">
       <div class="user-info">
-        <div class="avatar">
+        <div>
           <!-- 用户头像 -->
+          <el-avatar  class="avatar" v-if="infoList" :src="infoList.imageurl" size="large"></el-avatar>
+          <el-upload
+            class="upload"
+            action="getAdvatar"
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+            :on-success="onUploadSuccess"
+          >
+            <el-button>{{ uploadButtonText }}</el-button>
+          </el-upload>
+          <el-dialog title="调整图片尺寸" v-model:visible="previewDialogVisible" :close-on-click-modal="false">
+            <div class="preview-container">
+              <img :src="previewImageUrl" alt="Preview" ref="previewImg" />
+              <div class="resize-box" ref="resizeBox"></div>
+            </div>
+            <div class="dialog-footer">
+              <el-button @click="cancelPreview">取消</el-button>
+              <el-button type="primary" @click="confirmPreview">确认</el-button>
+            </div>
+          </el-dialog>
         </div>
         <div class="info" style="margin-left: 20px">
           <div class="name" style="font-size: 120%;" v-if="infoList">{{ infoList.name }}</div>
@@ -337,7 +432,7 @@ onMounted(()=>{
             <div style="margin-top: 10px;" >4、如您对注销账号有任何意见和询问，可联系客服邮箱：wangyy07@foxmail.com。</div>
             <el-row>
               <el-col :span="11">
-                <el-button style="width: 100%;font-size: 504;" v-if="infoList" type="danger" @click="getCancel(infoList.id)">确认，我要注销</el-button>
+                <el-button style="width: 100%;font-size: 504;" v-if="infoList" type="danger" @click="getCancel(cancelEmail,cancelCode)">确认，我要注销</el-button>
               </el-col>
               <el-col :span="2"></el-col>
               <el-col :span="11">
@@ -378,10 +473,12 @@ onMounted(()=>{
   align-items: center;
 }
 .avatar {
-  width: 50px;
+  /* width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #ccc; */
+  background-size: cover;
+  background-position: center;
 }
 
 .stats {
@@ -428,5 +525,22 @@ onMounted(()=>{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.preview-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.resize-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 2px dashed #999;
+  pointer-events: none;
 }
 </style>

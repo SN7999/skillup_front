@@ -10,22 +10,22 @@
     //根据课程id获取课程信息
     //最终使用
     const detialInfo = ref(null)
-    // const getDetailList = async (classid) => {
-    //     const  result  = await getTrainingDetailAPI(classid)
-    //     detialInfo.value = result.data.data
-    // }
-
-    //测试使用
-    const getDetailInfo = async () => {
-        const  result  = await getTrainingDetailAPI()
+    const getDetailInfo = async (classid) => {
+        const  result  = await getTrainingDetailAPI(classid)
         detialInfo.value = result.data.data
     }
+
+    //测试使用
+    // const getDetailInfo = async () => {
+    //     const  result  = await getTrainingDetailAPI()
+    //     detialInfo.value = result.data.data
+    // }
 
     onMounted(()=>{
         //最终使用
         //getDetailInfo(classid)
         //测试使用
-        getDetailInfo()
+        getDetailInfo(classid)
     })
 
     //回退到上一页
@@ -45,8 +45,49 @@
     const chapterExpanded = ref({});
 
     function toggleCollapse(chapter) {
-        chapterExpanded.value[chapter.chapterid] = !chapterExpanded.value[chapter.chapterid];
+        chapterExpanded.value[chapter.chapternum] = !chapterExpanded.value[chapter.chapternum];
     }
+
+    const showVideo = ref(false);
+    const selectedVideo = ref('')
+    const showTxtContent = ref(false);
+    const txtContent = ref("");
+    const selectedTxtUrl = ref("");
+
+    const showVide = (resource) => {
+      selectedVideo.value = resource.url;
+      showVideo.value = true;
+    }
+
+    const showTxt = (resource) => {
+      selectedTxtUrl.value = resource.url;
+      getTxtContent(selectedTxtUrl.value);
+    };
+
+    const getTxtContent = (url) => {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(data => {
+          txtContent.value = data;
+          showTxtContent.value = true;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    };
+
+    const downloadDocument = (resource) => {
+      const link = document.createElement('a');
+      link.href = resource.url;
+      link.target = '_blank';
+      link.setAttribute('download', resource.filename);
+      link.click();
+    };
 </script>
 
 <template>
@@ -97,32 +138,26 @@
             <h2>课件</h2>
             <!-- 课件界面的内容 -->
             <div v-if="detialInfo">
-                <div v-for="chapter in detialInfo.chapters" :key="chapter.chapterid"> 
-                    <el-card>
+              <div v-if="!showVideo&&!showTxtContent">
+                <div v-for="chapter in detialInfo.chapters" :key="chapter.chapternum"> 
+                    <el-card style="margin-top: 10px;">
                         <h3 class="chapter-title" @click="toggleCollapse(chapter)">
-                            <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapterid]}"></span>
-                            第 {{ chapter.chapterid }} 章：
+                            <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapternum]}"></span>
+                            第 {{ chapter.chapternum }} 章：{{ chapter.chaptername }}
                         </h3>
-                        <!-- <h3 style="margin-top: 1px;"> -->
-                            <!-- 这里应该有name -->
-                            <!-- 第{{ chapter.id }}章：{{ chapter.chaptername }} -->
-                            <!-- 第
-                            {{ chapter.chapterid }}
-                            章： -->
-                        <!-- </h3> -->
-                        <div v-show="chapterExpanded[chapter.chapterid]" class="chapter-content">
+                          <div v-show="chapterExpanded[chapter.chapternum]" class="chapter-content">
                             <div style="margin-top: 3px;font-size: 70%;">
                                 {{ chapter.introduction }}
                             </div>
-                            <div style="margin-top: 10px;" v-for="resource in detialInfo.resources" :key="resource.resourceid">
+                            <div style="margin-top: 10px;" v-for="resource in detialInfo.resources" :key="resource.resourceId">
                                 <div v-if="resource.chapterId == chapter.chapterid"> 
-                                    <div v-if="resource.type === '视频'" class="resource-box video">
+                                    <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(resource)">
                                         <p class="resource-text">视频：{{resource.resourcename}}</p>
                                     </div>
-                                    <div v-if="resource.type === '文本'" class="resource-box text">
+                                    <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
                                         <p class="resource-text">文本：{{resource.resourcename}}</p>
                                     </div>
-                                    <div v-if="resource.type === '文档'" class="resource-box document">
+                                    <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
                                         <p class="resource-text">文档：{{resource.resourcename}}</p>
                                     </div>
                                 </div>
@@ -130,6 +165,19 @@
                         </div>
                     </el-card>
                 </div>
+              </div>
+            </div>
+            <div v-if="showVideo">
+              <!-- 视频展示界面 -->
+              <div>
+                <video :src="selectedVideo.value" controls></video>
+                <button @click="showVideo = false">返回</button>
+              </div>
+            </div>
+            <div v-if="showTxtContent">
+              <!-- 根据需要设置文本展示区域的样式 -->
+              <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>
+              <button @click="showTxtContent = false">返回</button>
             </div>
           </div>
           <div v-if="selectedMenuItem === 'exam'">
@@ -227,7 +275,7 @@
 
   .resource-text {
     color: green;
-    font-size: 80%;
+    font-size: 90%;
     line-height: 1;
     margin: 1px;
   }
