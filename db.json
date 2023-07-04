@@ -274,89 +274,81 @@
         "msg": "success",
         "data": {
             "classes": {
-                "classid": "1675683245779378178",
-                "teacherid": 1675679168521572354,
-                "classname": "“四书”导读",
+                "classid": "1675701320637489154",
+                "teacherid": "1675679168521572354",
+                "classname": "大数据分析",
                 "teacher": null,
                 "period": 60,
                 "starttime": "2023-09-05 00:00:00",
                 "endtime": "2023-12-31 00:00:00",
-                "status": "有更新",
+                "status": "已通过",
                 "studentcount": 0,
                 "introduction": null,
-                "cover": "文件类型有误",
-                "announcement": "本课程开课时间待定",
+                "cover": null,
+                "announcement": null,
                 "applytime": 1688313600000
             },
             "resources": [
                 {
-                    "resourceId": 1675686788972179458,
-                    "resourcename": null,
-                    "type": "图片",
-                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954637&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=%2BkNSmMIdN9SDlTyRPrXVR%2FtOkks%3D",
-                    "status": "未审批",
-                    "chapterId": 1675686320640389121,
-                    "classname": "“四书”导读",
-                    "classId": 1675683245779378178,
+                    "resourceId": "1675702791739285506",
+                    "resourcename": "HDFS 1",
+                    "type": "视频",
+                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/video/012.HDFS-%201.mp4?Expires=1688958453&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=cxoyJk9fKKWUg1R5nBHqtSjtCPw%3D",
+                    "status": "已通过",
+                    "chapterId": "1675701473305960450",
+                    "classname": "大数据分析",
+                    "classId": "1675701320637489154",
                     "updatetime": 1688313600000
                 },
                 {
-                    "resourceId": 1675686875085434882,
-                    "resourcename": null,
-                    "type": "图片",
-                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954658&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=4nEuFLqDnMSb7o0%2FtPf%2FbMq3%2FKA%3D",
-                    "status": "未审批",
-                    "chapterId": 1675686352118640642,
-                    "classname": "“四书”导读",
-                    "classId": 1675683245779378178,
+                    "resourceId": "1675712084622499841",
+                    "resourcename": "HDFSintro",
+                    "type": "文本",
+                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/hdfs.txt?Expires=1688960668&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=kfuFYGWVQAHDcwEEd4irLoztj2s%3D",
+                    "status": "已通过",
+                    "chapterId": "1675701473305960450",
+                    "classname": "大数据分析",
+                    "classId": "1675701320637489154",
                     "updatetime": 1688313600000
                 },
                 {
-                    "resourceId": 1675686941078614017,
-                    "resourcename": null,
-                    "type": "图片",
-                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
-                    "status": "未审批",
-                    "chapterId": 1675686451674640385,
-                    "classname": "“四书”导读",
-                    "classId": 1675683245779378178,
+                    "resourceId": "1675702962279686145",
+                    "resourcename": "HDFS",
+                    "type": "ppt",
+                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/3.%20HDFS.pptx?Expires=1688958493&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=echdxFZA2DrUj3iFHSrQqS7xeLo%3D",
+                    "status": "已通过",
+                    "chapterId": "1675701473305960450",
+                    "classname": "大数据分析",
+                    "classId": "1675701320637489154",
                     "updatetime": 1688313600000
                 }
             ],
             "chapters": [
                 {
-                    "chapterid": 1675686320640389121,
-                    "classid": 1675683245779378178,
-                    "introduction": "我是1",
-                    "status": "未审批",
-                    "chaptername": "《论语》导读",
+                    "chapterid": "1675701473305960450",
+                    "classid": "1675701320637489154",
+                    "introduction": null,
+                    "status": "已通过",
+                    "chaptername": "HDFS",
                     "chapternum": 1
                 },
                 {
-                    "chapterid": 1675686352118640642,
-                    "classid": 1675683245779378178,
-                    "introduction": "我是2",
-                    "status": "未审批",
-                    "chaptername": "《孟子》导读",
+                    "chapterid": "1675709138400718850",
+                    "classid": "1675701320637489154",
+                    "introduction": null,
+                    "status": "已通过",
+                    "chaptername": "Hive",
                     "chapternum": 2
                 },
                 {
-                    "chapterid": 1675686451674640385,
-                    "classid": 1675683245779378178,
-                    "introduction": "我是3",
-                    "status": "未审批",
-                    "chaptername": "《中庸》导读",
-                    "chapternum": 4
-                },
-                {
-                    "chapterid": 1675686491495362562,
-                    "classid": 1675683245779378178,
-                    "introduction": "我是4",
+                    "chapterid": "1675707604539613186",
+                    "classid": "1675701320637489154",
+                    "introduction": null,
                     "status": "已通过",
-                    "chaptername": "《大学》导读",
+                    "chaptername": "Hive",
                     "chapternum": 3
                 }
             ]
         }
-    }    
+    }
 }

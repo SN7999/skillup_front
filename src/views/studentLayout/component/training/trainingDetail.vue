@@ -55,8 +55,15 @@
     const selectedTxtUrl = ref("");
 
     const showVide = (resource) => {
-      selectedVideo.value = resource.url;
+		// const parts  = resource.url.spilt('?');
+		selectedVideo.value = resource.url.replace(/\?.*/,'');
+		console.log(selectedVideo.value)
+      // selectedVideo.value = parts[0];
       showVideo.value = true;
+	  
+	  asyncOperation().then(() => {
+	      selectedVideo.value = updatedVideoUrl;
+	    });
     }
 
     const showTxt = (resource) => {
@@ -157,8 +164,8 @@
                                     <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
                                         <p class="resource-text">文本：{{resource.resourcename}}</p>
                                     </div>
-                                    <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
-                                        <p class="resource-text">文档：{{resource.resourcename}}</p>
+                                    <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                                        <p class="resource-text">ppt：{{resource.resourcename}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -167,13 +174,17 @@
                 </div>
               </div>
             </div>
-            <div v-if="showVideo">
+            <!-- <div v-if="showVideo"> -->
               <!-- 视频展示界面 -->
-              <div>
-                <video :src="selectedVideo.value" controls></video>
-                <button @click="showVideo = false">返回</button>
-              </div>
-            </div>
+				 
+                <!-- <video :src="selectedVideo.value" controls></video>
+                <button @click="showVideo = false">返回</button> -->
+				<div v-if="showVideo.value">
+				    <!-- 视频展示界面 -->
+				    <video :src="selectedVideo.value" controls key="video"></video>
+				    <button @click="showVideo.value = false">返回</button>
+				</div>
+            <!-- </div> -->
             <div v-if="showTxtContent">
               <!-- 根据需要设置文本展示区域的样式 -->
               <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>

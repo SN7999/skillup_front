@@ -14,12 +14,7 @@ const httpInstance = axios.create({
      baseURL: 'http://localhost:3000',
 	//基地址-zjt测试
 	// baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
-<<<<<<< Updated upstream
 	// baseURL: 'http://10.128.145.54:8080',
-    //响应时间最长为
-    timeout: 5000
-=======
-	baseURL: 'http://10.128.145.54:8080',
 	//baseURL: 'http://10.128.137.130:8080',
 	// 允许跨域请求时携带cookie
     withCredentials: true,
@@ -30,7 +25,6 @@ const httpInstance = axios.create({
 	// },
 	//响应时间最长为
 	timeout: 5000,
->>>>>>> Stashed changes
 })
 
 //拦截器

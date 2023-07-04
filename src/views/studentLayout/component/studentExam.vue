@@ -1,6 +1,7 @@
 <script setup>
 import { getExamAPI, getSearchAPI } from '@/apis/studentExamAPI';
 import { onMounted, ref } from 'vue';
+import { Search } from "@element-plus/icons-vue"
 import { ElMessage } from 'element-plus';
 
 const examList = ref([]);
@@ -51,7 +52,7 @@ const getSerchExam = () => {
 		<!-- 课程列表 -->
 		<div class="exam-list">
 			<div class="exam-item" style="background:#f6f6f6;width:32%" v-for="(exam, index) in examList" :key="index">
-				<RouterLink :to="'/student/training/detail/' + exam.classid" class="router-link">
+				<RouterLink :to="'/student/exam/detail/' + exam.classid" class="router-link">
 					<img :src="exam.cover" />
 					<div
 						style="font-weight: 400;
@@ -83,6 +84,7 @@ const getSerchExam = () => {
 	}
 	.router-link{
 		text-decoration: none;
+		color: inherit;
 	}
 	.exam-list{
 	    flex-wrap: wrap;

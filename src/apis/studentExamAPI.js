@@ -23,3 +23,9 @@ export const getSearchAPI = (classname) => {
       }
     })
 }
+
+export const getExamDetailAPI = () => {
+    return request({
+        url: '/getclass',
+    })
+}
