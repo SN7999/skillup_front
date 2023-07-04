@@ -50,25 +50,29 @@
 
     const showVideo = ref(false);
     const selectedVideo = ref('')
+    //let videos = document.getElementById('playVideos')
     const showTxtContent = ref(false);
     const txtContent = ref("");
     const selectedTxtUrl = ref("");
 
     const showVide = (resource) => {
-		// const parts  = resource.url.spilt('?');
-		selectedVideo.value = resource.url.replace(/\?.*/,'');
-		console.log(selectedVideo.value)
-      // selectedVideo.value = parts[0];
+      selectedVideo.value = resource.url.replace(/\?.*/,'');
       showVideo.value = true;
-	  
-	  asyncOperation().then(() => {
-	      selectedVideo.value = updatedVideoUrl;
-	    });
+    }
+
+    const getVideo = () =>{
+      return selectedVideo.value
+    }
+
+    const videoBack = () =>{
+      selectedVideo.value = null
+      showVideo.value = false
     }
 
     const showTxt = (resource) => {
-      selectedTxtUrl.value = resource.url;
-      getTxtContent(selectedTxtUrl.value);
+      selectedTxtUrl.value = resource.url.replace(/(http|https):\/\/[^\s/]+/, '').replace(/\?.*/, '');
+      //console.log('/api2'+selectedTxtUrl.value)
+      getTxtContent('/api2'+selectedTxtUrl.value);
     };
 
     const getTxtContent = (url) => {
@@ -87,6 +91,11 @@
           console.error('Error:', error);
         });
     };
+
+    const txtBack = () =>{
+      selectedTxtUrl.value = null
+      showTxtContent.value = false;
+    }
 
     const downloadDocument = (resource) => {
       const link = document.createElement('a');
@@ -174,21 +183,16 @@
                 </div>
               </div>
             </div>
-            <!-- <div v-if="showVideo"> -->
+            <div v-if="showVideo">
               <!-- 视频展示界面 -->
-				 
-                <!-- <video :src="selectedVideo.value" controls></video>
-                <button @click="showVideo = false">返回</button> -->
-				<div v-if="showVideo.value">
-				    <!-- 视频展示界面 -->
-				    <video :src="selectedVideo.value" controls key="video"></video>
-				    <button @click="showVideo.value = false">返回</button>
-				</div>
-            <!-- </div> -->
+              <video :src="getVideo()" id="playVideos" controls preload>
+              </video>
+              <button @click="videoBack()">返回</button>
+            </div>
             <div v-if="showTxtContent">
               <!-- 根据需要设置文本展示区域的样式 -->
               <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>
-              <button @click="showTxtContent = false">返回</button>
+              <button @click="txtBack()">返回</button>
             </div>
           </div>
           <div v-if="selectedMenuItem === 'exam'">

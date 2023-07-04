@@ -39,6 +39,28 @@ export default defineConfig({
       }
     }
   },
+  //开启代理服务器
+  server: {
+    port: '5173',
+    host: true,
+    open: true,
+    proxy: {
+      '/api1': {
+        // 后台地址
+        target: 'http://localhost:3000/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api1/, '')
+      },
+      '/api2':{
+        target:'http://skillup.oss-cn-beijing.aliyuncs.com/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api2/, '')
+      }
+    }
+  },
+		
+
+
   // build: {
   //   outDir: 'lib',
   //   lib: {

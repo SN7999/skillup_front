@@ -3,13 +3,9 @@ import request from '@/utils/http'
 ///studentTraining 学生培训界面调用方法
 //获取学生已选课程封面和名字
 //最终使用
-// export const getSelectCurriculumAPI = (studentid) => {
+// export const getSelectCurriculumAPI = () => {
 //     return request({
-//         method:'POST',
 //         url: '/student/showSelectClasses',
-//         data:{
-//             studentid
-//         }
 //     })
 // }
 

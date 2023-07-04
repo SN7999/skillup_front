@@ -22,10 +22,10 @@ import request from '@/utils/http'
 export const getStudentInfoAPI = () => {
   return request({
     url: '/student/selfInfo',
-    headers: {
-      'Content-Type': 'application/json', // 举例：添加 Content-Type 请求头
-      'Authorization': 'Bearer your_token_here', // 举例：添加授权信息请求头
-    },
+    // headers: {
+    //   'Content-Type': 'application/json', // 举例：添加 Content-Type 请求头
+    //   'Authorization': 'Bearer your_token_here', // 举例：添加授权信息请求头
+    // },
   });
 };
 
