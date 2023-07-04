@@ -33,7 +33,7 @@
 	const formLog = ref({
 		identity: 'student',
 		email:'123@qq.com',
-		password:'123'
+		password:'666666'
 	})
 	// 规则对象-登录
 	const rulesLog = {
