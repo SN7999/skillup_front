@@ -12,6 +12,7 @@ import StudentCurriculum from "@/views/studentLayout/component/curriculum/studen
 import studentCurriculumDetail from '@/views/studentLayout/component/curriculum/curriculumDetail.vue'
 import StudentExam from "@/views/studentLayout/component/studentExam.vue"
 import ExamDetail from "@/views/studentLayout/component/exam/examDetail.vue"
+import ExamDetailContent from "@/views/studentLayout/component/exam/examContent.vue"
 import StudentScore from "@/views/studentLayout/component/studentScore.vue"
 import StudentTraining from "@/views/studentLayout/component/training/studentTraining.vue"
 import StudentDetail from "@/views/studentLayout/component/studentDetail.vue"
@@ -102,12 +103,20 @@ const router = createRouter({
             title:'培训详情'
           }
         },
+		{
+		  path:'/student/exam/detail',
+		  component:ExamDetail,
+		  meta:{
+		    active:'/student/exam',
+		    title:'考试内容'
+		  }
+		},
         {
-          path:'/student/exam/detail/:id',
-          component:ExamDetail,
+          path:'/student/exam/detail/content',
+          component:ExamDetailContent,
           meta:{
             active:'/student/exam',
-            title:'考试详情'
+            title:'考试内容'
           }
         }
       ]

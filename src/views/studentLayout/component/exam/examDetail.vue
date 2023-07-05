@@ -1,12 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getExamDetailAPI } from '@/apis/studentExamAPI';
+import { getExamDetailAPI, getUnFinishedExamAPI, getPassExamAPI, getFailExamAPI } from '@/apis/studentExamAPI';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 const selected = 'unFinished';
 const route = useRoute();
-const classid = route.params.id;
 
 const detialInfo = ref(null);
 
@@ -15,17 +14,29 @@ const getDetailInfo = async () => {
 	detialInfo.value = result.data.data;
 };
 
-const examList = ref([]);
-const getExamList = async () => {
-	const result = await getExamAPI();
-	examList.value = result.data.data;
+const unFinishedExamList = ref([]);
+const passExamList = ref([]);
+const failExamList = ref([]);
+const getUnFinishedExamList = async () => {
+	const result = await getUnFinishedExamAPI();
+	unFinishedExamList.value = result.data.data;
+	// console.log('unFinishedExamList为'+unFinishedExamList.value);
 };
-onMounted(() => {
-	getExamList()
-	console.log(examList.value);
-});
+const getPassExamList = async () => {
+	const result = await getPassExamAPI();
+	passExamList.value = result.data.data;
+	// console.log('passExamList为'+passExamList.value);
+};
+const getFailExamList = async () => {
+	const result = await getFailExamAPI();
+	failExamList.value = result.data.data;
+	// console.log('failExamList为'+failExamList.value);
+};
 
 onMounted(() => {
+	getUnFinishedExamList();
+	getPassExamList();
+	getFailExamList();
 	getDetailInfo();
 });
 const router = useRouter();
@@ -35,11 +46,14 @@ const gotoPrevious = () => {
 
 
 
+
+
 //测试数据
 const handleButtonClick = (data) => {
 	console.log('点击了按钮', data);
 	// 在这里可以执行按钮点击后的逻辑操作
 }
+
 const services = [
       { date: '2023-6-15', name: '母猪的产后护理', totalTime: '100' },
       { date: '2023-6-18', name: '霸道GPT爱上我', totalTime: '60' },
@@ -52,7 +66,7 @@ const services = [
 <template>
 	<div v-if="detialInfo">
 		<el-button @click="gotoPrevious()">返回</el-button>
-		{{ detialInfo.classes.classname }} - {{ classid }}
+		{{ detialInfo.classes.classname }} - {{ detialInfo.classes.classid }}
 	</div>
 	<nav class="navbar">
 		<ul>
@@ -70,32 +84,54 @@ const services = [
 			</li>
 		</ul>
 
-		<div class="content">
-			<div v-if="selected === 'unFinished'">
-				<el-table :data="services">
-					<el-table-column prop="date" label="考试时间">
-						<template #default="{ row }">
-							<el-icon><Clock /></el-icon>
-							{{ row.date }}
-						</template>
-					</el-table-column>
-					<el-table-column prop="name" label="考试项目"></el-table-column>
-					<el-table-column prop="totalTime" label="考试时长(min)"></el-table-column>
-					<el-table-column label="操作">
-						<template #default="scope">
-							<el-button type="primary" size="small" @click="handleButtonClick(scope.row)">进入考试</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-			</div>
-			<div v-if="selected === 'pass'">
-				及格试卷
-			</div>
-			<div v-if="selected === 'fail'">
-				不及格试卷
-			</div>
-		</div>
+		
 	</nav>
+	<div class="content">
+		<!-- 未完成考试 -->
+		<div v-if="selected === 'unFinished'">
+			<el-table :data="unFinishedExamList">
+				<el-table-column prop="date" label="考试时间">
+					<template #default="{ row }">
+						<el-icon><Clock /></el-icon>
+						{{ row.date }}
+					</template>
+				</el-table-column>
+				<el-table-column prop="name" label="考试项目"></el-table-column>
+				<el-table-column prop="totalTime" label="考试时长(min)"></el-table-column>
+				<el-table-column label="操作">
+					<template #default="scope">
+						<el-button type="primary" size="small" @click="handleButtonClick(scope.row)">进入考试</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
+		<!-- 及格考试 -->
+		<div v-if="selected === 'pass'">
+			<el-table :data="passExamList">
+				<el-table-column prop="date" label="考试时间">
+					<template #default="{ row }">
+						<el-icon><Clock /></el-icon>
+						{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]+':'+row.date[5] }}
+					</template>
+				</el-table-column>
+				<el-table-column prop="examname" label="考试项目"></el-table-column>
+				<el-table-column prop="grade" label="考试成绩"></el-table-column>
+			</el-table>
+		</div>
+		<!-- 不及格考试 -->
+		<div v-if="selected === 'fail'">
+			<el-table :data="failExamList">
+				<el-table-column prop="date" label="考试时间">
+					<template #default="{ row }">
+						<el-icon><Clock /></el-icon>
+						{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]+':'+row.date[5] }}
+					</template>
+				</el-table-column>
+				<el-table-column prop="examname" label="考试项目"></el-table-column>
+				<el-table-column prop="grade" label="考试成绩"></el-table-column>
+			</el-table>
+		</div>
+	</div>
 </template>
 
 <style scoped lang="scss">
@@ -108,10 +144,11 @@ const services = [
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	display: flex;
+	display: inline-block;
 }
 
 .navbar li {
+	float: left;
 	position: relative;
 	margin-right: 10px;
 }
@@ -126,9 +163,9 @@ const services = [
 	padding: 5px;
 }
 
-.navbar .underline {
+.navbar li .underline {
 	position: absolute;
-	bottom: 0;
+	bottom: -2px;
 	left: 0;
 	width: 100%;
 	height: 2px;
@@ -136,9 +173,8 @@ const services = [
 
 .navbar li.active .underline {
 	background-color: #4095e5;
-	height: 1px;
-	bottom: -4px;
-	margin-top: 100px;
+	height: 2px;
+	bottom: -2px;
 }
 
 .navbar a:hover {
@@ -146,6 +182,7 @@ const services = [
 }
 
 .content {
-	padding: 20px;
+	padding: 0px;
+	margin-top: 0px;
 }
 </style>

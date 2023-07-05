@@ -24,7 +24,7 @@ const httpInstance = axios.create({
 		'X-Auth-Token':JSESSIONID
 	},
 	//响应时间最长为
-	timeout: 5000,
+	// timeout: 5000,
 })
 
 //拦截器
