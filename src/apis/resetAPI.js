@@ -11,7 +11,7 @@ export const resetAPI = ({ email, password, verCode }) => {
 	// console.log('registerAPI'+email+password+verCode)
 	return request({
 		//测试用url，未改
-		url:'/student/passwdResetVerify',
+		url:'/student/passwordResetVerify',
 		// url:'/login',
 		method:'POST',
 		data: {
@@ -30,7 +30,7 @@ export const resetAPIT = ({ email, password, verCode }) => {
 	// console.log('registerAPIT'+email+password+verCode)
 	return request({
 		//测试用url，未改
-		url:'/teacher/passwdResetVerify',
+		url:'/teacher/passwordResetVerify',
 		// url:'/login',
 		method:'POST',
 		data: {

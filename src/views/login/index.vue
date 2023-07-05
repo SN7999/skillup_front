@@ -149,8 +149,8 @@
 	const formFog = ref({
 		identity: 'student',
 		email:'2394713985@qq.com',
-		password:'123456',
-		passwordCK:'123456',
+		password:'666666',
+		passwordCK:'666666',
 		verCode:''
 	})
 	

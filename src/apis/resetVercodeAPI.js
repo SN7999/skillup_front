@@ -3,7 +3,7 @@ import request from '@/utils/http'
 //学生忘记密码获取验证码
 export const getVercodeFogAPI = (email) => {
     return request({
-      url: '/student/passwdResetVerify',
+      url: '/student/sendVerCode',
       method:'POST',
       params:{
         email
@@ -26,7 +26,7 @@ export const getVercodeFogAPI = (email) => {
 //老师忘记密码获取验证码
 export const getVercodeFogAPIT = (email) => {
     return request({
-      url: '/teacher/passwdResetVerify',
+      url: '/teacher/sendVerCode',
       method:'POST',
       params:{
         email

@@ -55,6 +55,11 @@ export default defineConfig({
         target:'http://skillup.oss-cn-beijing.aliyuncs.com/',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api2/, '')
+      },
+      '/api3':{
+        target:'http://10.128.145.54:8080/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api3/, '')
       }
     }
   },

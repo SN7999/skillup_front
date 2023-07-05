@@ -108,11 +108,11 @@ const router = createRouter({
 		  component:ExamDetail,
 		  meta:{
 		    active:'/student/exam',
-		    title:'考试内容'
+		    title:'考试详情'
 		  }
 		},
         {
-          path:'/student/exam/detail/content',
+          path:'/student/exam/detail/content/:id',
           component:ExamDetailContent,
           meta:{
             active:'/student/exam',

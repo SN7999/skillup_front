@@ -8,7 +8,7 @@ import request from '@/utils/http'
 // }
 
 export const registerAPI = ({ email, password, verCode }) => {
-	// console.log('registerAPI'+email+password+verCode)
+	console.log('registerAPI'+email+password+verCode)
 	return request({
 		//测试用url，未改
 		url:'/student/register',
@@ -18,7 +18,9 @@ export const registerAPI = ({ email, password, verCode }) => {
 			// 测试时注释掉identity
 			// identity,
 			email,
-			password,
+			password
+		},
+		params: {
 			verCode
 		}
 	})

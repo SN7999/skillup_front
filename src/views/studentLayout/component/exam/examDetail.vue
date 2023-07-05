@@ -50,6 +50,7 @@ const gotoPrevious = () => {
 
 //测试数据
 const handleButtonClick = (data) => {
+	router.push('/student/exam/detail/content/'+data.id);
 	console.log('点击了按钮', data);
 	// 在这里可以执行按钮点击后的逻辑操作
 }
@@ -58,7 +59,6 @@ const services = [
       { date: '2023-6-15', name: '母猪的产后护理', totalTime: '100' },
       { date: '2023-6-18', name: '霸道GPT爱上我', totalTime: '60' },
       { date: '2023-7-5', name: '怀民亦未寝', totalTime: '120' },
-	  { date: '2023-7-6', name: '转生成大学老师只要卡绩就能天下无敌', totalTime: '666' },
       // ...其他数据
     ];
 </script>
