@@ -34,7 +34,7 @@
       console.log(course)
       const attendMsg = ref(null)
       const  result  = await getAttendAPI(classid)
-      attendMsg.value = result
+      attendMsg.value = result.data
       console.log(attendMsg.value)
       if(attendMsg.value.code == 200){
         ElMessage.success('选课成功')

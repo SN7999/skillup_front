@@ -2,24 +2,37 @@ import request from '@/utils/http'
 
 ///teacherCurriculum
 //教师根据状态获取课程
-export const getClassesAPI = (status) => {
+// export const getClassesAPI = (status) => {
+//     return request({
+//         url:'/teacher/getClasses',
+//         method:'POST',
+//         data:
+//             status
+        
+//     })
+// }
+
+//测试
+export const getClassesAPI = () => {
     return request({
-        url:'/teacher/getClasses',
-        method:'POST',
-        data:{
-            status
-        }
+        url:'/showselectclass'
     })
 }
 
 //教师根据课程id查询具体信息
-export const getClassDetailAPI = (classid) => {
+// export const getClassDetailAPI = (classid) => {
+//     return request({
+//         url:'/teacher/getClassesById',
+//         method:'POST',
+//         data:
+//             classid
+//     })
+// }
+
+//测试
+export const getClassDetailAPI = () => {
     return request({
-        url:'/teacher/getClassesById',
-        method:'POST',
-        data:{
-            classid
-        }
+        url:'/showClassDetail',
     })
 }
 

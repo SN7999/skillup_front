@@ -21,6 +21,9 @@ import TeacherCurriculum from "@/views/teacherLayout/component/class/teacherCurr
 import TeachetPublishClass from "@/views/teacherLayout/component/class/publishClass.vue"
 import TeacherStudent from "@/views/teacherLayout/component/teacherStudent.vue"
 import TeacherDetail from "@/views/teacherLayout/component/teacherDetail.vue"
+import TeacherPassDetail from "@/views/teacherLayout/component/class/passDetail.vue"
+import TeacherUnpassDetail from "@/views/teacherLayout/component/class/unpassDetail.vue"
+import TeacherRejectedDetail from "@/views/teacherLayout/component/class/rejectedDetail.vue"
 import AdminCurriculum from "@/views/adminLayout/component/adminCurriculum.vue"
 import AdminStudent from "@/views/adminLayout/component/adminStudent.vue"
 import AdminTeacher from "@/views/adminLayout/component/adminTeacher.vue"
@@ -156,7 +159,31 @@ const router = createRouter({
             title:"老师发布课程",
             active:'/teacher'
           }
-        }
+        },
+        {
+          path:"/teacher/passdetail/:id",
+          component:TeacherPassDetail,
+          meta:{
+            title:"老师通过课程详情",
+            active:'/teacher'
+          }
+        },
+        {
+          path:"/teacher/unpassdetail/:id",
+          component:TeacherUnpassDetail,
+          meta:{
+            title:"老师审核中课程详情",
+            active:'/teacher'
+          }
+        },
+        {
+          path:"/teacher/rejectdetail/:id",
+          component:TeacherRejectedDetail,
+          meta:{
+            title:"老师已驳回课程详情",
+            active:'/teacher'
+          }
+        },
         ]
     },
     {

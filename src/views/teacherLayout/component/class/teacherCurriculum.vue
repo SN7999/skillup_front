@@ -1,3 +1,84 @@
+<script setup>
+    import { getClassesAPI} from '@/apis/teacherAPI'
+    import { onMounted } from 'vue'
+    import { Search } from "@element-plus/icons-vue"
+    import { ElMessage } from 'element-plus'
+    import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    const activeTab = ref('myCourses');
+
+    function changeTab(tab) {
+    activeTab.value = tab;
+    }
+
+    const exportClasses = () =>{
+        //调用导出所有课程方法，直接下载
+    }
+
+    const router = useRouter();
+    //跳转至发布课程界面
+    const publishClass = () =>{
+        router.push('/teacher/publish'); 
+    }
+
+    //已通过
+    const passesClassList = ref([])
+    //未审批+有更新
+    const unpassesClassList = ref([])
+    //已驳回
+    const rejectedClassList = ref([])
+    // const getClassesList = async (status) => {
+    //     if(status == '已通过'){
+    //         const result = await getClassesAPI(status)
+    //         passesClassList.value = result.data.data
+    //         console.log('passclasslist'+passesClassList.value)
+    //     }
+    //     if(status == '未审批'){
+    //         const result = await getClassesAPI(status)
+    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+    //         console.log('unpassclasslist'+unpassesClassList.value)
+    //     }
+    //     if(status == '有更新'){
+    //         const result = await getClassesAPI(status)
+    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+    //         console.log('unpassclasslist'+unpassesClassList.value)
+    //     }
+    //     if(status == '已驳回'){
+    //         const result = await getClassesAPI(status)
+    //         rejectedClassList.value = result.data.data
+    //         console.log('rejectedClassList'+rejectedClassList.value)
+    //     }
+    // }
+
+    // onMounted(()=>{
+    //     getClassesList('已通过')
+    //     getClassesList('有更新')
+    //     getClassesList('未审核')
+    //     getClassesList('已驳回')
+    // })
+
+    const getClassesList = async () => {
+            const result = await getClassesAPI()
+            passesClassList.value = result.data.data
+            console.log('passclasslist'+passesClassList.value)
+
+            unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+            console.log('unpassclasslist'+unpassesClassList.value)
+
+            unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+            console.log('unpassclasslist'+unpassesClassList.value)
+
+            rejectedClassList.value = result.data.data
+            console.log('rejectedClassList'+rejectedClassList.value)
+    }
+
+    onMounted(()=>{
+        getClassesList()
+
+    })
+</script>
+
 <template>
     <div>
         <nav class="navbar">
@@ -11,43 +92,55 @@
         </nav>
         <div class="content">
             <div v-if="activeTab === 'myCourses'" class="tab-content">
-                <h2>我的课程</h2>
+                <!-- <h2>我的课程</h2> -->
                 <!-- 我的课程内容 -->
+                <div class='curriculum-list' v-if="passesClassList">
+                    <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(passclass,index) in passesClassList" :key="index">
+                        <RouterLink :to="'/teacher/passdetail/'+passclass.classid">
+                            <img :src="passclass.cover">
+                            <div style='font-weight: 400;
+                            font-size:20px;margin-left:10px;
+                            margin-top:10px;
+                            margin-bottom:10px'>{{passclass.classname}}</div>
+                        </RouterLink>
+                    </div>
+                </div>
             </div>
             <div v-if="activeTab === 'underReview'" class="tab-content">
-                <h2>审核中</h2>
+                <!-- <h2>审核中</h2> -->
                 <!-- 审核中内容 -->
+                <div class='curriculum-list' v-if="unpassesClassList">
+                    <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(unpassclass,index) in unpassesClassList" :key="index">
+                        <RouterLink :to="'/teacher/unpassdetail/'+unpassclass.classid">
+                            <img :src="unpassclass.cover">
+                            <div style='font-weight: 400;
+                            font-size:20px;margin-left:10px;
+                            margin-top:10px;
+                            margin-bottom:10px'>{{unpassclass.classname}}</div>
+                        </RouterLink>
+                    </div>
+                </div>
             </div>
             <div v-if="activeTab === 'reviewFailed'" class="tab-content">
-                <h2>审核未通过</h2>
+                <!-- <h2>审核未通过</h2> -->
                 <!-- 审核未通过内容 -->
+                <div class='curriculum-list' v-if="rejectedClassList">
+                    <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(rejectedClass,index) in rejectedClassList" :key="index">
+                        <RouterLink :to="'/teacher/rejectdetail/'+rejectedClass.classid">
+                            <img :src="rejectedClass.cover">
+                            <div style='font-weight: 400;
+                            font-size:20px;margin-left:10px;
+                            margin-top:10px;
+                            margin-bottom:10px'>{{rejectedClass.classname}}</div>
+                        </RouterLink>
+                    </div>
+                </div>
             </div>
         </div>
 </div>
   </template>
   
-  <script setup>
-    import { ref } from 'vue';
-    import { useRouter } from 'vue-router';
-
-    const activeTab = ref('myCourses');
-  
-    function changeTab(tab) {
-      activeTab.value = tab;
-    }
-
-    const exportClasses = () =>{
-        //调用导出所有课程方法，直接下载
-    }
-
-    const router = useRouter();
-    //跳转至发布课程界面
-    const publishClass = () =>{
-        router.push('/teacher/publish'); 
-    }
-  </script>
-  
-  <style>
+  <style lang = "scss">
    .navbar {
         background-color: white;
     }
@@ -92,5 +185,22 @@
         align-items: center;
     }
 
+    .curriculum-item{
+    text-align: center;
+    float: left;
+    margin-top:20px;
+    margin-bottom:20px;
+
+    img{
+      width: 100%;
+      height: 150px;
+    }
+    }
+    .curriculum-list{
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-left:20px;
+        margin-right:20px;
+        display: flex;
+    }
   </style>
-  

@@ -20,11 +20,14 @@ const httpInstance = axios.create({
     withCredentials: true,
 	headers:{
 		"Content-Type":'application/json',
-		//'Authorization': `Bearer ${JSESSIONID}` 
 		'X-Auth-Token':JSESSIONID
 	},
 	//响应时间最长为
+<<<<<<< Updated upstream
 	// timeout: 5000,
+=======
+	//timeout: 5000,
+>>>>>>> Stashed changes
 })
 
 //拦截器

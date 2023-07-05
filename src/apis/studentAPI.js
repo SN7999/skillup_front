@@ -58,13 +58,20 @@ export const getCurriculumDetailAPI = ( classname ) => {
 
 //学生选课
 //最终使用
+import { getSessionCookie } from '@/cookie.js';
+const JSESSIONID = getSessionCookie();
+
 export const getAttendAPI = (classid1) => {
   console.log({classid1})
   return request({
     url:'/selectclass/selectclass',
     method:'POST',
-    data: {
-      classid1
+    data: 
+      classid1,
+    headers:{
+      "Content-Type":'application/json',
+      //'Authorization': `Bearer ${JSESSIONID}` 
+      'X-Auth-Token':JSESSIONID
     },
   })
 }
@@ -95,9 +102,8 @@ export const getDropAPI = (classid1) => {
   return request({
     url:'/selectclass/quitclass',
     method:'POST',
-    data:{
+    data:
       classid1,
-    }
   })
 }
 

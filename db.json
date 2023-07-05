@@ -268,6 +268,25 @@
             }
         ]
     },
+    "showClassDetail":{
+        "code": 200,
+        "msg": "success",
+        "data": {
+            "classid": "1674975399878189058",
+            "teacherid": "1674249729564778497",
+            "classname": "java",
+            "teacher": "glen",
+            "period": null,
+            "starttime": null,
+            "endtime": "2023-07-17T00:00:00",
+            "status": "未审批",
+            "studentcount": 0,
+            "introduction": "我是介绍",
+            "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
+            "announcement": "我是公告",
+            "applytime": null
+        }
+    },
     "getclass":
     {
         "code": 200,

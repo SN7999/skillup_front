@@ -30,19 +30,18 @@ const getClassCount = async () => {
     classCount.value = result.data.data
 }
 
-//获取学生头像
-const getAdvatar = async (file) => {
-  const imageurl = file.url;
-  const id = infoList.value.studentid;
-  const result = await getAdvatarAPI({id,imageurl});
-  if(result.value.code == 200){
-    ElMessage.success('上传头像成功')
-  }
-  else{
-    ElMessage.error('上传头像失败')
-  }
-  result.value = null
-}
+//上传学生头像
+// const getAdvatar = async (file) => {
+//   const imageurl = file.url;
+//   const result = await getAdvatarAPI(imageurl);
+//   if(result.value.code == 200){
+//     ElMessage.success('上传头像成功')
+//   }
+//   else{
+//     ElMessage.error('上传头像失败')
+//   }
+//   result.value = null
+// }
 
 //修改密码
 const showChangePwd = ref(false);
@@ -52,7 +51,9 @@ const newPassword2 = ref('');
 //最终使用 待argue 感觉应该把旧密码一起传给后台校验 因为密码进行过加密，前端无法对密码进行比对
 const getPasswordReset = async (oldPassword,newPassword1,newPassword2) =>{
   const rstPwdMsg = ref(null)
-  const result = await getPasswordResetAPI({oldPassword,newPassword1})
+  console.log(oldPassword)
+  console.log(newPassword1)
+  const result = await getPasswordResetAPI(oldPassword,newPassword1)
   rstPwdMsg.value = result.data
   if(rstPwdMsg.value.code == 200){
       ElMessage.success('修改密码成功')
@@ -66,22 +67,7 @@ const getPasswordReset = async (oldPassword,newPassword1,newPassword2) =>{
     newPassword1.value = '';
     newPassword2.value = '';
 }
-// const getPasswordReset = async ({originalPassword,newPassword}) => {
-//     const rstPwdMsg = ref(null)
-//     const result = await getPasswordResetAPI({originalPassword,newPassword})
-//     rstPwdMsg.value = result.data
-//     if(rstPwdMsg.value.code == 200){
-//         ElMessage.success('修改密码成功')
-//     }
-//     else{
-//     ElMessage.error('修改密码失败')
-//     }
-//     rstPwdMsg.value = null
-//       showChangePwd.value = false
-//       oldPassword.value = '';
-//       newPassword1.value = '';
-//       newPassword2.value = '';
-// }
+
 //测试使用 还需要对两个新的密码进行验证
 // const getPasswordReset = async () => {
 //     const rstPwdMsg = ref(null)
@@ -107,7 +93,7 @@ const emailCode = ref('')
 //最终使用
 const getEmailReset = async (newEmail,verCode) => {
     const rstEmailMsg = ref(null)
-    const result = await getEmailResetAPI({newEmail,verCode})
+    const result = await getEmailResetAPI(newEmail,verCode)
     rstEmailMsg.value = result.data
     if(rstEmailMsg.value.code == 200){
         ElMessage.success('修改邮箱成功')
@@ -175,13 +161,13 @@ const showFile = ref(false)
 //最终使用
 const getCancel = async (email,verCode) => {
     const cancelMsg = ref(null)
-    const result = await getCancelAPI({email,verCode})
+    const result = await getCancelAPI(email,verCode)
     cancelMsg.value = result.data
     if(cancelMsg.value.code == 200){
         ElMessage.success('注销成功')
     }
     else{
-        ElMessage.error('获取验证码失败')
+        ElMessage.error('注销失败')
     }
     cancelMsg.value = null
     showCancel.value = false
@@ -221,9 +207,9 @@ const cancelback= () => {
 }
 //更新个人信息
 //最终使用
-const getSaveInfo = async ({name,contact,gender,academy,selfintroduction,age}) => {
+const getSaveInfo = async (name,contact,gender,academy,selfintroduction,age) => {
     const saveMsg = ref(null)
-    const result = await getSaveInfoAPI({name,contact,gender,academy,selfintroduction,age})
+    const result = await getSaveInfoAPI(name,contact,gender,academy,selfintroduction,age)
     saveMsg.value = result.data
     if(saveMsg.value.code == 200){
         ElMessage.success('更新个人信息成功')
@@ -250,64 +236,21 @@ const getSaveInfo = async ({name,contact,gender,academy,selfintroduction,age}) =
 onMounted(()=>{
   getStudentInfo()
   console.log(infoList.value)
-  // getExamCount()
-  // console.log(examCount)
-  // getClassCount()
-  // console.log(classCount)
+  getExamCount()
+  console.log(examCount)
+  getClassCount()
+  console.log(classCount)
 }
 )
 
-const userAvatarUrl = ref('');
-const uploadButtonText = ref('上传头像');
-const previewDialogVisible = ref(false);
-const previewImageUrl = ref('');
-let resizeBoxWidth = 300;
-
-const beforeUpload = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-      previewImageUrl.value = reader.result;
-      previewDialogVisible.value = true;
-      resolve();
-    };
-
-    reader.onerror = (error) => {
-      reject(error);
-    };
-  });
-};
+const uploadUrl = '/api3'+'/student/uploadImage';
 
 const onUploadSuccess = (response) => {
-  // 处理上传成功的逻辑
+  console.log(response)
+  ElMessage.success('上传头像成功')
+  getStudentInfo()
 };
 
-const cancelPreview = () => {
-  previewImageUrl.value = '';
-  previewDialogVisible.value = false;
-};
-
-const confirmPreview = () => {
-  const img = new Image();
-  const previewImg = ref(null);
-  const resizeBox = ref(null);
-
-  img.onload = () => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = resizeBoxWidth; // 设置画布的宽度为300px
-    canvas.height = resizeBoxWidth; // 设置画布的高度为300px
-    ctx.drawImage(img, 0, 0, resizeBoxWidth, resizeBoxWidth);
-    userAvatarUrl.value = canvas.toDataURL('image/jpeg');
-
-    previewImageUrl.value = '';
-    previewDialogVisible.value = false;
-  };
-
-  img.src = previewImageUrl.value;
-};
 </script>
 
 <template>
@@ -319,12 +262,11 @@ const confirmPreview = () => {
           <el-avatar  class="avatar" v-if="infoList" :src="infoList.imageurl" size="large"></el-avatar>
           <el-upload
             class="upload"
-            action="getAdvatar"
+            :action= "uploadUrl"
             :show-file-list="false"
-            :before-upload="beforeUpload"
             :on-success="onUploadSuccess"
           >
-            <el-button>{{ uploadButtonText }}</el-button>
+            <el-button>上传头像</el-button>
           </el-upload>
           <el-dialog title="调整图片尺寸" v-model:visible="previewDialogVisible" :close-on-click-modal="false">
             <div class="preview-container">
@@ -451,10 +393,10 @@ const confirmPreview = () => {
               </el-col>
               <el-col :span="1"></el-col>
               <el-col :span="5">
-                <el-button style="width: 100%" type="primary" @click="getVercode(cancelEmail)">获取验证码</el-button>
+                <el-button style="width: 100%" type="primary" @click="getVercode(newEmail)">获取验证码</el-button>
               </el-col>
             </el-row>
-            <el-button v-if="infoList" style="margin-top: 20px;width: 25%" type="primary" @click="getEmailReset(infoList.id,newEmail,emailCode)">提交</el-button>
+            <el-button v-if="infoList" style="margin-top: 20px;width: 25%" type="primary" @click="getEmailReset(newEmail,emailCode)">提交</el-button>
           </div>
         </el-col>
       </el-row>

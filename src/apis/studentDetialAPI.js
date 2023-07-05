@@ -83,15 +83,15 @@ export const getClassCountAPI = () => {
 // }
 
 //修改密码
-export const getPasswordResetAPI = ({originalPassword,newPassword}) => {
-    return request({
-      url: '/student/passwdReset',
-      method:'POST',
-      data:{
-        originalPassword,
-        newPassword
-      }
-    })
+export const getPasswordResetAPI = (originalPassword, newPassword) => {
+  return request({
+    url: '/student/changePassword',
+    method: 'POST',
+    params:{
+      originalPassword,
+      newPassword
+    }
+  });
 }
   
 //测试使用
@@ -102,11 +102,13 @@ export const getPasswordResetAPI = ({originalPassword,newPassword}) => {
 // }
 
 //修改邮箱
-export const getEmailResetAPI = ({newEmail,verCode}) => {
+export const getEmailResetAPI = (newEmail,verCode) => {
+    console.log(newEmail)
+    console.log(verCode)
     return request({
       url: '/student/emailReset',
       method:'POST',
-      data:{
+      params:{
         newEmail,
         verCode
       }
@@ -125,7 +127,7 @@ export const getVercodeAPI = (email) => {
     return request({
       url: '/student/sendVerCode',
       method:'POST',
-      data:{
+      params:{
         email
       }
     })
@@ -139,11 +141,11 @@ export const getVercodeAPI = (email) => {
 // }
 
 //注销账号 url待填
-export const getCancelAPI = ({email,verCode}) => {
+export const getCancelAPI = (email,verCode) => {
     return request({
       url: '/student/cancelAccount',
       method:'POST',
-      data:{
+      params:{
         email,
         verCode
       }
@@ -158,7 +160,7 @@ export const getCancelAPI = ({email,verCode}) => {
 // }
 
 //更新个人信息
-export const getSaveInfoAPI = ({name,contact,gender,academy,selfintroduction,age}) => {
+export const getSaveInfoAPI = (name,contact,gender,academy,selfintroduction,age) => {
     return request({
       url: '/student/saveInfo',
       method:'POST',
@@ -181,13 +183,12 @@ export const getSaveInfoAPI = ({name,contact,gender,academy,selfintroduction,age
 // }
 
 //上传头像
-export const getAdvatarAPI = ({id,file}) => {
-    return request({
-        url:'/student/uploadImage',
-        method:'POST',
-        data:{
-            id,
-            file
-        }
-    })
-}
+export const getAdvatarAPI = (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return request({
+    url: '/student/uploadImage',
+    method: 'POST',
+    data: formData,
+  });
+};

@@ -9,5 +9,6 @@ export function getSessionCookie() {
 }
 
 export function removeSessionCookie() {
-  Cookies.remove('JSESSIONID');
+  //Cookies.remove();
+  Cookies.remove('JSESSIONID',{domain:'localhost',path:'/'});
 }

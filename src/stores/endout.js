@@ -2,7 +2,7 @@
  * @Author: Mildred
  * @Date: 2023-06-29 10:14:19
  * @LastEditors: AuthorName
- * @LastEditTime: 2023-07-04 09:30:40
+ * @LastEditTime: 2023-07-05 15:29:32
  * @Description: 退出登录函数
  */
 
@@ -11,10 +11,12 @@
 import Vrouter from "@/router"
 import { defineStore } from 'pinia'
 import { removeSessionCookie } from '@/cookie.js';
+import Cookies from 'js-cookie'
 
 export const useEndoutStore = defineStore('endout', () => {
     const endOut = () => {
         // localStorage.clear()清除上次登录用户名密码，若此时在地址栏输入项目网址相关页面，仍可以进入项目页面中，故加了下一行
+        //Cookies.remove();
         localStorage.clear()
         //加入该行后会清除缓存，当点击退出按钮后，会清除登录信息缓存
         window.sessionStorage.clear()

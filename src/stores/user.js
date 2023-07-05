@@ -43,9 +43,9 @@ export const useUserStore = defineStore('user', () => {
 		}
 		userInfo.value = res.value.data
 
-		// 假设您成功获得了 session ID，将其存储到 cookie 中
-		const JSESSIONID = userInfo.value.data.value;
-		setSessionCookie(JSESSIONID);
+		// // 假设您成功获得了 session ID，将其存储到 cookie 中
+		// const JSESSIONID = userInfo.value.data.value;
+		// setSessionCookie(JSESSIONID);
 	}
 	
 	//退出时清除用户数据
