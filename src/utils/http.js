@@ -23,11 +23,8 @@ const httpInstance = axios.create({
 		'X-Auth-Token':JSESSIONID
 	},
 	//响应时间最长为
-<<<<<<< Updated upstream
 	// timeout: 5000,
-=======
-	//timeout: 5000,
->>>>>>> Stashed changes
+
 })
 
 //拦截器
