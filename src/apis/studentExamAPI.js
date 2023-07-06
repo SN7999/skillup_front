@@ -11,7 +11,8 @@ import request from '@/utils/http'
 export const getExamAPI = () => {
 	console.log('getExamAPI执行了')
     return request({
-        url: '/showselectclass',
+		// url: '/DTO/showExams'
+        url: '/showselectclass'
 		
     })
 }

@@ -455,6 +455,193 @@
 	            "examname": "Exam5"
 	        }
 	    ]
+	},
+	"studentscore":
+	{
+	    "code": 200,
+	    "msg": "success",
+	    "data": [
+	        {
+	            "examid": "4",
+	            "examname": "Exam4",
+	            "classid": "1674255941190578177",
+	            "classname": "csapp",
+	            "date": [
+	                2023,
+	                6,
+	                30,
+	                16,
+	                21,
+	                22
+	            ],
+	            "grade": 99
+	        },
+	        {
+	            "examid": "5",
+	            "examname": "Exam5",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "6",
+	            "examname": "Exam6",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 66
+	        },
+	        {
+	            "examid": "7",
+	            "examname": "Exam7",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "8",
+	            "examname": "Exam8",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "9",
+	            "examname": "Exam9",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "10",
+	            "examname": "Exam10",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "11",
+	            "examname": "Exam11",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "12",
+	            "examname": "Exam12",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "13",
+	            "examname": "Exam13",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "14",
+	            "examname": "Exam14",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        },
+	        {
+	            "examid": "15",
+	            "examname": "Exam15",
+	            "classid": "1674231545390477313",
+	            "classname": "data structure",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "grade": 23
+	        }
+	    ]
 	}
 
 }

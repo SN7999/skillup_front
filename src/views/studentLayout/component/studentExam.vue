@@ -26,7 +26,7 @@ const checkIsChEnNum = str => {
 
 const getSearchExamList = async examName => {
 	const result = await getSearchAPI(examName);
-	searchExamList.value = result.data;
+	examList.value = result.data;
 };
 
 const getSerchExam = () => {
