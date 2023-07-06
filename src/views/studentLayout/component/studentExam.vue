@@ -86,6 +86,9 @@ const getSerchExam = () => {
 		text-decoration: none;
 		color: inherit;
 	}
+	.router-link:hover {
+	    color: #4095e5;
+	}
 	.exam-list{
 	    flex-wrap: wrap;
 	    justify-content: space-between;

@@ -60,7 +60,7 @@
         <!-- 课程列表 -->
         <div class='curriculum-list' v-if="curriculumList">
             <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(curriculum,index) in curriculumList.data" :key="index">
-                <RouterLink :to="'/student/curriculum/'+curriculum.classname">
+                <RouterLink :to="'/student/curriculum/'+curriculum.classname" class="router-link">
                     <img :src="curriculum.cover">
                     <div style='font-weight: 400;
                     font-size:20px;margin-left:10px;
@@ -93,4 +93,11 @@
         margin-right:20px;
         display: flex;
     }
+	.router-link{
+		text-decoration: none;
+		color: inherit;
+	}
+	.router-link:hover {
+	    color: #4095e5;
+	}
 </style>
