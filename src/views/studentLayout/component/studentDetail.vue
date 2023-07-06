@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeMount, onMounted, ref } from 'vue';
-import { getStudentInfoAPI, getExamCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI, getAdvatarAPI} from '@/apis/studentDetialAPI'
+import { getStudentInfoAPI, getExamCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI} from '@/apis/studentDetialAPI'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore().userInfo

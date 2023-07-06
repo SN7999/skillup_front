@@ -181,14 +181,3 @@ export const getSaveInfoAPI = (name,contact,gender,academy,selfintroduction,age)
 //     url:'/saveinfo',
 //     })
 // }
-
-//上传头像
-export const getAdvatarAPI = (file) => {
-  const formData = new FormData();
-  formData.append('file', file);
-  return request({
-    url: '/student/uploadImage',
-    method: 'POST',
-    data: formData,
-  });
-};
