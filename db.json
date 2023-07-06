@@ -358,6 +358,45 @@
             ]
         }
     },
+	"showaccessibleexams":
+		{
+		    "code": 200,
+		    "msg": "success",
+		    "data": [
+		        {
+		            "id": 1,
+		            "name": "母猪的产后护理",
+		            "totalScore": "100",
+		            "totalTime": "60",
+		            "classid": 1674231545390477313,
+		            "date": "2023-07-07T15:44:08"
+		        },
+				{
+				    "id": 2,
+				    "name": "霸道GPT爱上我",
+				    "totalScore": "100",
+				    "totalTime": "90",
+				    "classid": 1674231545390477313,
+				    "date": "2023-07-07T15:44:08"
+				},
+				{
+				    "id": 3,
+				    "name": "怀民亦未寝",
+				    "totalScore": "100",
+				    "totalTime": "120",
+				    "classid": 1674231545390477313,
+				    "date": "2023-07-07T15:44:08"
+				},
+				{
+				    "id": 4,
+				    "name": "转生成大学老师只要卡绩就能天下无敌",
+				    "totalScore": "100",
+				    "totalTime": "666",
+				    "classid": 1674231545390477313,
+				    "date": "2023-07-07T15:44:08"
+				}
+		    ]
+		},
 	"showpassexams":
 	{
 	    "code": 200,
