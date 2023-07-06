@@ -3,7 +3,7 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 import { getStudentInfoAPI, getExamCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI, getAdvatarAPI} from '@/apis/studentDetialAPI'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
-const userStore = useUserStore()
+const userStore = useUserStore().userInfo
 console.log(userStore.userInfo)
 //获取学生信息
 //最终使用
@@ -29,19 +29,6 @@ const getClassCount = async () => {
     const result = await getClassCountAPI()
     classCount.value = result.data.data
 }
-
-//上传学生头像
-// const getAdvatar = async (file) => {
-//   const imageurl = file.url;
-//   const result = await getAdvatarAPI(imageurl);
-//   if(result.value.code == 200){
-//     ElMessage.success('上传头像成功')
-//   }
-//   else{
-//     ElMessage.error('上传头像失败')
-//   }
-//   result.value = null
-// }
 
 //修改密码
 const showChangePwd = ref(false);
@@ -248,6 +235,8 @@ const uploadUrl = '/api3'+'/student/uploadImage';
 const onUploadSuccess = (response) => {
   console.log(response)
   ElMessage.success('上传头像成功')
+  console.log(response.data.imageurl)
+  userStore.data.imageurl = response.data.imageurl
   getStudentInfo()
 };
 

@@ -29,17 +29,6 @@ export const getSearchCurriculumAPI = (classname) => {
 
 /////curriculumDetail 学生选课界面调用方法
 //根据课程名称查询课程信息
-//最终使用
-// export const getCurriculumDetailAPI = ({classname}) => {
-//   return request({
-//     url: '/classes/showClassDetail',
-//     method:'POSt',
-//     data:{
-//       classname
-//     }
-//   })
-// }
-
 export const getCurriculumDetailAPI = ( classname ) => {
   return request({
     url: '/classes/showClassDetail',
@@ -55,6 +44,16 @@ export const getCurriculumDetailAPI = ( classname ) => {
 //     url:'/classes',
 //   })
 // }
+
+//获取学生已选课程
+export const getStudentSelectAPI = ( classname ) => {
+  return request({
+    url: '/selectclass/showselectedclasses',
+    params: {
+      classname
+    }
+  });
+};
 
 //学生选课
 //最终使用

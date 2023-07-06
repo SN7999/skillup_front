@@ -8,11 +8,6 @@
         const result = await getSelectCurriculumAPI()
         curriculumList.value = result.data.data
     }
-    //测试使用
-    // const getCurriculumList = async () => {
-    //     const result = await getSelectCurriculumAPI()
-    //     curriculumList.value = result.data.data
-    // }
     onMounted(()=>{
         getCurriculumList()
         console.log(curriculumList.value)

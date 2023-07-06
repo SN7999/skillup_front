@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref } from 'vue'
-    import { getCurriculumDetailAPI , getAttendAPI , getDropAPI } from '@/apis/studentAPI'
+    import { getCurriculumDetailAPI , getStudentSelectAPI, getAttendAPI , getDropAPI } from '@/apis/studentAPI'
     import { ElMessage } from 'element-plus'
     import { useRoute } from 'vue-router'
     import { useRouter } from 'vue-router';
@@ -26,6 +26,23 @@
     //     detialList.value = result.data
     // }
 
+    //获取学生已选课程
+    //是否选课
+    const selectedCourse = ref(null);
+    const getSelectedId = async (classname) => {
+      const result = await getStudentSelectAPI(classname)
+      console.log("result"+result)
+      const select = ref([])
+      select.value = result.data.data
+      console.log("select"+select.value)
+      if(select.value != []){
+        selectedCourse.value = select.value[0].classid
+        deselecting.value = true;
+      }
+      console.log(selectedCourse.value)
+      console.log(deselecting.value)
+    }
+
     //const attendMsg = ref(null)
     //选课
     //最终使用
@@ -38,8 +55,9 @@
       console.log(attendMsg.value)
       if(attendMsg.value.code == 200){
         ElMessage.success('选课成功')
-        selectedCourse.value = course;
-        deselecting.value = true;
+        getSelectedId(classname)
+        // selectedCourse.value = course;
+        // deselecting.value = true;
       }
       else{
         ElMessage.error('选课失败')
@@ -72,6 +90,7 @@
       dropMsg.value = result.data
       if(dropMsg.value.code == 200){
         ElMessage.success('退课成功')
+        getSelectedId(classname)
         selectedCourse.value = null;
         deselecting.value = false;
       }
@@ -99,6 +118,7 @@
     onMounted(()=>{
         //最终使用
         getDetailList(classname)
+        getSelectedId(classname)
         //测试使用
         //getDetailList()
     })
@@ -109,8 +129,6 @@
         router.push('/student');
     }
 
-    //是否选课
-    const selectedCourse = ref(null);
     //按钮是否可用
     const deselecting = ref(false);
     //是否展示课程详情
@@ -135,13 +153,13 @@
           <el-table-column prop="teacher" label="任课教师"></el-table-column>
           <el-table-column label="操作">
             <template #default="{row}">
-              <template v-if="selectedCourse == row">
-                <el-button @click="getDrop(row)" size="mini">
+              <template v-if="selectedCourse == row.classid">
+                <el-button type="warning" @click="getDrop(row)" size="mini">
                   退选
                 </el-button>
               </template>
               <template v-else>
-                <el-button @click="getAttend(row)" :disabled="deselecting" size="mini">
+                <el-button type="primary" @click="getAttend(row)" :disabled="deselecting" size="mini">
                   选课
                 </el-button>
               </template>

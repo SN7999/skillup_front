@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref } from 'vue'
-    import { getTrainingDetailAPI } from '@/apis/studentTraingAPI'
+    import { getTrainingDetailAPI, getChapterFinishAPI } from '@/apis/studentTraingAPI'
 	  import { getUnFinishedExamAPI, getPassExamAPI, getFailExamAPI } from '@/apis/studentExamAPI';
     import { useRoute } from 'vue-router'
     import { useRouter } from 'vue-router'
@@ -104,6 +104,8 @@
       showChapter.value = null
       selectedVideo.value = null
       showVideo.value = false
+      getDetailInfo(classid)
+      selectedMenu.value = 'courseware'
     }
 
     const showTxt = (resource) => {
@@ -142,8 +144,9 @@
       link.click();
     };
 
-    const sendEnd = (chapterid) =>{
-      
+    const sendEnd = async (chapterid) =>{
+      const result = await getChapterFinishAPI(chapterid)
+      console.log("章节完成"+result)
     }
 </script>
 

@@ -96,7 +96,7 @@
                 <!-- 我的课程内容 -->
                 <div class='curriculum-list' v-if="passesClassList">
                     <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(passclass,index) in passesClassList" :key="index">
-                        <RouterLink :to="'/teacher/passdetail/'+passclass.classid">
+                        <RouterLink :to="'/teacher/passdetail/'+passclass.classid" class="router-link">
                             <img :src="passclass.cover">
                             <div style='font-weight: 400;
                             font-size:20px;margin-left:10px;
@@ -111,7 +111,7 @@
                 <!-- 审核中内容 -->
                 <div class='curriculum-list' v-if="unpassesClassList">
                     <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(unpassclass,index) in unpassesClassList" :key="index">
-                        <RouterLink :to="'/teacher/unpassdetail/'+unpassclass.classid">
+                        <RouterLink :to="'/teacher/unpassdetail/'+unpassclass.classid" class="router-link">
                             <img :src="unpassclass.cover">
                             <div style='font-weight: 400;
                             font-size:20px;margin-left:10px;
@@ -126,7 +126,7 @@
                 <!-- 审核未通过内容 -->
                 <div class='curriculum-list' v-if="rejectedClassList">
                     <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(rejectedClass,index) in rejectedClassList" :key="index">
-                        <RouterLink :to="'/teacher/rejectdetail/'+rejectedClass.classid">
+                        <RouterLink :to="'/teacher/rejectdetail/'+rejectedClass.classid" class="router-link">
                             <img :src="rejectedClass.cover">
                             <div style='font-weight: 400;
                             font-size:20px;margin-left:10px;
@@ -203,4 +203,12 @@
         margin-right:20px;
         display: flex;
     }
+
+    .router-link{
+		text-decoration: none;
+		color: inherit;
+	}
+	.router-link:hover {
+	color: #4095e5;
+	}
   </style>
