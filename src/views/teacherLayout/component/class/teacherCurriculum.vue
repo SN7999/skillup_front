@@ -61,16 +61,16 @@
     const getClassesList = async () => {
             const result = await getClassesAPI()
             passesClassList.value = result.data.data
-            console.log('passclasslist'+passesClassList.value)
+            //console.log('passclasslist'+passesClassList.value)
 
             unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-            console.log('unpassclasslist'+unpassesClassList.value)
+            //console.log('unpassclasslist'+unpassesClassList.value)
 
             unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-            console.log('unpassclasslist'+unpassesClassList.value)
+            //console.log('unpassclasslist'+unpassesClassList.value)
 
             rejectedClassList.value = result.data.data
-            console.log('rejectedClassList'+rejectedClassList.value)
+            //console.log('rejectedClassList'+rejectedClassList.value)
     }
 
     onMounted(()=>{

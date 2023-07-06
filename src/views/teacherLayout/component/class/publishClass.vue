@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
-import { ElForm, ElFormItem, ElInput, ElDatePicker, ElTimePicker, ElUpload, ElButton, ElMessageBox } from 'element-plus';
+import { ref ,computed} from 'vue';
 import { useRouter } from 'vue-router';
+import { getPublishClassAPI } from "@/apis/teacherAPI"
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 
@@ -17,6 +18,7 @@ const form = ref({
   endDate: null,
   endTime: '',
   courseCover: '',
+  period:''
 });
 
 const rules = ref({
@@ -44,30 +46,84 @@ const rules = ref({
   ],
 });
 
-// 处理图片上传成功事件
-function handleUploadSuccess(response, file) {
-  form.value.courseCover = URL.createObjectURL(file.raw);
-}
 
-// 处理删除图片按钮点击事件
-function handleBeforeRemove(file, fileList) {
-form.value.courseCover = '';
-return true; // 返回true允许删除文件
-}
+const uploadUrl = '/api3'+'/teacher/uploadClassesCover';
+
+const showCover = ref(false)
+const onUploadSuccess = (response) => {
+  //console.log(response)
+  form.value.courseCover = response.data
+  //console.log(form.value.courseCover)
+  showCover.value = true
+};
+
+const isSubmitButtonDisabled = computed(() => {
+  return Object.values(form.value).some((value, index) => {
+    const key = Object.keys(form.value)[index];
+    return key !== 'period' && value === '';
+  });
+});
 
 // 提交申请事件处理
-async function submitForm() {
-// const valid = await $refs.form.validate();
-// if (!valid) {
-// return;
-//}
-// 提示提交成功
-ElMessageBox.alert('申请提交成功', '提示', {
-confirmButtonText: '确定',
-callback: () => {
-// 提交成功后的操作
-},
-});
+const submitClass = async () =>{
+  //"yyyy-MM-dd HH:mm:ss"
+  const dateString1 = form.value.startDate
+  const dateObject1 = new Date(dateString1)
+  // 获取年份、月份、和日期
+  const year = dateObject1.getFullYear();
+  const month = (dateObject1.getMonth() + 1).toString().padStart(2, '0');
+  const day = dateObject1.getDate().toString().padStart(2, '0');
+  // 拼接成最终的日期字符串
+  const startdate1 = `${year}-${month}-${day}`;
+  //console.log(startdate1); // 输出: "2023-07-03"
+  const dateString2 = form.value.startTime;
+  const dateObject2 = new Date(dateString2)
+  // 获取小时、分钟和秒
+  const hours = dateObject2.getHours().toString().padStart(2, '0');
+  const minutes = dateObject2.getMinutes().toString().padStart(2, '0');
+  const seconds = dateObject2.getSeconds().toString().padStart(2, '0');
+  // 拼接成最终的时间字符串
+  const starttime1 = `${hours}:${minutes}:${seconds}`;
+  //console.log(starttime1); // 输出: "09:30:35"
+  const starttime = startdate1+" "+starttime1; 
+  //console.log(starttime)
+  
+  const dateString3 = form.value.endDate
+  const dateObject3 = new Date(dateString3)
+  // 获取年份、月份、和日期
+  const year1 = dateObject3.getFullYear();
+  const month1 = (dateObject3.getMonth() + 1).toString().padStart(2, '0');
+  const day1 = dateObject3.getDate().toString().padStart(2, '0');
+  // 拼接成最终的日期字符串
+  const enddate = `${year1}-${month1}-${day1}`;
+  //console.log(enddate); // 输出: "2023-07-03"
+  const dateString4 = form.value.endTime
+  const dateObject4 = new Date(dateString4)
+  // 获取小时、分钟和秒
+  const hours1 = dateObject4.getHours().toString().padStart(2, '0');
+  const minutes1 = dateObject4.getMinutes().toString().padStart(2, '0');
+  const seconds1 = dateObject4.getSeconds().toString().padStart(2, '0');
+  // 拼接成最终的时间字符串
+  const endtime1 = `${hours1}:${minutes1}:${seconds1}`;
+  //console.log(endtime1); // 输出: "09:30:35"
+  const endtime = enddate+" "+endtime1; 
+  //console.log(endtime)
+
+  //classname,introduction,period,starttime,endtime,cover
+  //console.log(form.value.courseName)
+  //console.log(form.value.courseDescription)
+  //console.log(form.value.period)
+  //console.log(starttime)
+  //console.log(endtime)
+  //console.log(form.value.courseCover)
+  const result = await getPublishClassAPI(form.value.courseName,form.value.courseDescription,form.value.period,starttime,endtime,form.value.courseCover)
+  if(result.data.code == 200){
+    ElMessage.success('新增课程申请已提交')
+    gotoPrevious()
+  }
+  else{
+    ElMessage.error('新增课程申请提交失败')
+  }
 }
 </script>
 
@@ -116,17 +172,19 @@ callback: () => {
           </el-row>
   
           <el-form-item label="课程封面" prop="courseCover" required>
-            <el-upload action="/upload" :show-file-list="false" :on-success="handleUploadSuccess" :before-remove="handleBeforeRemove">
-              <el-button>点击上传</el-button>
-              <div v-if="form.courseCover">
-                <img :src="form.courseCover" alt="course_cover" style="max-width: 200px; margin-top: 10px;" />
-                <el-button class="delete-button" size="mini" icon="el-icon-delete" circle></el-button>
-              </div>
-            </el-upload>
+            <div v-if="showCover" class="curriculum-cover">
+                <img :src="form.courseCover">
+            </div>
+            <el-upload
+            :action= "uploadUrl"
+            :show-file-list="false"
+            :on-success="onUploadSuccess"
+          >
+            <el-button>上传封面</el-button>
+          </el-upload>
           </el-form-item>
-  
           <el-form-item>
-            <el-button type="primary" @click="submitForm">提交申请</el-button>
+            <el-button type="primary" :disabled="isSubmitButtonDisabled" @click="submitClass">提交申请</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -135,12 +193,6 @@ callback: () => {
   
   
   <style scoped>
-  /* .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-  } */
-
   .container {
   display: flex;
   flex-direction: column;

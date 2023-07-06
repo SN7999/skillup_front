@@ -1,43 +1,42 @@
 <script setup>
     import { onMounted, ref } from 'vue'
     import { getTrainingDetailAPI } from '@/apis/studentTraingAPI'
-	import { getUnFinishedExamAPI, getPassExamAPI, getFailExamAPI } from '@/apis/studentExamAPI';
-    import { ElMessage } from 'element-plus'
+	  import { getUnFinishedExamAPI, getPassExamAPI, getFailExamAPI } from '@/apis/studentExamAPI';
     import { useRoute } from 'vue-router'
     import { useRouter } from 'vue-router'
     const route = useRoute()
     const router = useRouter()
     const classid = route.params.id
 	
-	//考试相关
-   const selected = 'unFinished';
-   const unFinishedExamList = ref([]);
-   const passExamList = ref([]);
-   const failExamList = ref([]);
-   const getUnFinishedExamList = async () => {
-   	const result = await getUnFinishedExamAPI();
-   	unFinishedExamList.value = result.data.data;
-   	// console.log('unFinishedExamList为'+unFinishedExamList.value);
+    //考试相关
+    const selected = 'unFinished';
+    const unFinishedExamList = ref([]);
+    const passExamList = ref([]);
+    const failExamList = ref([]);
+    const getUnFinishedExamList = async () => {
+    const result = await getUnFinishedExamAPI();
+    unFinishedExamList.value = result.data.data;
+    // console.log('unFinishedExamList为'+unFinishedExamList.value);
    };
-   const getPassExamList = async () => {
-   	const result = await getPassExamAPI();
-   	passExamList.value = result.data.data;
-   	// console.log('passExamList为'+passExamList.value);
+    const getPassExamList = async () => {
+    const result = await getPassExamAPI();
+    passExamList.value = result.data.data;
+    // console.log('passExamList为'+passExamList.value);
    };
-   const getFailExamList = async () => {
-   	const result = await getFailExamAPI();
-   	failExamList.value = result.data.data;
-   	// console.log('failExamList为'+failExamList.value);
+    const getFailExamList = async () => {
+    const result = await getFailExamAPI();
+    failExamList.value = result.data.data;
+    // console.log('failExamList为'+failExamList.value);
    };
    const getExamLists = () => {
-	   getUnFinishedExamList();
-	   getPassExamList();
-	   getFailExamList();
+    getUnFinishedExamList();
+    getPassExamList();
+    getFailExamList();
    };
    const handleButtonClick = (data) => {
-   	router.push('/student/exam/detail/content/'+data.id);
-   	console.log('点击了按钮', data);
-   	// 在这里可以执行按钮点击后的逻辑操作
+    router.push('/student/exam/detail/content/'+data.id);
+    console.log('点击了按钮', data);
+    // 在这里可以执行按钮点击后的逻辑操作
    };
    
    
@@ -59,9 +58,9 @@
 
     onMounted(()=>{
         //最终使用
-        //getDetailInfo(classid)
-        //测试使用
         getDetailInfo(classid)
+        //测试使用
+        //getDetailInfo()
     })
 
     //回退到上一页
@@ -80,9 +79,10 @@
     const chapterExpanded = ref({});
 
     function toggleCollapse(chapter) {
-        chapterExpanded.value[chapter.chapternum] = !chapterExpanded.value[chapter.chapternum];
+        chapterExpanded.value[chapter.chapter.chapternum] = !chapterExpanded.value[chapter.chapter.chapternum];
     }
 
+    const showChapter = ref('')
     const showVideo = ref(false);
     const selectedVideo = ref('')
     //let videos = document.getElementById('playVideos')
@@ -90,7 +90,8 @@
     const txtContent = ref("");
     const selectedTxtUrl = ref("");
 
-    const showVide = (resource) => {
+    const showVide = (chapterid,resource) => {
+      showChapter.value = chapterid
       selectedVideo.value = resource.url.replace(/\?.*/,'');
       showVideo.value = true;
     }
@@ -100,6 +101,7 @@
     }
 
     const videoBack = () =>{
+      showChapter.value = null
       selectedVideo.value = null
       showVideo.value = false
     }
@@ -139,6 +141,10 @@
       link.setAttribute('download', resource.filename);
       link.click();
     };
+
+    const sendEnd = (chapterid) =>{
+      
+    }
 </script>
 
 <template>
@@ -190,19 +196,31 @@
             <!-- 课件界面的内容 -->
             <div v-if="detialInfo">
               <div v-if="!showVideo&&!showTxtContent">
-                <div v-for="chapter in detialInfo.chapters" :key="chapter.chapternum"> 
+                <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum"> 
                     <el-card style="margin-top: 10px;">
                         <h3 class="chapter-title" @click="toggleCollapse(chapter)">
-                            <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapternum]}"></span>
-                            第 {{ chapter.chapternum }} 章：{{ chapter.chaptername }}
+                          <el-row>
+                            <el-col span="12">
+                              <div v-if="chapter.status === '已完成'">
+                                <div class="circle green"></div>
+                              </div>
+                              <div v-else-if="chapter.status === '未完成'">
+                                <div class="circle red"></div>
+                              </div>
+                            </el-col>
+                            <el-col span="12">
+                              <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapter.chapternum]}"></span>
+                              第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
+                            </el-col>
+                          </el-row>
                         </h3>
-                          <div v-show="chapterExpanded[chapter.chapternum]" class="chapter-content">
+                          <div v-show="chapterExpanded[chapter.chapter.chapternum]" class="chapter-content">
                             <div style="margin-top: 3px;font-size: 70%;">
-                                {{ chapter.introduction }}
+                                {{ chapter.chapter.introduction }}
                             </div>
                             <div style="margin-top: 10px;" v-for="resource in detialInfo.resources" :key="resource.resourceId">
-                                <div v-if="resource.chapterId == chapter.chapterid"> 
-                                    <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(resource)">
+                                <div v-if="resource.chapterId == chapter.chapter.chapterid"> 
+                                    <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid,resource)">
                                         <p class="resource-text">视频：{{resource.resourcename}}</p>
                                     </div>
                                     <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
@@ -220,7 +238,7 @@
             </div>
             <div v-if="showVideo">
               <!-- 视频展示界面 -->
-              <video :src="getVideo()" id="playVideos" controls preload>
+              <video :src="getVideo()" id="playVideos" controls preload @ended="sendEnd(showChapter)">
               </video>
               <button @click="videoBack()">返回</button>
             </div>
@@ -230,9 +248,7 @@
               <button @click="txtBack()">返回</button>
             </div>
           </div>
-		  
-		  
-		  
+
           <div v-if="selectedMenuItem === 'exam'">
             <nav class="navbar">
             	<ul>
@@ -473,5 +489,18 @@ margin-top: 10px;
 }
 .examList {
 	width: 100%;
+}
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
 }
 </style>

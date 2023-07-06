@@ -37,24 +37,17 @@ export const getClassDetailAPI = () => {
 }
 
 ///publishClass 老师新增课程
-export const getPublishClassAPI = () => {
+export const getPublishClassAPI = (classname,introduction,period,starttime,endtime,cover) => {
     return request({
         url: '/teacher/saveClasses',
         method:'POST',
         data:{
-            
-        }
-    })
-}
-
-//课程上传封面
-export const getPublishCoverAPI = ({file,classid}) => {
-    return request({
-        url: '/classes/uploadcover',
-        method:'POST',
-        data:{
-            file,
-            classid
+            classname,
+            introduction,
+            period,
+            starttime,
+            endtime,
+            cover
         }
     })
 }

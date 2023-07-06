@@ -385,7 +385,7 @@ const onUploadSuccess = (response) => {
           <div class="modal-container" v-if="showChangeEmail">
             <div style="font-size: 150%;margin-top: 50px;" >修改邮箱</div>
             <div style="margin-top: 20px;width: 80%">
-              <el-input style="width: 100%" placeholder="请输入新的 邮箱" v-model="newEmail"></el-input>
+              <el-input style="width: 100%" placeholder="请输入新的邮箱" v-model="newEmail"></el-input>
             </div>
             <el-row style="margin-top: 20px;width: 80%">
               <el-col :span="18">

@@ -1,5 +1,5 @@
 <template>
     <div>
-        我是老师查询学生信息
+        我是老师个人中心
     </div>
 </template>

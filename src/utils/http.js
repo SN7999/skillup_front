@@ -10,12 +10,7 @@ import { getSessionCookie } from '@/cookie.js';
 const JSESSIONID = getSessionCookie();
 
 const httpInstance = axios.create({
-    //基地址-wmz测试
 	baseURL: '/api1',
-    //baseURL: 'http://localhost:3000',
-	//基地址-zjt测试
-	// baseURL: 'http://10.128.145.54:8080',
-	//baseURL: 'http://10.128.137.130:8080',
 	// 允许跨域请求时携带cookie
     withCredentials: true,
 	headers:{
@@ -23,8 +18,7 @@ const httpInstance = axios.create({
 		'X-Auth-Token':JSESSIONID
 	},
 	//响应时间最长为
-	// timeout: 5000,
-
+	//timeout: 5000,
 })
 
 //拦截器
