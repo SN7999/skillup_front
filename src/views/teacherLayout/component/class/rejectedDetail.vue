@@ -2,7 +2,7 @@
 import { onMounted,ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router'
-import { getPublishClassAPI } from "@/apis/teacherAPI"
+import { getUpdateClassAPI } from "@/apis/teacherAPI"
 import { getClassDetailAPI } from '@/apis/teacherAPI'
 import { ElMessage } from 'element-plus';
 
@@ -21,12 +21,12 @@ const detail = ref(null)
 //     detail.value = result.data.data
 // }
 
-const getClassDetail = async () => {
-    const  result  = await getClassDetailAPI()
+const getClassDetail = async (classid) => {
+    const  result  = await getClassDetailAPI(classid)
     detail.value = result.data.data
     //console.log(detail.value.starttime)
     //console.log(detail.value.endtime)
-
+    form.value.classid = detail.value.classid
     form.value.courseName = detail.value.classname
     form.value.courseDescription = detail.value.introduction
     form.value.courseCover = detail.value.cover
@@ -88,6 +88,7 @@ function getTimezoneOffset(offset) {
 }
 
 const form = ref({
+  classid:'',
   courseName: '',
   courseDescription: '',
   startDate: null,
@@ -100,9 +101,9 @@ const form = ref({
 
 onMounted(()=>{
     //最终使用
-    //getClassDetail(classid)
+    getClassDetail(classid)
     //测试使用
-    getClassDetail()
+    //getClassDetail()
 })
 
 const rules = ref({
@@ -191,7 +192,7 @@ const submitClass = async () =>{
   console.log(starttime)
   console.log(endtime)
   console.log(form.value.courseCover)
-  const result = await getPublishClassAPI(form.value.courseName,form.value.courseDescription,form.value.period,starttime,endtime,form.value.courseCover)
+  const result = await getUpdateClassAPI(form.value.classid,form.value.courseName,form.value.courseDescription,form.value.period,starttime,endtime,form.value.courseCover)
   if(result.data.code == 200){
     ElMessage.success('修改课程申请已提交')
     gotoPrevious()

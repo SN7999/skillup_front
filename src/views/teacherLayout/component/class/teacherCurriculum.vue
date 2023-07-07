@@ -28,55 +28,55 @@
     const unpassesClassList = ref([])
     //已驳回
     const rejectedClassList = ref([])
-    // const getClassesList = async (status) => {
-    //     if(status == '已通过'){
-    //         const result = await getClassesAPI(status)
-    //         passesClassList.value = result.data.data
-    //         console.log('passclasslist'+passesClassList.value)
-    //     }
-    //     if(status == '未审批'){
-    //         const result = await getClassesAPI(status)
-    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-    //         console.log('unpassclasslist'+unpassesClassList.value)
-    //     }
-    //     if(status == '有更新'){
-    //         const result = await getClassesAPI(status)
-    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-    //         console.log('unpassclasslist'+unpassesClassList.value)
-    //     }
-    //     if(status == '已驳回'){
-    //         const result = await getClassesAPI(status)
-    //         rejectedClassList.value = result.data.data
-    //         console.log('rejectedClassList'+rejectedClassList.value)
-    //     }
-    // }
-
-    // onMounted(()=>{
-    //     getClassesList('已通过')
-    //     getClassesList('有更新')
-    //     getClassesList('未审核')
-    //     getClassesList('已驳回')
-    // })
-
-    const getClassesList = async () => {
-            const result = await getClassesAPI()
+    const getClassesList = async (status) => {
+        if(status == '已通过'){
+            const result = await getClassesAPI(status)
             passesClassList.value = result.data.data
-            //console.log('passclasslist'+passesClassList.value)
-
+            console.log('passclasslist'+passesClassList.value)
+        }
+        if(status == '未审批'){
+            const result = await getClassesAPI(status)
             unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-            //console.log('unpassclasslist'+unpassesClassList.value)
-
+            console.log('unpassclasslist'+unpassesClassList.value)
+        }
+        if(status == '有更新'){
+            const result = await getClassesAPI(status)
             unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
-            //console.log('unpassclasslist'+unpassesClassList.value)
-
+            console.log('unpassclasslist'+unpassesClassList.value)
+        }
+        if(status == '已驳回'){
+            const result = await getClassesAPI(status)
             rejectedClassList.value = result.data.data
-            //console.log('rejectedClassList'+rejectedClassList.value)
+            console.log('rejectedClassList'+rejectedClassList.value)
+        }
     }
 
     onMounted(()=>{
-        getClassesList()
-
+        getClassesList('已通过')
+        getClassesList('有更新')
+        getClassesList('未审批')
+        getClassesList('已驳回')
     })
+
+    // const getClassesList = async () => {
+    //         const result = await getClassesAPI()
+    //         passesClassList.value = result.data.data
+    //         //console.log('passclasslist'+passesClassList.value)
+
+    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+    //         //console.log('unpassclasslist'+unpassesClassList.value)
+
+    //         unpassesClassList.value = [...unpassesClassList.value, ...result.data.data]
+    //         //console.log('unpassclasslist'+unpassesClassList.value)
+
+    //         rejectedClassList.value = result.data.data
+    //         //console.log('rejectedClassList'+rejectedClassList.value)
+    // }
+
+    // onMounted(()=>{
+    //     getClassesList()
+
+    // })
 </script>
 
 <template>
@@ -140,11 +140,10 @@
 </div>
   </template>
   
-  <style lang = "scss">
+  <style lang = "scss" scoped>
    .navbar {
         background-color: white;
     }
-
 
     ul {
         display: flex;
@@ -196,6 +195,7 @@
       height: 150px;
     }
     }
+
     .curriculum-list{
         flex-wrap: wrap;
         justify-content: space-between;

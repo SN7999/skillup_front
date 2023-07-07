@@ -47,7 +47,7 @@ const rules = ref({
 });
 
 
-const uploadUrl = '/api3'+'/teacher/uploadClassesCover';
+const uploadUrl = '/api3'+'/classes/uploadcover';
 
 const showCover = ref(false)
 const onUploadSuccess = (response) => {

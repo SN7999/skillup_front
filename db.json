@@ -337,7 +337,7 @@
                     "chapter": {
                         "chapterid": "1675686320640389121",
                         "classid": "1675683245779378178",
-                        "introduction": null,
+                        "introduction": "我是论语导读",
                         "status": "已通过",
                         "chaptername": "《论语》导读",
                         "chapternum": 1
@@ -348,7 +348,7 @@
                     "chapter": {
                         "chapterid": "1675686352118640642",
                         "classid": "1675683245779378178",
-                        "introduction": null,
+                        "introduction": "我是孟子导读",
                         "status": "已通过",
                         "chaptername": "《孟子》导读",
                         "chapternum": 2
@@ -721,4 +721,22 @@
 
 
 
+    "showunpassedresources":
+    {
+        "code": 200,
+        "msg": "success",
+        "data": [
+            {
+                "resourceId": "1675686941078614017",
+                "resourcename": null,
+                "type": "图片",
+                "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
+                "status": "已通过",
+                "chapterId": "1675686352118640642",
+                "classname": "“四书”导读",
+                "classId": "1675683245779378178",
+                "updatetime": 1688313600000
+            }
+        ]
+    }
 }

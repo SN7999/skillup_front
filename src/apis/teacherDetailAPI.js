@@ -4,18 +4,21 @@ import request from '@/utils/http'
 //个人信息
 export const getTeacherInfoAPI = () => {
   return request({
+    method:"POST",
     url: '/teacher/selfInfo ',
   });
 };
 //获取学生数
 export const getStudentCountAPI = () => {
     return request({
+      method:"POST",
       url: '/teacher/getStudentsCount',
     })
 }
 //获取课程数
 export const getClassCountAPI = () => {
     return request({
+      method:"POST",
       url: '/teacher/getClassesCount',
     })
 }  

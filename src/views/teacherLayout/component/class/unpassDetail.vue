@@ -12,21 +12,21 @@
     const classid = route.params.id
 
     const detail = ref(null)
-    // const getClassDetail = async (classid) => {
-    //     const  result  = await getClassDetailAPI(classid)
-    //     detail.value = result.data.data
-    // }
-
-    const getClassDetail = async () => {
-        const  result  = await getClassDetailAPI()
+    const getClassDetail = async (classid) => {
+        const  result  = await getClassDetailAPI(classid)
         detail.value = result.data.data
     }
 
+    // const getClassDetail = async () => {
+    //     const  result  = await getClassDetailAPI()
+    //     detail.value = result.data.data
+    // }
+
     onMounted(()=>{
         //最终使用
-        //getClassDetail(classid)
+        getClassDetail(classid)
         //测试使用
-        getClassDetail()
+        //getClassDetail()
     })
 
 </script>

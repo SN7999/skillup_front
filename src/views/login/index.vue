@@ -300,7 +300,7 @@
 					ElMessage.error('提交失败')
 				}
 				
-				if(res != null){
+				if(res.value != null){
 					console.log('res.data.code '+res.value.data.code)
 					if(res.value.data.code == 200) {
 						ElMessage({ type: 'success', message: res.value.data.msg})
@@ -329,7 +329,7 @@
 					ElMessage.error('提交失败')
 				}
 				
-				if(res != null){
+				if(res.value != null){
 					console.log('res.data.code '+res.value.data.code)
 					if(res.value.data.code == 200) {
 						ElMessage({ type: 'success', message: res.value.data.msg})
