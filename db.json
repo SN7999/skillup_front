@@ -642,6 +642,83 @@
 	            "grade": 23
 	        }
 	    ]
+	},
+	"getSelectClass":
+	{
+	    "code": 200,
+	    "msg": "success",
+	    "data": [
+	        {
+	            "classid": "1674255941190578177",
+	            "studentid": "1674226398820048898",
+	            "classname": "csapp",
+	            "studentname": "狗剩",
+	            "date": [
+	                2023,
+	                6,
+	                7,
+	                16,
+	                54,
+	                41
+	            ],
+	            "status": "已选",
+	            "score": null
+	        },
+	        {
+	            "classid": "1674255941190578177",
+	            "studentid": "1675042107875708929",
+	            "classname": "编译原理",
+	            "studentname": "狗蛋",
+	            "date":[
+	                2023,
+	                8,
+	                3,
+	                16,
+	                54,
+	                41
+	            ],
+	            "status": "已选",
+	            "score": null
+	        },
+	        {
+	            "classid": "1674255941190578177",
+	            "studentid": "1675042107875708929",
+	            "classname": "pua技术",
+	            "studentname": "狗不理",
+	            "date":[
+	                2023,
+	                8,
+	                10,
+	                16,
+	                54,
+	                41
+	            ],
+	            "status": "已选",
+	            "score": null
+	        }
+	    ]
+	},
+	"studentInfo":
+	{
+	    "code": 200,
+	    "msg": "success",
+	    "data": {
+	        "id": "1674226xxxxxxxxxxxxxxxxxxxx",
+	        "name": "Liu",
+	        "password": "9d11989efa631exxxxxxxxxxxxxx",
+	        "gender": true,
+	        "age": 80000,
+	        "academy": "cs",
+	        "contact": "135xxxxxxxxx",
+	        "email": "123@1.com",
+	        "selfintroduction": "世界以痛吻我，我报之世界一拳两拳三拳四拳五拳六拳七拳八拳九拳十拳十一拳十二拳十三拳二七十四拳三五十五拳四四十六拳五五二十五拳六六三十六拳七七四十九拳八八六十四拳九九八十一拳三八妇女拳五一劳动拳六一儿童拳七一建党拳八一建军拳九九重阳拳十一国庆拳上勾拳下勾拳左勾拳右勾拳",
+	        "status": "已注册",
+	        "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
+	        "score": null,
+	        "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp"
+	    }
 	}
+
+
 
 }
