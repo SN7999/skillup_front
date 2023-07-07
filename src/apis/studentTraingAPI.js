@@ -28,12 +28,12 @@ export const getSearchAPI = (classname) => {
 
 /////trainingDetail 学生培训详情界面调用方法
 //最终
-export const getTrainingDetailAPI = (classid) => {
+export const getTrainingDetailAPI = (classid1) => {
     return request({
         method:'POST',
         url: '/DTO/getclass',
         data:
-            classid
+            classid1
     })
 }
 //测试

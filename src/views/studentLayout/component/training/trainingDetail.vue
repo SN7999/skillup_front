@@ -46,6 +46,7 @@
     //最终使用
     const detialInfo = ref(null)
     const getDetailInfo = async (classid) => {
+		console.log(classid)
         const  result  = await getTrainingDetailAPI(classid)
         detialInfo.value = result.data.data
     };
