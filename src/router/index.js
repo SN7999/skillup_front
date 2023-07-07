@@ -107,7 +107,7 @@ const router = createRouter({
           }
         },
 		{
-		  path:'/student/exam/detail',
+		  path:'/student/exam/detail/:id',
 		  component:ExamDetail,
 		  meta:{
 		    active:'/student/exam',

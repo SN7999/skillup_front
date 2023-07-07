@@ -11,35 +11,42 @@ import request from '@/utils/http'
 export const getExamAPI = () => {
 	console.log('getExamAPI执行了')
     return request({
-		// url: '/DTO/showExams'
-        url: '/showselectclass'
+		url: '/DTO/showExams',
+        // url: '/showselectclass'
+		
 		
     })
 }
 //获取未完成考试的列表
-export const getUnFinishedExamAPI = () => {
+export const getUnFinishedExamAPI = (classid) => {
 	console.log('执行了获取未完成考试列表')
     return request({
-        // url: '/exam/showAccessibleExams',
-        url: '/showaccessibleexams'
+		method:'POST',
+        url: '/exam/showAccessibleExams',
+        // url: '/showaccessibleexams'
+		data:classid
 		
     })
 }
 // 获取及格考试的列表
-export const getPassExamAPI = () => {
+export const getPassExamAPI = (classid) => {
 	console.log('执行了获取及格考试列表')
     return request({
-        // url: '/exam/showPassExams',
-        url: '/showpassexams'
+        method:'POST',
+        url: '/exam/showPassExams',
+        // url: '/showpassexams'
+		data:classid
 		
     })
 }
 //获取不及格考试的列表
-export const getFailExamAPI = () => {
+export const getFailExamAPI = (classid) => {
 	console.log('执行了获取不及格考试列表')
     return request({
-        // url: '/exam/showFailExams',
-        url: '/showfailexams'
+        method:'POST',
+        url: '/exam/showFailExams',
+        // url: '/showfailexams'
+		data:classid
 		
     })
 }
@@ -56,8 +63,12 @@ export const getSearchAPI = (classname) => {
     })
 }
 
-export const getExamDetailAPI = () => {
+
+export const getExamDetailAPI = (classid) => {
+	// console.log(classid)
     return request({
-        url: '/getclass',
+        method:'POST',
+        url: '/DTO/getclass',
+        data:classid
     })
 }

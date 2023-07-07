@@ -7,37 +7,39 @@ import { useRouter } from 'vue-router';
 const selected = 'unFinished';
 const route = useRoute();
 
+const classid = route.params.id;
 const detialInfo = ref(null);
 
-const getDetailInfo = async () => {
-	const result = await getExamDetailAPI();
+const getDetailInfo = async (classid) => {
+	const result = await getExamDetailAPI(classid);
 	detialInfo.value = result.data.data;
+	console.log(detialInfo.value);
 };
 
 const unFinishedExamList = ref([]);
 const passExamList = ref([]);
 const failExamList = ref([]);
-const getUnFinishedExamList = async () => {
-	const result = await getUnFinishedExamAPI();
+const getUnFinishedExamList = async (classid) => {
+	const result = await getUnFinishedExamAPI(classid);
 	unFinishedExamList.value = result.data.data;
 	// console.log('unFinishedExamList为'+unFinishedExamList.value);
 };
-const getPassExamList = async () => {
-	const result = await getPassExamAPI();
+const getPassExamList = async (classid) => {
+	const result = await getPassExamAPI(classid);
 	passExamList.value = result.data.data;
 	// console.log('passExamList为'+passExamList.value);
 };
-const getFailExamList = async () => {
-	const result = await getFailExamAPI();
+const getFailExamList = async (classid) => {
+	const result = await getFailExamAPI(classid);
 	failExamList.value = result.data.data;
 	// console.log('failExamList为'+failExamList.value);
 };
 
 onMounted(() => {
-	getUnFinishedExamList();
-	getPassExamList();
-	getFailExamList();
-	getDetailInfo();
+	getUnFinishedExamList(classid);
+	getPassExamList(classid);
+	getFailExamList(classid);
+	getDetailInfo(classid);
 });
 const router = useRouter();
 const gotoPrevious = () => {
@@ -66,7 +68,7 @@ const services = [
 <template>
 	<div v-if="detialInfo">
 		<el-button @click="gotoPrevious()">返回</el-button>
-		{{ detialInfo.classes.classname }} - {{ detialInfo.classes.classid }}
+		{{ detialInfo.classes.classname }} - {{ classid }}
 	</div>
 	<nav class="navbar">
 		<ul>
@@ -93,7 +95,7 @@ const services = [
 				<el-table-column prop="date" label="考试时间">
 					<template #default="{ row }">
 						<el-icon><Clock /></el-icon>
-						{{ row.date }}
+						{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
 					</template>
 				</el-table-column>
 				<el-table-column prop="name" label="考试项目"></el-table-column>

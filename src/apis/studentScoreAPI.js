@@ -1,22 +1,22 @@
 import request from '@/utils/http'
 
 
-// //后台对接测试用
-// export const getScoreAPI = () => {
-// 	console.log('getScoreAPI执行了')
-//     return request({
-//         method:'POST',
-//         url: '/student/getGrade',
-//     })
-// }
-//测试用
+//后台对接测试用
 export const getScoreAPI = () => {
 	console.log('getScoreAPI执行了')
     return request({
-        url: '/studentscore',
-		
+        method:'POST',
+        url: '/DTOForGrade/getGrade',
     })
 }
+//测试用
+// export const getScoreAPI = () => {
+// 	console.log('getScoreAPI执行了')
+//     return request({
+//         url: '/studentscore',
+		
+//     })
+// }
 
 export const getSearchScoreExamAPI = (examname) => {
 	console.log('getSearchScoreExamAPI执行了'+examname)

@@ -23,6 +23,7 @@
 	const getScoreList = async () => {
 		const result = await getScoreAPI();
 		scoreList.value = result.data.data;
+		console.log(result)
 	};
 	
 	const getSearchScoreListExam = async examName => {

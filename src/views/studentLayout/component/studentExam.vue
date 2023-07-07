@@ -8,6 +8,7 @@ const examList = ref([]);
 const getExamList = async () => {
 	const result = await getExamAPI();
 	examList.value = result.data.data;
+	console.log(result);
 };
 onMounted(() => {
 	getExamList()
@@ -52,8 +53,8 @@ const getSerchExam = () => {
 		<!-- 课程列表 -->
 		<div class="exam-list">
 			<div class="exam-item" style="background:#f6f6f6;width:32%" v-for="(exam, index) in examList" :key="index">
-				<RouterLink :to="'/student/exam/detail'" class="router-link">
-					<img :src="exam.cover" />
+				<RouterLink :to="'/student/exam/detail/'+exam.classid" class="router-link">
+					<img :src="exam.imageUrl" />
 					<div
 						style="font-weight: 400;
                     font-size:20px;margin-left:10px;

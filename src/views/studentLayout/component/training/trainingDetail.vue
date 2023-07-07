@@ -13,25 +13,25 @@
     const unFinishedExamList = ref([]);
     const passExamList = ref([]);
     const failExamList = ref([]);
-    const getUnFinishedExamList = async () => {
-    const result = await getUnFinishedExamAPI();
+    const getUnFinishedExamList = async (classid) => {
+    const result = await getUnFinishedExamAPI(classid);
     unFinishedExamList.value = result.data.data;
     // console.log('unFinishedExamList为'+unFinishedExamList.value);
    };
-    const getPassExamList = async () => {
-    const result = await getPassExamAPI();
+    const getPassExamList = async (classid) => {
+    const result = await getPassExamAPI(classid);
     passExamList.value = result.data.data;
     // console.log('passExamList为'+passExamList.value);
    };
-    const getFailExamList = async () => {
-    const result = await getFailExamAPI();
+    const getFailExamList = async (classid) => {
+    const result = await getFailExamAPI(classid);
     failExamList.value = result.data.data;
     // console.log('failExamList为'+failExamList.value);
    };
-   const getExamLists = () => {
-    getUnFinishedExamList();
-    getPassExamList();
-    getFailExamList();
+   const getExamLists = (classid) => {
+    getUnFinishedExamList(classid);
+    getPassExamList(classid);
+    getFailExamList(classid);
    };
    const handleButtonClick = (data) => {
     router.push('/student/exam/detail/content/'+data.id);
@@ -175,7 +175,7 @@
             <el-icon name="el-icon-folder"></el-icon>
             <span class="text">课件</span>
           </div>
-          <div class="menu-item" @click="selectMenuItem('exam'); getExamLists()" :class="{ 'selected': selectedMenu === 'exam' }">
+          <div class="menu-item" @click="selectMenuItem('exam'); getExamLists(classid)" :class="{ 'selected': selectedMenu === 'exam' }">
             <el-icon name="el-icon-document"></el-icon>
             <span class="text">考试</span>
           </div>
@@ -278,7 +278,7 @@
             			<el-table-column prop="date" label="考试时间">
             				<template #default="{ row }">
             					<el-icon><Clock /></el-icon>
-            					{{ row.date }}
+            					{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
             				</template>
             			</el-table-column>
             			<el-table-column prop="name" label="考试项目"></el-table-column>

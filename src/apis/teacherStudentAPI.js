@@ -3,10 +3,11 @@ import request from '@/utils/http'
 export const getStudentAPI = () => {
 	console.log('getStudentAPI执行了')
     return request({
-		// url: '/teacher/getSelectClass',
+		method:'POST',
+		url: '/teacher/getSelectClass',
 		
 		// 测试用api
-        url: '/getSelectClass',
+        // url: '/getSelectClass',
 		
     })
 }

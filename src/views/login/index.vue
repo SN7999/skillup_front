@@ -32,8 +32,8 @@
 	// 表单对象-登录
 	const formLog = ref({
 		identity: 'student',
-		email:'123@qq.com',
-		password:'666666'
+		email:'804@163.com',
+		password:'123456'
 	})
 	// 规则对象-登录
 	const rulesLog = {
