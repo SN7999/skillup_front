@@ -1,64 +1,117 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
+import { getQuestionsAPI, postAnswersAPI } from '@/apis/studentExamAPI';
+import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const formData = ref({});
-const questions = [
-	{
-		id: 1,
-		status: 1,
-		question: '选择题1的题目',
-		options: [{ id: 1, text: 'A' }, { id: 2, text: '选项B' }, { id: 3, text: '选项C' }, { id: 4, text: '选项D' }],
-		completed: false
-	},
-	{
-		id: 2,
-		status: 2,
-		question: '简答题2的题目',
-		answer: ''
-	},
-	{
-		id: 3,
-		status: 1,
-		question: '选择题3的题目',
-		options: [{ id: 1, text: '选项A' }, { id: 2, text: '选项B' }, { id: 3, text: '选项C' }],
-		completed: false
-	}
-];
+const route = useRoute();
+const router = useRouter();
+const examid = route.params.id;
+const answers = ref({});//答案数组
+const questions = ref([]);//存储后台得到的考试题目内容
+// 获取试题
+const getQuestions = async (examid) => {
+	const result = await getQuestionsAPI(examid);
+	questions.value = result.data.data;
+	// console.log('questions为'+questions.value);
+};
 
+onMounted(() => {
+	getQuestions(examid);
+});
+// 提交答案
 const submitForm = () => {
-	for (const question of questions) {
-		let answer;
-		if (question.options) {
-			const selectedOption = question.options.find(option => option.id === formData['question' + question.id]);
-			answer = selectedOption ? selectedOption.text : '未选择';
-		} else {
-			answer = formData['question' + question.id] || '未填写';
-		}
-		console.log(`题号: ${question.id}，答案: ${answer}`);
-	}
+	postAnswersAPI(answers.value,examid);
+	console.log(answers.value);
+	for (const question of questions.value) {
+		const answer = answers.value[question.questionid];
+	    console.log(`题目ID：${question.questionid}，答案：${answer}`);
+	  }
 	ElMessage.success('表单提交成功！');
 };
+const drawerVisible = ref(false);
+
+const showDrawer = () => {
+  drawerVisible.value = true;
+}
+
+const hideDrawer = () => {
+  drawerVisible.value = false;
+}
 </script>
 
 <template>
-	<el-form ref="form" :model="formData" label-width="80px">
-		<div v-for="(question, index) in questions" :key="question.id">
-			<div>{{ question.question }}</div>
-			<el-form-item :prop="'question' + question.id">
-				<template v-if="question.options">
-					<el-radio-group v-model="formData['question' + question.id]">
-						<el-radio v-for="(option, optionIndex) in question.options" :key="option.id" :label="option.id">{{ option.text }}</el-radio>
-					</el-radio-group>
-				</template>
-				<template v-else>
-					<el-input type="textarea" v-model="formData['question' + question.id]"></el-input>
-				</template>
-			</el-form-item>
-		</div>
-
-		<el-form-item><el-button type="primary" @click="submitForm">提交</el-button></el-form-item>
-	</el-form>
+<div class="container">
+	<!-- 题目显示区域 -->
+	<div v-for="(question, index) in questions" :key="question.questionid">
+		<div>第{{ index+1 }}题：{{ question.question }}({{ question.score }}分)</div><br>
+			<!-- 选择题显示 -->
+			<template v-if="question.type=='选择题'">
+				<el-radio-group v-model="answers[question.questionid]">
+					  <el-radio label="A" size="large">{{question.optionA}}</el-radio>
+					  <el-radio label="B" size="large">{{question.optionB}}</el-radio>
+					  <el-radio label="C" size="large">{{question.optionC}}</el-radio>
+					  <el-radio label="D" size="large">{{question.optionD}}</el-radio>
+				</el-radio-group>
+				<div style="margin: 20px 0" /><div style="margin: 20px 0" />
+			</template>
+			<!-- 简答题显示 -->
+			<template v-if="question.type=='简答题'">
+				<el-input type="textarea" v-model="answers[question.questionid]"></el-input>
+			</template>
+	</div>
+	<div style="margin: 20px 0" /><div style="margin: 20px 0" />
+	<!-- 提交按钮 -->
+	<div style="text-align: center;"><el-button type="primary" @click="submitForm">提交</el-button></div>
+	
+    <div class="handle" @mouseenter="showDrawer">
+      <span class="handle-icon">目录</span>
+    </div>
+    <el-drawer
+		v-model="drawerVisible"
+		title="抽屉内容"
+		direction="left to right"
+		@mouseleave="hideDrawer"
+    >
+      <!-- 抽屉内容 -->
+      <p>这是一个抽屉的内容。</p>
+    </el-drawer>
+  </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+	.container {
+	  position: relative;
+	}
+	
+	.handle {
+	  position: fixed;
+	  top: 50%;
+	  left: 0;
+	  transform: translateY(-50%);
+	  width: 20px;
+	  height: 60px;
+	  background-color: #e2e2e2;
+	  cursor: pointer;
+	  transition: width ease-out 0.3s;
+	}
+	
+	.handle:hover {
+	  width: 80px;
+	}
+	
+	.handle-icon {
+	  position: absolute;
+	  top: 50%;
+	  left: 2px;
+	  background-color: #e2e2e2;
+	  transform: translateY(-50%);
+	  transition: height ease-out 0.3s;
+	}
+	
+	.el-drawer {
+		height:100%;
+	  transition: opacity 0.3s;
+	}
+</style>
