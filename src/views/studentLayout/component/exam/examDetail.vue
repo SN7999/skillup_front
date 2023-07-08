@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { getExamDetailAPI, getUnFinishedExamAPI, getPassExamAPI, getFailExamAPI } from '@/apis/studentExamAPI';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
@@ -19,10 +19,12 @@ const getDetailInfo = async (classid) => {
 const unFinishedExamList = ref([]);
 const passExamList = ref([]);
 const failExamList = ref([]);
+
 const getUnFinishedExamList = async (classid) => {
 	const result = await getUnFinishedExamAPI(classid);
 	unFinishedExamList.value = result.data.data;
-	// console.log('unFinishedExamList为'+unFinishedExamList.value);
+	unFinishedExamList.value = unFinishedExamList.value.filter(item => item.status !== '未批改');
+	console.log(unFinishedExamList.value);
 };
 const getPassExamList = async (classid) => {
 	const result = await getPassExamAPI(classid);
@@ -95,7 +97,7 @@ const services = [
 				<el-table-column prop="date" label="考试时间">
 					<template #default="{ row }">
 						<el-icon><Clock /></el-icon>
-						{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
+						{{ row.date }}
 					</template>
 				</el-table-column>
 				<el-table-column prop="name" label="考试项目"></el-table-column>
