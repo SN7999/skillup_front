@@ -1,6 +1,15 @@
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
-import { getTeacherInfoAPI, getStudentCountAPI, getClassCountAPI, getPasswordResetAPI, getEmailResetAPI, getVercodeAPI, getCancelAPI, getSaveInfoAPI} from '@/apis/teacherDetailAPI'
+import { onMounted, ref } from 'vue'
+import {
+  getTeacherInfoAPI,
+  getStudentCountAPI,
+  getClassCountAPI,
+  getPasswordResetAPI,
+  getEmailResetAPI,
+  getVercodeAPI,
+  getCancelAPI,
+  getSaveInfoAPI
+} from '@/apis/teacherDetailAPI'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore().userInfo
@@ -9,50 +18,49 @@ console.log(userStore.userInfo)
 //最终使用
 const infoList = ref(null)
 const getTeacherInfo = async () => {
-    const  result  = await getTeacherInfoAPI()
-    infoList.value = result.data.data
-    console.log(infoList.value)
+  const result = await getTeacherInfoAPI()
+  infoList.value = result.data.data
+  console.log(infoList.value)
 }
 
 //获取老师学生数
 const studentCount = ref([])
 //最终使用
 const getStudentCount = async () => {
-    const result = await getStudentCountAPI()
-    studentCount.value = result.data.data
+  const result = await getStudentCountAPI()
+  studentCount.value = result.data.data
 }
 
 //获取老师课程数
 const classCount = ref([])
 //最终使用
 const getClassCount = async () => {
-    const result = await getClassCountAPI()
-    classCount.value = result.data.data
+  const result = await getClassCountAPI()
+  classCount.value = result.data.data
 }
 
 //修改密码
-const showChangePwd = ref(false);
-const oldPassword = ref('');
-const newPassword1 = ref('');
-const newPassword2 = ref('');
+const showChangePwd = ref(false)
+const oldPassword = ref('')
+const newPassword1 = ref('')
+const newPassword2 = ref('')
 //最终使用 待argue 感觉应该把旧密码一起传给后台校验 因为密码进行过加密，前端无法对密码进行比对
-const getPasswordReset = async (oldPassword,newPassword1,newPassword2) =>{
+const getPasswordReset = async (oldPassword, newPassword1, newPassword2) => {
   const rstPwdMsg = ref(null)
   console.log(oldPassword)
   console.log(newPassword1)
-  const result = await getPasswordResetAPI(oldPassword,newPassword1)
+  const result = await getPasswordResetAPI(oldPassword, newPassword1)
   rstPwdMsg.value = result.data
-  if(rstPwdMsg.value.code == 200){
-      ElMessage.success('修改密码成功')
-  }
-  else{
-  ElMessage.error('修改密码失败')
+  if (rstPwdMsg.value.code == 200) {
+    ElMessage.success('修改密码成功')
+  } else {
+    ElMessage.error('修改密码失败')
   }
   rstPwdMsg.value = null
-    showChangePwd.value = false
-    oldPassword.value = '';
-    newPassword1.value = '';
-    newPassword2.value = '';
+  showChangePwd.value = false
+  oldPassword.value = ''
+  newPassword1.value = ''
+  newPassword2.value = ''
 }
 
 //测试使用 还需要对两个新的密码进行验证
@@ -78,23 +86,22 @@ const showChangeEmail = ref(false)
 const newEmail = ref('')
 const emailCode = ref('')
 //最终使用
-const getEmailReset = async (newEmail,verCode) => {
-    const rstEmailMsg = ref(null)
-    const result = await getEmailResetAPI(newEmail,verCode)
-    rstEmailMsg.value = result.data
-    if(rstEmailMsg.value.code == 200){
-        ElMessage.success('修改邮箱成功')
-    }
-    else{
-        ElMessage.error('修改邮箱失败')
-    }
-    rstEmailMsg.value = null
-    showChangeEmail.value = false
-    newEmail.value = ''
-    emailCode.value = ''
-    getTeacherInfo()
+const getEmailReset = async (newEmail, verCode) => {
+  const rstEmailMsg = ref(null)
+  const result = await getEmailResetAPI(newEmail, verCode)
+  rstEmailMsg.value = result.data
+  if (rstEmailMsg.value.code == 200) {
+    ElMessage.success('修改邮箱成功')
+  } else {
+    ElMessage.error('修改邮箱失败')
+  }
+  rstEmailMsg.value = null
+  showChangeEmail.value = false
+  newEmail.value = ''
+  emailCode.value = ''
+  getTeacherInfo()
 }
-//测试使用 
+//测试使用
 // const getEmailReset = async () => {
 //     const rstEmailMsg = ref(null)
 //     const result = await getEmailResetAPI()
@@ -115,16 +122,15 @@ const getEmailReset = async (newEmail,verCode) => {
 //获取验证码
 //最终使用
 const getVercode = async (email) => {
-    const getCodeMsg = ref(null)
-    const result = await getVercodeAPI(email)
-    getCodeMsg.value = result.data
-    if(getCodeMsg.value.code == 200){
-        ElMessage.success(getCodeMsg.value.msg)
-    }
-    else{
-        ElMessage.error('获取验证码失败')
-    }
-    getCodeMsg.value = null
+  const getCodeMsg = ref(null)
+  const result = await getVercodeAPI(email)
+  getCodeMsg.value = result.data
+  if (getCodeMsg.value.code == 200) {
+    ElMessage.success(getCodeMsg.value.msg)
+  } else {
+    ElMessage.error('获取验证码失败')
+  }
+  getCodeMsg.value = null
 }
 //测试使用 还需要写邮箱的格式验证
 // const getVercode = async () => {
@@ -146,21 +152,20 @@ const cancelEmail = ref('')
 const cancelCode = ref('')
 const showFile = ref(false)
 //最终使用
-const getCancel = async (email,verCode) => {
-    const cancelMsg = ref(null)
-    const result = await getCancelAPI(email,verCode)
-    cancelMsg.value = result.data
-    if(cancelMsg.value.code == 200){
-        ElMessage.success('注销成功')
-    }
-    else{
-        ElMessage.error('注销失败')
-    }
-    cancelMsg.value = null
-    showCancel.value = false
-    cancelEmail.value = ''
-    cancelCode.value = ''
-    showFile.value = false
+const getCancel = async (email, verCode) => {
+  const cancelMsg = ref(null)
+  const result = await getCancelAPI(email, verCode)
+  cancelMsg.value = result.data
+  if (cancelMsg.value.code == 200) {
+    ElMessage.success('注销成功')
+  } else {
+    ElMessage.error('注销失败')
+  }
+  cancelMsg.value = null
+  showCancel.value = false
+  cancelEmail.value = ''
+  cancelCode.value = ''
+  showFile.value = false
 }
 //测试使用
 // const getCancel = async () => {
@@ -186,7 +191,7 @@ const gotoFile = () => {
   showFile.value = true
 }
 
-const cancelback= () => {
+const cancelback = () => {
   showCancel.value = false
   cancelEmail.value = ''
   cancelCode.value = ''
@@ -194,17 +199,30 @@ const cancelback= () => {
 }
 //更新个人信息
 //最终使用
-const getSaveInfo = async (name,contact,gender,academy,selfintroduction,age) => {
-    const saveMsg = ref(null)
-    const result = await getSaveInfoAPI(name,contact,gender,academy,selfintroduction,age)
-    saveMsg.value = result.data
-    if(saveMsg.value.code == 200){
-        ElMessage.success('更新个人信息成功')
-    }
-    else{
-        ElMessage.error('更新个人信息失败')
-    }
-    saveMsg.value = null
+const getSaveInfo = async (
+  name,
+  contact,
+  gender,
+  academy,
+  selfintroduction,
+  age
+) => {
+  const saveMsg = ref(null)
+  const result = await getSaveInfoAPI(
+    name,
+    contact,
+    gender,
+    academy,
+    selfintroduction,
+    age
+  )
+  saveMsg.value = result.data
+  if (saveMsg.value.code == 200) {
+    ElMessage.success('更新个人信息成功')
+  } else {
+    ElMessage.error('更新个人信息失败')
+  }
+  saveMsg.value = null
 }
 //测试使用
 // const getSaveInfo = async () => {
@@ -220,17 +238,16 @@ const getSaveInfo = async (name,contact,gender,academy,selfintroduction,age) => 
 //     saveMsg.value = null
 // }
 
-onMounted(()=>{
+onMounted(() => {
   getTeacherInfo()
   console.log(infoList.value)
   getStudentCount()
   console.log(studentCount)
   getClassCount()
   console.log(classCount)
-}
-)
+})
 
-const uploadUrl = '/api3'+'/teacher/uploadImage';
+const uploadUrl = '/api3' + '/teacher/uploadImage'
 
 const onUploadSuccess = (response) => {
   console.log(response)
@@ -238,8 +255,7 @@ const onUploadSuccess = (response) => {
   console.log(response.data.imageurl)
   userStore.data.imageurl = response.data.imageurl
   getTeacherInfo()
-};
-
+}
 </script>
 
 <template>
@@ -248,13 +264,8 @@ const onUploadSuccess = (response) => {
       <div class="user-info">
         <div>
           <!-- 用户头像 -->
-          <el-avatar  class="avatar" v-if="infoList" :src="infoList.imageurl" size="large"></el-avatar>
-          <el-upload
-            class="upload"
-            :action= "uploadUrl"
-            :show-file-list="false"
-            :on-success="onUploadSuccess"
-          >
+          <el-avatar class="avatar" v-if="infoList" :src="infoList.imageurl" size="large"></el-avatar>
+          <el-upload class="upload" :action="uploadUrl" :show-file-list="false" :on-success="onUploadSuccess">
             <el-button>上传头像</el-button>
           </el-upload>
           <el-dialog title="调整图片尺寸" v-model:visible="previewDialogVisible" :close-on-click-modal="false">
@@ -270,7 +281,7 @@ const onUploadSuccess = (response) => {
         </div>
         <div class="info" style="margin-left: 20px">
           <div class="name" style="font-size: 120%;" v-if="infoList">{{ infoList.name }}</div>
-          <div class="role" style="font-size: 80%;" >老师</div>
+          <div class="role" style="font-size: 80%;">老师</div>
         </div>
       </div>
       <div class="stats">
@@ -324,7 +335,7 @@ const onUploadSuccess = (response) => {
         </el-col>
         <el-col :span="10">
           <div class="modal-container" v-if="showChangePwd">
-            <div style="font-size: 150%;margin-top: 50px;" >修改密码</div>
+            <div style="font-size: 150%;margin-top: 50px;">修改密码</div>
             <div style="margin-top: 20px;width: 80%">
               <el-input style="width: 100%" type="password" placeholder="请输入旧密码" v-model="oldPassword"></el-input>
             </div>
@@ -337,8 +348,8 @@ const onUploadSuccess = (response) => {
             <el-button style="margin-top: 20px;width: 25%" type="primary" @click="getPasswordReset(oldPassword,newPassword1,newPassword2)">提交</el-button>
           </div>
           <div class="modal-container" v-if="showCancel">
-            <div style="font-size: 150%;margin-top: 50px;" >注销账号</div>
-            <div style="font-size: 80%;margin-top: 10px;color: red;" >为了确保是您本人操作，请输入您的注册邮箱，并填写验证码！</div>
+            <div style="font-size: 150%;margin-top: 50px;">注销账号</div>
+            <div style="font-size: 80%;margin-top: 10px;color: red;">为了确保是您本人操作，请输入您的注册邮箱，并填写验证码！</div>
             <div style="margin-top: 20px;width: 80%">
               <el-input style="width: 100%" placeholder="请输入您的注册邮箱" v-model="cancelEmail"></el-input>
             </div>
@@ -354,12 +365,12 @@ const onUploadSuccess = (response) => {
             <el-button style="margin-top: 20px;width: 25%" type="primary" @click="gotoFile()">提交</el-button>
           </div>
           <div class="modal-container" v-if="showFile">
-            <div style="font-size: 150%;margin-top: 50px;" >SkillUp注销协议</div>
-            <div style="margin-top: 10px;" >我们很遗憾您作出注销SkillUp账户的决定，为了保障您的权益，请在注销前详细阅读本须知的所有内容，特别是加粗部分。当您点击“确定，我要注销”按钮时，您的行为表示您同意本须知的约定。</div>
-            <div style="margin-top: 10px;" >1、注销SkillUp账户是不可逆操作，操作之前，请确认与SkillUp相关的所有服务均已妥善处理。</div>
-            <div style="margin-top: 10px;" >2、注销SkillUp账户，除法律法规另有规定外，将视为您自行放弃该账户及相关权益，您将无法再登录、使用此账户或找回此账户内的任何信息及权益，包括但不限于个人身份信息、账户信息等。</div>
-            <div style="margin-top: 10px;" >3、您承诺您的SkillUp账户注销申请一经提交，您不会以任何理由要求SkillUp予以撤销。</div>
-            <div style="margin-top: 10px;" >4、如您对注销账号有任何意见和询问，可联系客服邮箱：wangyy07@foxmail.com。</div>
+            <div style="font-size: 150%;margin-top: 50px;">SkillUp注销协议</div>
+            <div style="margin-top: 10px;">我们很遗憾您作出注销SkillUp账户的决定，为了保障您的权益，请在注销前详细阅读本须知的所有内容，特别是加粗部分。当您点击“确定，我要注销”按钮时，您的行为表示您同意本须知的约定。</div>
+            <div style="margin-top: 10px;">1、注销SkillUp账户是不可逆操作，操作之前，请确认与SkillUp相关的所有服务均已妥善处理。</div>
+            <div style="margin-top: 10px;">2、注销SkillUp账户，除法律法规另有规定外，将视为您自行放弃该账户及相关权益，您将无法再登录、使用此账户或找回此账户内的任何信息及权益，包括但不限于个人身份信息、账户信息等。</div>
+            <div style="margin-top: 10px;">3、您承诺您的SkillUp账户注销申请一经提交，您不会以任何理由要求SkillUp予以撤销。</div>
+            <div style="margin-top: 10px;">4、如您对注销账号有任何意见和询问，可联系客服邮箱：wangyy07@foxmail.com。</div>
             <el-row>
               <el-col :span="11">
                 <el-button style="width: 100%;font-size: 504;" v-if="infoList" type="danger" @click="getCancel(cancelEmail,cancelCode)">确认，我要注销</el-button>
@@ -371,7 +382,7 @@ const onUploadSuccess = (response) => {
             </el-row>
           </div>
           <div class="modal-container" v-if="showChangeEmail">
-            <div style="font-size: 150%;margin-top: 50px;" >修改邮箱</div>
+            <div style="font-size: 150%;margin-top: 50px;">修改邮箱</div>
             <div style="margin-top: 20px;width: 80%">
               <el-input style="width: 100%" placeholder="请输入新的邮箱" v-model="newEmail"></el-input>
             </div>
@@ -424,7 +435,7 @@ const onUploadSuccess = (response) => {
   padding: 20px;
   background-color: #f1f1f1;
 }
-  
+
 .profile-section {
   padding: 20px;
 }
@@ -450,7 +461,7 @@ const onUploadSuccess = (response) => {
   height: 100%;
 }
 
-.modal-container{
+.modal-container {
   display: flex;
   flex-direction: column;
   align-items: center;
