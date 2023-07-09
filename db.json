@@ -1,885 +1,772 @@
 {
-    "data":
-    [
-        {
-            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
-            "classname":"csapp"
-        },
-        {
-            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
-            "classname":"data structure"
-        }
-    ],
-    "classes":
-    [
-        {
-            "classid":1674231545390477313,
-            "teacherid":1,
-            "classname":"data structure",
-            "teacher":"Liao Kwok Yin",
-            "period":null,
-            "starttime":null,
-            "endtime":"2023-07-16T00:00:00",
-            "status":"已通过",
-            "studentcount":6,
-            "introduction":null,
-            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
-            "announcement":"明天考试"
-        },
-        {
-            "classid":1674231545390477312,
-            "teacherid":1,
-            "classname":"data structure",
-            "teacher":"Liao Kwok Yin",
-            "period":null,
-            "starttime":null,
-            "endtime":"2023-07-16T00:00:00",
-            "status":"已通过",
-            "studentcount":6,
-            "introduction":null,
-            "cover":"http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
-            "announcement":"明天考试"
-        }
-    ],
-    "attend":
+  "data": [
     {
-        "code": 200,
-        "msg": "success",
-        "data": null
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+      "classname": "csapp"
     },
-    "exams":
-    [
-        {
-            "id":1,
-            "name":null,
-            "totalScore":null,
-            "totalTime":null,
-            "classid":1674231545390477313,
-            "date":null
-        },
-        {
-            "id":2,
-            "name":null,
-            "totalScore":null,
-            "totalTime":null,
-            "classid":1674231545390477313,
-            "date":null
-        },
-        {
-            "id":3,
-            "name":null,
-            "totalScore":null,
-            "totalTime":null,
-            "classid":1674231545390477313,
-            "date":null
-        }
-    ],
-    "chapters":
-    [
-        {
-            "chapterid":1,
-            "classid":1674231545390477313,
-            "introduction":"令人愉悦的数据结构，欢迎各位同学前来选修"
-        }
-    ], 
-    "resources":
-    [
-        {
-            "resourceId":1674241480593612801,
-            "resourcename":null,
-            "type":"文档",
-            "url":"http://skillup.oss-cn-beijing.aliyuncs.com/ppt/Gionis.pdf?Expires=1688610049&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=oL6rUjqzKMBHm1tZZcg4WV%2Fga68%3D",
-            "status":"已通过",
-            "chapterId":1,
-            "classId":1674231545390477313
-        }
-    ],
-    "studentinfo":
     {
-        "code": 200,
-        "msg": "success",
-        "data": {
-            "id": 1674226,
-            "name": "Liu",
-            "password": "9d11989efa631exxxxxxxxxxxxxx",
-            "gender": true,
-            "age": 80,
-            "academy": "cs",
-            "contact": "135xxxxxxxxx",
-            "email": "123@1.com",
-            "selfintroduction": "这个人很懒，什么都没写~",
-            "status": "已注册",
-            "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
-            "score": 20,
-            "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expiresxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        }
-    },
-    "examcount":
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+      "classname": "data structure"
+    }
+  ],
+  "classes": [
     {
-        "code": 200,
-        "msg": "查询到2个考试。 ",
-        "data": [
-            {
-                "id": 1,
-                "name": null,
-                "totalScore": null,
-                "totalTime": null,
-                "classid": 1674231545390477313,
-                "date": null
-            },
-            {
-                "id": 2,
-                "name": null,
-                "totalScore": null,
-                "totalTime": null,
-                "classid": 1674231545390477313,
-                "date": null
-            }
-        ]
+      "classid": 1674231545390477313,
+      "teacherid": 1,
+      "classname": "data structure",
+      "teacher": "Liao Kwok Yin",
+      "period": null,
+      "starttime": null,
+      "endtime": "2023-07-16T00:00:00",
+      "status": "已通过",
+      "studentcount": 6,
+      "introduction": null,
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+      "announcement": "明天考试"
     },
-    "classcount":
     {
-        "code": 200,
-        "msg": "查询到2个已选课程。",
-        "data": [
-            {
-                "classid": 1674231545390477313,
-                "studentid": 1674226398820048898,
-                "classname": "data structure",
-                "studentname": null,
-                "date": null,
-                "status": "已选",
-                "score": null
-            },
-            {
-                "classid": 1674255941190578177,
-                "studentid": 1674226398820048898,
-                "classname": "csapp",
-                "studentname": null,
-                "date": null,
-                "status": "已选",
-                "score": null
-            }
-        ]
-    },
-    "passwordreset":
+      "classid": 1674231545390477312,
+      "teacherid": 1,
+      "classname": "data structure",
+      "teacher": "Liao Kwok Yin",
+      "period": null,
+      "starttime": null,
+      "endtime": "2023-07-16T00:00:00",
+      "status": "已通过",
+      "studentcount": 6,
+      "introduction": null,
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+      "announcement": "明天考试"
+    }
+  ],
+  "attend": {
+    "code": 200,
+    "msg": "success",
+    "data": null
+  },
+  "exams": [
     {
-        "code": 200,
-        "msg": "重置密码成功",
-        "data": {
-            "id": 1674663728592723970,
-            "name": null,
-            "password": "26e67cad662cdad38b43757a5b4f6442",
-            "gender": null,
-            "age": null,
-            "academy": null,
-            "contact": null,
-            "email": "3356309819@qq.com",
-            "selfintroduction": null,
-            "status": "已注册",
-            "salt": "34133c60-463d-4333-8c56-770f4fd1df23",
-            "score": null,
-            "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expires=1688710834&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=QP2vADP2BEHPkFxRNPCNABmeEK4%3D"
-        }
+      "id": 1,
+      "name": null,
+      "totalScore": null,
+      "totalTime": null,
+      "classid": 1674231545390477313,
+      "date": null
     },
-    "emailreset":
     {
-        "code": 200,
-        "msg": "修改成功！",
-        "data": {
-            "id": 11111111111111,
-            "name": null,
-            "password": null,
-            "gender": null,
-            "age": null,
-            "academy": null,
-            "contact": null,
-            "email": "11@11.com",
-            "selfintroduction": null,
-            "status": null,
-            "salt": null,
-            "score": null,
-            "imageurl": null
-        }
+      "id": 2,
+      "name": null,
+      "totalScore": null,
+      "totalTime": null,
+      "classid": 1674231545390477313,
+      "date": null
     },
-    "vercode":
     {
-        "code": 200,
-        "msg": "验证码已发送到xxxxxxxxxx@qq.com, 有效期10分钟，请及时进行验证",
-        "data": null
-    },
-    "cancel":
+      "id": 3,
+      "name": null,
+      "totalScore": null,
+      "totalTime": null,
+      "classid": 1674231545390477313,
+      "date": null
+    }
+  ],
+  "chapters": [
     {
-        "code": 200,
-        "msg": "注销成功",
-        "data": null
-    },
-    "saveinfo":{
-        "code": 200,
-        "msg": "修改成功",
-        "data": {
-            "id": 16742263,
-            "name": "Liu",
-            "password": null,
-            "gender": null,
-            "age": 80000,
-            "academy": "cs",
-            "contact": "135xxxxxxxxxx",
-            "email": null,
-            "selfintroduction": null,
-            "status": null,
-            "salt": null,
-            "score": null,
-            "imageurl": null
-        }
-    },
-    "showselectclass":
+      "chapterid": 1,
+      "classid": 1674231545390477313,
+      "introduction": "令人愉悦的数据结构，欢迎各位同学前来选修"
+    }
+  ],
+  "resources": [
     {
-        "code": 200,
-        "msg": "success",
-        "data": [
-            {
-                "classid": 1674231545390477313,
-                "teacherid": 1,
-                "classname": "data structure",
-                "teacher": "Liao Kwok Yin",
-                "period": null,
-                "starttime": null,
-                "endtime": "2023-07-16T00:00:00",
-                "status": "已通过",
-                "studentcount": 6,
-                "introduction": null,
-                "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=16886081xxxxx",
-                "announcement": "明天考试"
-            },
-            {
-                "classid": 1674255941190578177,
-                "teacherid": 1674249729564778497,
-                "classname": "csapp",
-                "teacher": "glen",
-                "period": null,
-                "starttime": null,
-                "endtime": "2023-07-17T00:00:00",
-                "status": "已通过",
-                "studentcount": 1,
-                "introduction": null,
-                "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
-                "announcement": null
-            }
-        ]
-    },
-    "showClassDetail":{
-        "code": 200,
-        "msg": "success",
-        "data": {
-            "classid": "1674975399878189058",
-            "teacherid": "1674249729564778497",
-            "classname": "java",
-            "teacher": "glen",
-            "period": null,
-            "starttime": null,
-            "endtime": "2023-07-17T00:00:00",
-            "status": "未审批",
-            "studentcount": 0,
-            "introduction": "我是介绍",
-            "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
-            "announcement": "我是公告",
-            "applytime": null
-        }
-    },
-	
-    "getclass":
-    {
-        "code": 200,
-        "msg": "success",
-        "data": {
-            "classes": {
-                "classid": "1675683245779378178",
-                "teacherid": "1675679168521572354",
-                "classname": "“四书”导读",
-                "teacher": null,
-                "period": 60,
-                "starttime": "2023-09-05 00:00:00",
-                "endtime": "2023-12-31 00:00:00",
-                "status": "已通过",
-                "studentcount": 1,
-                "introduction": null,
-                "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test1.webp?Expires=1688971000&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=582NR3qsE%2F%2BOpjXNngmRrYZynsU%3D",
-                "announcement": null,
-                "applytime": 1688313600000
-            },
-            "resources": [
-                {
-                    "resourceId": "1675686941078614017",
-                    "resourcename": null,
-                    "type": "图片",
-                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
-                    "status": "已通过",
-                    "chapterId": "1675686451674640385",
-                    "classname": "“四书”导读",
-                    "classId": "1675683245779378178",
-                    "updatetime": 1688313600000
-                },
-                {
-                    "resourceId": "1675686875085434882",
-                    "resourcename": null,
-                    "type": "图片",
-                    "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954658&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=4nEuFLqDnMSb7o0%2FtPf%2FbMq3%2FKA%3D",
-                    "status": "已驳回",
-                    "chapterId": "1675686352118640642",
-                    "classname": "“四书”导读",
-                    "classId": "1675683245779378178",
-                    "updatetime": 1688313600000
-                }
-            ],
-            "chapters": [
-                {
-                    "chapter": {
-                        "chapterid": "1675686320640389121",
-                        "classid": "1675683245779378178",
-                        "introduction": "我是论语导读",
-                        "status": "已通过",
-                        "chaptername": "《论语》导读",
-                        "chapternum": 1
-                    },
-                    "status": "未完成"
-                },
-                {
-                    "chapter": {
-                        "chapterid": "1675686352118640642",
-                        "classid": "1675683245779378178",
-                        "introduction": "我是孟子导读",
-                        "status": "已通过",
-                        "chaptername": "《孟子》导读",
-                        "chapternum": 2
-                    },
-                    "status": "未完成"
-                }
-            ]
-        }
-    },
-	"showaccessibleexams":
-		{
-		    "code": 200,
-		    "msg": "success",
-		    "data": [
-		        {
-		            "id": 1,
-		            "name": "母猪的产后护理",
-		            "totalScore": "100",
-		            "totalTime": "60",
-		            "classid": 1674231545390477313,
-		            "date": [
-		                2023,
-		                7,
-		                13,
-		                15,
-		                44,
-		                33
-		            ]
-		        },
-				{
-				    "id": 2,
-				    "name": "霸道GPT爱上我",
-				    "totalScore": "100",
-				    "totalTime": "90",
-				    "classid": 1674231545390477313,
-				    "date": [
-				        2023,
-				        7,
-				        13,
-				        15,
-				        44,
-				        33
-				    ]
-				},
-				{
-				    "id": 3,
-				    "name": "怀民亦未寝",
-				    "totalScore": "100",
-				    "totalTime": "120",
-				    "classid": 1674231545390477313,
-				    "date": [
-				        2023,
-				        7,
-				        13,
-				        15,
-				        44,
-				        33
-				    ]
-				},
-				{
-				    "id": 4,
-				    "name": "转生成大学老师只要卡绩就能天下无敌",
-				    "totalScore": "100",
-				    "totalTime": "666",
-				    "classid": 1674231545390477313,
-				    "date": [
-				        2023,
-				        7,
-				        13,
-				        15,
-				        44,
-				        33
-				    ]
-				}
-		    ]
-		},
-	"showpassexams":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": [
-	        {
-	            "examid": 1,
-	            "studentid": 1674226398820048898,
-	            "grade": 99,
-	            "status": "及格",
-	            "date": [
-	                2023,
-	                7,
-	                1,
-	                16,
-	                21,
-	                36
-	            ],
-	            "examname": "Exam1"
-	        }
-	    ]
-	},
-	"showfailexams":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": [
-	        {
-	            "examid": 3,
-	            "studentid": 1674226398820048898,
-	            "grade": 50,
-	            "status": "不及格",
-	            "date": [
-	                2023,
-	                7,
-	                25,
-	                16,
-	                21,
-	                31
-	            ],
-	            "examname": "Exam3"
-	        },
-	        {
-	            "examid": 5,
-	            "studentid": 1674226398820048898,
-	            "grade": 23,
-	            "status": "不及格",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "examname": "Exam5"
-	        }
-	    ]
-	},
-	"studentscore":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": [
-	        {
-	            "examid": "4",
-	            "examname": "Exam4",
-	            "classid": "1674255941190578177",
-	            "classname": "csapp",
-	            "date": [
-	                2023,
-	                6,
-	                30,
-	                16,
-	                21,
-	                22
-	            ],
-	            "grade": 99
-	        },
-	        {
-	            "examid": "5",
-	            "examname": "Exam5",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "6",
-	            "examname": "Exam6",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 66
-	        },
-	        {
-	            "examid": "7",
-	            "examname": "Exam7",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "8",
-	            "examname": "Exam8",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "9",
-	            "examname": "Exam9",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "10",
-	            "examname": "Exam10",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "11",
-	            "examname": "Exam11",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "12",
-	            "examname": "Exam12",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "13",
-	            "examname": "Exam13",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "14",
-	            "examname": "Exam14",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        },
-	        {
-	            "examid": "15",
-	            "examname": "Exam15",
-	            "classid": "1674231545390477313",
-	            "classname": "data structure",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "grade": 23
-	        }
-	    ]
-	},
-	"getSelectClass":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": [
-	        {
-	            "classid": "1674255941190578177",
-	            "studentid": "1674226398820048898",
-	            "classname": "csapp",
-	            "studentname": "狗剩",
-	            "date": [
-	                2023,
-	                6,
-	                7,
-	                16,
-	                54,
-	                41
-	            ],
-	            "status": "已选",
-	            "score": null
-	        },
-	        {
-	            "classid": "1674255941190578177",
-	            "studentid": "1675042107875708929",
-	            "classname": "编译原理",
-	            "studentname": "狗蛋",
-	            "date":[
-	                2023,
-	                8,
-	                3,
-	                16,
-	                54,
-	                41
-	            ],
-	            "status": "已选",
-	            "score": null
-	        },
-	        {
-	            "classid": "1674255941190578177",
-	            "studentid": "1675042107875708929",
-	            "classname": "pua技术",
-	            "studentname": "狗不理",
-	            "date":[
-	                2023,
-	                8,
-	                10,
-	                16,
-	                54,
-	                41
-	            ],
-	            "status": "已选",
-	            "score": null
-	        }
-	    ]
-	},
-	"studentInfo":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": {
-	        "id": "1674226xxxxxxxxxxxxxxxxxxxx",
-	        "name": "Liu",
-	        "password": "9d11989efa631exxxxxxxxxxxxxx",
-	        "gender": true,
-	        "age": 80000,
-	        "academy": "cs",
-	        "contact": "135xxxxxxxxx",
-	        "email": "123@1.com",
-	        "selfintroduction": "世界以痛吻我，我报之世界一拳两拳三拳四拳五拳六拳七拳八拳九拳十拳十一拳十二拳十三拳二七十四拳三五十五拳四四十六拳五五二十五拳六六三十六拳七七四十九拳八八六十四拳九九八十一拳三八妇女拳五一劳动拳六一儿童拳七一建党拳八一建军拳九九重阳拳十一国庆拳上勾拳下勾拳左勾拳右勾拳",
-	        "status": "已注册",
-	        "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
-	        "score": null,
-	        "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp"
-	    }
-	},
+      "resourceId": 1674241480593612801,
+      "resourcename": null,
+      "type": "文档",
+      "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/Gionis.pdf?Expires=1688610049&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=oL6rUjqzKMBHm1tZZcg4WV%2Fga68%3D",
+      "status": "已通过",
+      "chapterId": 1,
+      "classId": 1674231545390477313
+    }
+  ],
+  "studentinfo": {
+    "code": 200,
+    "msg": "success",
+    "data": {
+      "id": 1674226,
+      "name": "Liu",
+      "password": "9d11989efa631exxxxxxxxxxxxxx",
+      "gender": true,
+      "age": 80,
+      "academy": "cs",
+      "contact": "135xxxxxxxxx",
+      "email": "123@1.com",
+      "selfintroduction": "这个人很懒，什么都没写~",
+      "status": "已注册",
+      "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
+      "score": 20,
+      "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expiresxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  },
+  "examcount": {
+    "code": 200,
+    "msg": "查询到2个考试。 ",
+    "data": [
+      {
+        "id": 1,
+        "name": null,
+        "totalScore": null,
+        "totalTime": null,
+        "classid": 1674231545390477313,
+        "date": null
+      },
+      {
+        "id": 2,
+        "name": null,
+        "totalScore": null,
+        "totalTime": null,
+        "classid": 1674231545390477313,
+        "date": null
+      }
+    ]
+  },
+  "classcount": {
+    "code": 200,
+    "msg": "查询到2个已选课程。",
+    "data": [
+      {
+        "classid": 1674231545390477313,
+        "studentid": 1674226398820048898,
+        "classname": "data structure",
+        "studentname": null,
+        "date": null,
+        "status": "已选",
+        "score": null
+      },
+      {
+        "classid": 1674255941190578177,
+        "studentid": 1674226398820048898,
+        "classname": "csapp",
+        "studentname": null,
+        "date": null,
+        "status": "已选",
+        "score": null
+      }
+    ]
+  },
+  "passwordreset": {
+    "code": 200,
+    "msg": "重置密码成功",
+    "data": {
+      "id": 1674663728592723970,
+      "name": null,
+      "password": "26e67cad662cdad38b43757a5b4f6442",
+      "gender": null,
+      "age": null,
+      "academy": null,
+      "contact": null,
+      "email": "3356309819@qq.com",
+      "selfintroduction": null,
+      "status": "已注册",
+      "salt": "34133c60-463d-4333-8c56-770f4fd1df23",
+      "score": null,
+      "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp?Expires=1688710834&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=QP2vADP2BEHPkFxRNPCNABmeEK4%3D"
+    }
+  },
+  "emailreset": {
+    "code": 200,
+    "msg": "修改成功！",
+    "data": {
+      "id": 11111111111111,
+      "name": null,
+      "password": null,
+      "gender": null,
+      "age": null,
+      "academy": null,
+      "contact": null,
+      "email": "11@11.com",
+      "selfintroduction": null,
+      "status": null,
+      "salt": null,
+      "score": null,
+      "imageurl": null
+    }
+  },
+  "vercode": {
+    "code": 200,
+    "msg": "验证码已发送到xxxxxxxxxx@qq.com, 有效期10分钟，请及时进行验证",
+    "data": null
+  },
+  "cancel": {
+    "code": 200,
+    "msg": "注销成功",
+    "data": null
+  },
+  "saveinfo": {
+    "code": 200,
+    "msg": "修改成功",
+    "data": {
+      "id": 16742263,
+      "name": "Liu",
+      "password": null,
+      "gender": null,
+      "age": 80000,
+      "academy": "cs",
+      "contact": "135xxxxxxxxxx",
+      "email": null,
+      "selfintroduction": null,
+      "status": null,
+      "salt": null,
+      "score": null,
+      "imageurl": null
+    }
+  },
+  "showselectclass": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "classid": 1674231545390477313,
+        "teacherid": 1,
+        "classname": "data structure",
+        "teacher": "Liao Kwok Yin",
+        "period": null,
+        "starttime": null,
+        "endtime": "2023-07-16T00:00:00",
+        "status": "已通过",
+        "studentcount": 6,
+        "introduction": null,
+        "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=16886081xxxxx",
+        "announcement": "明天考试"
+      },
+      {
+        "classid": 1674255941190578177,
+        "teacherid": 1674249729564778497,
+        "classname": "csapp",
+        "teacher": "glen",
+        "period": null,
+        "starttime": null,
+        "endtime": "2023-07-17T00:00:00",
+        "status": "已通过",
+        "studentcount": 1,
+        "introduction": null,
+        "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
+        "announcement": null
+      }
+    ]
+  },
+  "showClassDetail": {
+    "code": 200,
+    "msg": "success",
+    "data": {
+      "classid": "1674975399878189058",
+      "teacherid": "1674249729564778497",
+      "classname": "java",
+      "teacher": "glen",
+      "period": null,
+      "starttime": null,
+      "endtime": "2023-07-17T00:00:00",
+      "status": "未审批",
+      "studentcount": 0,
+      "introduction": "我是介绍",
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=168860xxxxxxxxxxxxxxxxxxxxx",
+      "announcement": "我是公告",
+      "applytime": null
+    }
+  },
 
+  "getclass": {
+    "code": 200,
+    "msg": "success",
+    "data": {
+      "classes": {
+        "classid": "1675683245779378178",
+        "teacherid": "1675679168521572354",
+        "classname": "“四书”导读",
+        "teacher": null,
+        "period": 60,
+        "starttime": "2023-09-05 00:00:00",
+        "endtime": "2023-12-31 00:00:00",
+        "status": "已通过",
+        "studentcount": 1,
+        "introduction": null,
+        "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test1.webp?Expires=1688971000&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=582NR3qsE%2F%2BOpjXNngmRrYZynsU%3D",
+        "announcement": null,
+        "applytime": 1688313600000
+      },
+      "resources": [
+        {
+          "resourceId": "1675686941078614017",
+          "resourcename": null,
+          "type": "图片",
+          "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
+          "status": "已通过",
+          "chapterId": "1675686451674640385",
+          "classname": "“四书”导读",
+          "classId": "1675683245779378178",
+          "updatetime": 1688313600000
+        },
+        {
+          "resourceId": "1675686875085434882",
+          "resourcename": null,
+          "type": "图片",
+          "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954658&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=4nEuFLqDnMSb7o0%2FtPf%2FbMq3%2FKA%3D",
+          "status": "已驳回",
+          "chapterId": "1675686352118640642",
+          "classname": "“四书”导读",
+          "classId": "1675683245779378178",
+          "updatetime": 1688313600000
+        }
+      ],
+      "chapters": [
+        {
+          "chapter": {
+            "chapterid": "1675686320640389121",
+            "classid": "1675683245779378178",
+            "introduction": "我是论语导读",
+            "status": "已通过",
+            "chaptername": "《论语》导读",
+            "chapternum": 1
+          },
+          "status": "未完成"
+        },
+        {
+          "chapter": {
+            "chapterid": "1675686352118640642",
+            "classid": "1675683245779378178",
+            "introduction": "我是孟子导读",
+            "status": "已通过",
+            "chaptername": "《孟子》导读",
+            "chapternum": 2
+          },
+          "status": "未完成"
+        }
+      ]
+    }
+  },
+  "showaccessibleexams": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "id": 1,
+        "name": "母猪的产后护理",
+        "totalScore": "100",
+        "totalTime": "60",
+        "classid": 1674231545390477313,
+        "date": [2023, 7, 13, 15, 44, 33]
+      },
+      {
+        "id": 2,
+        "name": "霸道GPT爱上我",
+        "totalScore": "100",
+        "totalTime": "90",
+        "classid": 1674231545390477313,
+        "date": [2023, 7, 13, 15, 44, 33]
+      },
+      {
+        "id": 3,
+        "name": "怀民亦未寝",
+        "totalScore": "100",
+        "totalTime": "120",
+        "classid": 1674231545390477313,
+        "date": [2023, 7, 13, 15, 44, 33]
+      },
+      {
+        "id": 4,
+        "name": "转生成大学老师只要卡绩就能天下无敌",
+        "totalScore": "100",
+        "totalTime": "666",
+        "classid": 1674231545390477313,
+        "date": [2023, 7, 13, 15, 44, 33]
+      }
+    ]
+  },
+  "showpassexams": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "examid": 1,
+        "studentid": 1674226398820048898,
+        "grade": 99,
+        "status": "及格",
+        "date": [2023, 7, 1, 16, 21, 36],
+        "examname": "Exam1"
+      }
+    ]
+  },
+  "showfailexams": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "examid": 3,
+        "studentid": 1674226398820048898,
+        "grade": 50,
+        "status": "不及格",
+        "date": [2023, 7, 25, 16, 21, 31],
+        "examname": "Exam3"
+      },
+      {
+        "examid": 5,
+        "studentid": 1674226398820048898,
+        "grade": 23,
+        "status": "不及格",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "examname": "Exam5"
+      }
+    ]
+  },
+  "studentscore": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "examid": "4",
+        "examname": "Exam4",
+        "classid": "1674255941190578177",
+        "classname": "csapp",
+        "date": [2023, 6, 30, 16, 21, 22],
+        "grade": 99
+      },
+      {
+        "examid": "5",
+        "examname": "Exam5",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "6",
+        "examname": "Exam6",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 66
+      },
+      {
+        "examid": "7",
+        "examname": "Exam7",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "8",
+        "examname": "Exam8",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "9",
+        "examname": "Exam9",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "10",
+        "examname": "Exam10",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "11",
+        "examname": "Exam11",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "12",
+        "examname": "Exam12",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "13",
+        "examname": "Exam13",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "14",
+        "examname": "Exam14",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      },
+      {
+        "examid": "15",
+        "examname": "Exam15",
+        "classid": "1674231545390477313",
+        "classname": "data structure",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "grade": 23
+      }
+    ]
+  },
+  "getSelectClass": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "classid": "1674255941190578177",
+        "studentid": "1674226398820048898",
+        "classname": "csapp",
+        "studentname": "狗剩",
+        "date": [2023, 6, 7, 16, 54, 41],
+        "status": "已选",
+        "score": null
+      },
+      {
+        "classid": "1674255941190578177",
+        "studentid": "1675042107875708929",
+        "classname": "编译原理",
+        "studentname": "狗蛋",
+        "date": [2023, 8, 3, 16, 54, 41],
+        "status": "已选",
+        "score": null
+      },
+      {
+        "classid": "1674255941190578177",
+        "studentid": "1675042107875708929",
+        "classname": "pua技术",
+        "studentname": "狗不理",
+        "date": [2023, 8, 10, 16, 54, 41],
+        "status": "已选",
+        "score": null
+      }
+    ]
+  },
+  "studentInfo": {
+    "code": 200,
+    "msg": "success",
+    "data": {
+      "id": "1674226xxxxxxxxxxxxxxxxxxxx",
+      "name": "Liu",
+      "password": "9d11989efa631exxxxxxxxxxxxxx",
+      "gender": true,
+      "age": 80000,
+      "academy": "cs",
+      "contact": "135xxxxxxxxx",
+      "email": "123@1.com",
+      "selfintroduction": "世界以痛吻我，我报之世界一拳两拳三拳四拳五拳六拳七拳八拳九拳十拳十一拳十二拳十三拳二七十四拳三五十五拳四四十六拳五五二十五拳六六三十六拳七七四十九拳八八六十四拳九九八十一拳三八妇女拳五一劳动拳六一儿童拳七一建党拳八一建军拳九九重阳拳十一国庆拳上勾拳下勾拳左勾拳右勾拳",
+      "status": "已注册",
+      "salt": "5e38c18b-250b-xxxxxxxxxxxxxxxxx",
+      "score": null,
+      "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp"
+    }
+  },
 
-
-    "showunpassedresources":
-    {
-        "code": 200,
-        "msg": "success",
-        "data": [
-            {
-                "resourceId": "1675686941078614017",
-                "resourcename": null,
-                "type": "图片",
-                "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
-                "status": "已通过",
-                "chapterId": "1675686352118640642",
-                "classname": "“四书”导读",
-                "classId": "1675683245779378178",
-                "updatetime": 1688313600000
-            }
-        ]
-    },
-	"getExamContent":
-	{
-	    "code": 200,
-	    "msg": "success",
-	    "data": [
-	        {
-	            "questionid": "1677135515935129601",
-	            "examid": "1677126159822872577",
-	            "question": "德国古典哲学是马克思主义哲学的直接理论来源。马克思、恩格斯批判地吸取了黑格尔哲学的（　　　）",
-	            "answer": "B ",
-	            "optionA": "A．唯物主义思想",
-	            "optionB": "B．辩证法思想",
-	            "optionC": "C．可知论思想",
-	            "optionD": "D．决定论思想",
-	            "type": "选择题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161626626",
-	            "examid": "1677126159822872577",
-	            "question": "哲学的基本问题是（　　　）",
-	            "answer": "A ",
-	            "optionA": "A．物质和意识的关系问题",
-	            "optionB": "B．物质和运动的关系问题",
-	            "optionC": "C．物质和时空的关系问题",
-	            "optionD": "D．理论和实践的关系问题",
-	            "type": "选择题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161641425",
-	            "examid": "1677126159822872577",
-	            "question": "为什么测试数据那么难编（　　　）",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161627586",
-	            "examid": "1677126159822872577",
-	            "question": "布响丸辣！",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161624275",
-	            "examid": "1677126159822872577",
-	            "question": "不活着怎么了，不也挺好的",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161623751",
-	            "examid": "1677126159822872577",
-	            "question": "是谁偷走了我的富二代生活！",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161626945",
-	            "examid": "1677126159822872577",
-	            "question": "就蒜挤进去也是橘外人",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161627854",
-	            "examid": "1677126159822872577",
-	            "question": "谢谢你，cheems",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161621655",
-	            "examid": "1677126159822872577",
-	            "question": "是不是你！",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161623945",
-	            "examid": "1677126159822872577",
-	            "question": "读一本恬静的书",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161627685",
-	            "examid": "1677126159822872577",
-	            "question": "今天吃什么",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161624196",
-	            "examid": "1677126159822872577",
-	            "question": "明天吃什么",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161623786",
-	            "examid": "1677126159822872577",
-	            "question": "关我屁事",
-	            "type": "简答题",
-	            "score": 3
-	        },
-	        {
-	            "questionid": "1677135559161621772",
-	            "examid": "1677126159822872577",
-	            "question": "关你屁事",
-	            "type": "简答题",
-	            "score": 3
-	        }
-		]
-	}
+  "showunpassedresources": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "resourceId": "1675686941078614017",
+        "resourcename": null,
+        "type": "图片",
+        "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
+        "status": "已通过",
+        "chapterId": "1675686352118640642",
+        "classname": "“四书”导读",
+        "classId": "1675683245779378178",
+        "updatetime": 1688313600000
+      }
+    ]
+  },
+  "getExamContent": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "questionid": "1677135515935129601",
+        "examid": "1677126159822872577",
+        "question": "德国古典哲学是马克思主义哲学的直接理论来源。马克思、恩格斯批判地吸取了黑格尔哲学的（　　　）",
+        "answer": "B ",
+        "optionA": "A．唯物主义思想",
+        "optionB": "B．辩证法思想",
+        "optionC": "C．可知论思想",
+        "optionD": "D．决定论思想",
+        "type": "选择题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161626626",
+        "examid": "1677126159822872577",
+        "question": "哲学的基本问题是（　　　）",
+        "answer": "A ",
+        "optionA": "A．物质和意识的关系问题",
+        "optionB": "B．物质和运动的关系问题",
+        "optionC": "C．物质和时空的关系问题",
+        "optionD": "D．理论和实践的关系问题",
+        "type": "选择题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161641425",
+        "examid": "1677126159822872577",
+        "question": "为什么测试数据那么难编（　　　）",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161627586",
+        "examid": "1677126159822872577",
+        "question": "布响丸辣！",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161624275",
+        "examid": "1677126159822872577",
+        "question": "不活着怎么了，不也挺好的",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161623751",
+        "examid": "1677126159822872577",
+        "question": "是谁偷走了我的富二代生活！",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161626945",
+        "examid": "1677126159822872577",
+        "question": "就蒜挤进去也是橘外人",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161627854",
+        "examid": "1677126159822872577",
+        "question": "谢谢你，cheems",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161621655",
+        "examid": "1677126159822872577",
+        "question": "是不是你！",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161623945",
+        "examid": "1677126159822872577",
+        "question": "读一本恬静的书",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161627685",
+        "examid": "1677126159822872577",
+        "question": "今天吃什么",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161624196",
+        "examid": "1677126159822872577",
+        "question": "明天吃什么",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161623786",
+        "examid": "1677126159822872577",
+        "question": "关我屁事",
+        "type": "简答题",
+        "score": 3
+      },
+      {
+        "questionid": "1677135559161621772",
+        "examid": "1677126159822872577",
+        "question": "关你屁事",
+        "type": "简答题",
+        "score": 3
+      }
+    ]
+  },
+  "showStudents": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "student": {
+          "id": "1",
+          "name": "Clifford Gibson",
+          "password": "dw1TaBC0LR",
+          "gender": false,
+          "age": 835,
+          "academy": "Y64ZIUoC8Z",
+          "contact": "ULd6ucaUf6",
+          "email": "giclifford411@outlook.com",
+          "selfintroduction": "gERAfsPRZm",
+          "status": "已注册",
+          "salt": "RDyTGHtIkT",
+          "score": 959,
+          "imageurl": "https://drive.tlyue.info/HouseholdKitchenAppliances",
+          "canceltime": null
+        },
+        "classNum": 0
+      },
+      {
+        "student": {
+          "id": "5",
+          "name": "Han Xiaoming",
+          "password": "RFdEBen3rd",
+          "gender": true,
+          "age": 34,
+          "academy": "Gjx8GUTDhT",
+          "contact": "ZXLpGW9oXT",
+          "email": "hanxi@gmail.com",
+          "selfintroduction": "Xwi3WjLZ4f",
+          "status": "已注册",
+          "salt": "QIf45VW85O",
+          "score": 780,
+          "imageurl": "http://video.kmt621.co.jp/Food",
+          "canceltime": null
+        },
+        "classNum": 0
+      }
+    ]
+  },
+  "showApply4StuCancel": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "id": "16742xxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "Liu",
+        "password": "73b1ce4752xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "gender": true,
+        "age": 80000,
+        "academy": "cs",
+        "contact": "1xxxxxxxxxxx",
+        "email": "11@xxx.com",
+        "selfintroduction": "这个人很懒，什么都没写~",
+        "status": "待注销",
+        "salt": "5e38c18b-250b-49xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "score": null,
+        "imageurl": "http://skillup.oss-cn-beijingxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "canceltime": null
+      }
+    ]
+  }
 }
