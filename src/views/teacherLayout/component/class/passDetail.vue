@@ -751,7 +751,23 @@ onMounted(() => {
         </div>
         <div v-if="selectedMenuItem === 'markpaper'">
           <h2>批改试卷</h2>
-          <!-- 批改试卷界面的内容 -->
+          <el-table :data="unFinishedExamList">
+            <el-table-column prop="date" label="考试时间">
+              <template #default="{ row }">
+                <el-icon>
+                  <Clock />
+                </el-icon>
+                {{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="考试项目"></el-table-column>
+            <el-table-column prop="totalTime" label="考试时长(min)"></el-table-column>
+            <el-table-column label="操作">
+              <template #default="scope">
+                <el-button type="primary" size="small" @click="handleButtonClick(scope.row)">进入考试</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
         <div v-if="selectedMenuItem === 'viewgrade'">
           <h2>查看成绩</h2>

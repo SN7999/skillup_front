@@ -64,14 +64,14 @@ export const getExamDetailAPI = (classid) => {
         data:classid
     })
 }
-export const getQuestionsAPI = (examid1) => {
-	console.log(examid1)
+export const getQuestionsAPI = (examid) => {
+	console.log(examid)
     return request({
 		
 		method:'POST',
         // url: '/getExamContent',
 		url: '/exam/showExamQuestions',
-		data:examid1
+		params:{examid}
     })
 }
 

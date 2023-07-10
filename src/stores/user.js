@@ -2,7 +2,7 @@
 
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { loginAPI ,loginAPIT } from '@/apis/user'
+import { loginAPI, loginAPIT, loginAPIA } from '@/apis/user'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { setSessionCookie } from '@/cookie.js'
@@ -38,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
 					router.replace({ path: '/teacher' })
 				}
 			}else{
-				ElMessage({ type: 'error', message: '登录失败'})
+				ElMessage({ type: 'error', message:res.value.data.msg})
 			}
 		}
 		userInfo.value = res.value.data
@@ -46,6 +46,42 @@ export const useUserStore = defineStore('user', () => {
 		// // 假设您成功获得了 session ID，将其存储到 cookie 中
 		// const JSESSIONID = userInfo.value.data.value;
 		// setSessionCookie(JSESSIONID);
+	}
+	
+	//退出时清除用户数据
+	const clearUserInfo = () => {
+		userInfo.value = {}
+	}
+	// 以对象格式把state和action return出去
+	return {
+		userInfo,
+		getUserInfo,
+		clearUserInfo
+	}
+},{
+	persist: true,
+})
+
+export const useUserStoreA = defineStore('user', () => {
+	// 定义管理用户数据的state
+	const router = useRouter()
+	const userInfo = ref({})
+	// 定义获取接口数据的action函数
+	const getUserInfo = async ({ name, password})=> {
+		const res = ref(null)
+		console.log({ name, password})
+		res.value = await loginAPIA({ name, password})
+			
+		console.log(res)
+		if(res.value != null){
+			if(res.value.data.code == 200) {
+				ElMessage({ type: 'success', message: res.value.data.msg})
+				router.replace({ path: '/admin' })
+			}else{
+				ElMessage({ type: 'error', message:res.value.data.msg})
+			}
+		}
+		userInfo.value = res.value.data
 	}
 	
 	//退出时清除用户数据

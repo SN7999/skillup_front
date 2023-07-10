@@ -9,6 +9,18 @@ import request from '@/utils/http'
 // 	})
 // }
 
+export const loginAPIA = ({ name, password }) => {
+	console.log('loginAPIA'+name+password)
+	return request({
+		url:'/admin/login',
+		method:'POST',
+		data: {
+			name,
+			password
+		}
+	})
+}
+
 export const loginAPI = ({ email, password }) => {
 	console.log('loginAPI'+email+password)
 	return request({
