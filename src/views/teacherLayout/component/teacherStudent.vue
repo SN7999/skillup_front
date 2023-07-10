@@ -134,7 +134,7 @@ const test = () => {
 			</el-table-column>
 			<el-table-column prop="date" label="开课时间">
 				<template #default="{ row }">
-					{{ row.date[0] + '-' + row.date[1] + '-' + row.date[2] }}
+					{{ row.date }}
 				</template>
 			</el-table-column>
 			<el-table-column label="操作">
