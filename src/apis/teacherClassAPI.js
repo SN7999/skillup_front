@@ -154,32 +154,43 @@ export const getAPI = ({ resourceids, result, advice }) => {
   })
 }
 
+export const postScoreAPI = (questionid, studentid, score) => {
+  console.log('提交了分数' + questionid + ' ' + studentid + ' ' + score)
+  return request({
+    method: 'POST',
+    url: '/teacher/giveScore',
+
+    params: {
+      questionid,
+      studentid,
+      score
+    }
+  })
+}
+
 export const getExamAPI = (classid) => {
-	console.log('执行了获取可批改的考试列表'+classid)
-    return request({
-		method:'POST',
-        url: '/exam/showCheckableExams',
-		data:classid
-		
-    })
+  console.log('执行了获取可批改的考试列表' + classid)
+  return request({
+    method: 'POST',
+    url: '/exam/showCheckableExams',
+    data: classid
+  })
 }
 
 export const getQuestionAPI = (examid) => {
-	console.log('执行了获取可批改的题目列表'+examid)
-    return request({
-		method:'POST',
-        url: '/teacher/showExamQuestions',
-		params:{examid}
-		
-    })
+  console.log('执行了获取可批改的题目列表' + examid)
+  return request({
+    method: 'POST',
+    url: '/teacher/showExamQuestions',
+    params: { examid }
+  })
 }
 
 export const getMarkAPI = (questionid) => {
-	console.log('执行了获取可批改的题目答案列表'+questionid)
-    return request({
-		method:'POST',
-        url: '/teacher/showStudentExams',
-		params:{questionid}
-		
-    })
+  console.log('执行了获取可批改的题目答案列表' + questionid)
+  return request({
+    method: 'POST',
+    url: '/teacher/showStudentExams',
+    params: { questionid }
+  })
 }
