@@ -571,24 +571,6 @@
       "imageurl": "http://skillup.oss-cn-beijing.aliyuncs.com/img/6560fb6f4c7fd1577009e770c303ca06518610078.png%401036w.webp"
     }
   },
-
-  "showunpassedresources": {
-    "code": 200,
-    "msg": "success",
-    "data": [
-      {
-        "resourceId": "1675686941078614017",
-        "resourcename": null,
-        "type": "图片",
-        "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954674&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=j%2Fl67xap8mRMReEuH82MYuWSbVo%3D",
-        "status": "已通过",
-        "chapterId": "1675686352118640642",
-        "classname": "“四书”导读",
-        "classId": "1675683245779378178",
-        "updatetime": 1688313600000
-      }
-    ]
-  },
   "getExamContent": {
     "code": 200,
     "msg": "success",
@@ -765,7 +747,258 @@
         "salt": "5e38c18b-250b-49xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "score": null,
         "imageurl": "http://skillup.oss-cn-beijingxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        "canceltime": null
+        "canceltime": [2023, 8, 10, 16, 54, 41]
+      }
+    ]
+  },
+  "showUnexaminedClasses": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "classid": "1677147817954562050",
+        "teacherid": "1674249729564778497",
+        "classname": "马克思主义原理",
+        "teacher": "glen",
+        "period": 80,
+        "starttime": "2023-09-05 00:00:00",
+        "endtime": "2024-01-05 00:00:00",
+        "status": "未审批",
+        "studentcount": 0,
+        "introduction": null,
+        "cover": null,
+        "announcement": null,
+        "applytime": 1688659200000
+      },
+      {
+        "classid": "1677207469232812034",
+        "teacherid": "1674249729564778497",
+        "classname": "kotlin",
+        "teacher": "glen",
+        "period": null,
+        "starttime": "2023-07-15 14:30:00",
+        "endtime": "2023-07-28 16:34:41",
+        "status": "未审批",
+        "studentcount": 0,
+        "introduction": null,
+        "cover": null,
+        "announcement": null,
+        "applytime": 1688659200000
+      }
+    ]
+  },
+  "showRejectedClasses": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "classid": "1677147817954562050",
+        "teacherid": "1674249729564778497",
+        "classname": "马克思主义原理",
+        "teacher": "glen",
+        "period": 80,
+        "starttime": "2023-09-05 00:00:00",
+        "endtime": "2024-01-05 00:00:00",
+        "status": "已驳回",
+        "studentcount": 0,
+        "introduction": null,
+        "cover": null,
+        "announcement": null,
+        "applytime": 1688659200000
+      },
+      {
+        "classid": "1677207469232812034",
+        "teacherid": "1674249729564778497",
+        "classname": "kotlin",
+        "teacher": "glen",
+        "period": null,
+        "starttime": "2023-07-15 14:30:00",
+        "endtime": "2023-07-28 16:34:41",
+        "status": "已驳回",
+        "studentcount": 0,
+        "introduction": null,
+        "cover": null,
+        "announcement": null,
+        "applytime": 1688659200000
+      }
+    ]
+  },
+  "showunpassedresources": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "resourceId": "1675712084622499841",
+        "resourcename": "HDFSintro",
+        "type": "文本",
+        "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/hdfs.txt?Expires=1688960668&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=kfuFYGWVQAHDcwEEd4irLoztj2s%3D",
+        "status": "未审批",
+        "chapterId": "1675701473305960450",
+        "classname": "大数据分析",
+        "classId": "1675701320637489154",
+        "updatetime": 1688313600000
+      }
+    ]
+  },
+  "showrejectedresources": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "resourceId": "1675686875085434882",
+        "resourcename": null,
+        "type": "图片",
+        "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/test3.jpeg?Expires=1688954658&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=4nEuFLqDnMSb7o0%2FtPf%2FbMq3%2FKA%3D",
+        "status": "已驳回",
+        "chapterId": "1675686352118640642",
+        "classname": "“四书”导读",
+        "classId": "1675683245779378178",
+        "updatetime": 1688313600000
+      }
+    ]
+  },
+  "getClassesById": {
+    "code": 200,
+    "msg": "success",
+    "data": {
+      "classid": "1674975399878189058",
+      "teacherid": "1674249729564778497",
+      "classname": "java",
+      "teacher": "glen",
+      "period": null,
+      "starttime": null,
+      "endtime": null,
+      "status": "未审批",
+      "studentcount": 0,
+      "introduction": null,
+      "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.webp?Expires=1688608125&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=XN%2BF8BCSMNEliF6XbQFrEQXdEr8%3D",
+      "announcement": null,
+      "applytime": null
+    }
+  },
+  "getclassAdmin": {
+    "code": 200,
+    "msg": "success",
+    "data": [
+      {
+        "classes": {
+          "classid": "1677124232632459265",
+          "teacherid": "1677121651768107010",
+          "classname": "马克思主义原理",
+          "teacher": "王婧宜",
+          "period": 80,
+          "starttime": "2023-09-05 00:00:00",
+          "endtime": "2024-01-05 00:00:00",
+          "status": "已通过",
+          "studentcount": 0,
+          "introduction": null,
+          "cover": "http://skillup.oss-cn-beijing.aliyuncs.com/img/51ed7714ae60e173aa2413cc0458276b.jpg?Expires=1689297457&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=8ztZbjAKwuMtqPo6Y0vlTP9P8WI%3D",
+          "announcement": "我是公告",
+          "applytime": 1688659200000
+        },
+        "resources": [
+          {
+            "resourceId": "1677206087561940993",
+            "resourcename": "什么是马克思主义",
+            "type": "视频",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/video/%E4%BB%80%E4%B9%88%E6%98%AF%E9%A9%AC%E5%85%8B%E6%80%9D%E4%B8%BB%E4%B9%89.mp4?Expires=1689316866&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=TdoN77y9OyOsavscobsfMG0WwmA%3D",
+            "status": "已通过",
+            "chapterId": "1677125168427819010",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688659200000
+          },
+          {
+            "resourceId": "1677586553544695810",
+            "resourcename": "1.txt",
+            "type": "文本",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/1.txt?Expires=1689407577&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=3Oc89jzax4%2FbrRIl2MUq6iIPCnk%3D",
+            "status": "未审批",
+            "chapterId": "1677125524020912130",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688745600000
+          },
+          {
+            "resourceId": "1677581789121486849",
+            "resourcename": null,
+            "type": "文本",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/1.txt?Expires=1689406441&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=gZIMirqz00gdMHXkx0WM0gMhVXw%3D",
+            "status": "未审批",
+            "chapterId": "1677125168427819010",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688745600000
+          },
+          {
+            "resourceId": "1677573554117300226",
+            "resourcename": "讲义",
+            "type": "图片",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/database.jpg?Expires=1689404474&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=0KUGZrOCeMmnFapsZLE6yO7LpKU%3D",
+            "status": "未审批",
+            "chapterId": "1677125332202807298",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688745600000
+          },
+          {
+            "resourceId": "1677236584736358402",
+            "resourcename": "讲义",
+            "type": "文档",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/03709%E7%9C%9F%E9%A2%98.doc?Expires=1689324137&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=JGceOv%2BWjAmq7445JqFHgki%2FK0c%3D",
+            "status": "已通过",
+            "chapterId": "1677125717604818946",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688659200000
+          },
+          {
+            "resourceId": "1677209236934791170",
+            "resourcename": "讲义",
+            "type": "文档",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/ppt/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%B2%E4%B9%89.doc?Expires=1689317617&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=%2FcI8Sy8tMNRmYstB6bXLyW5UcFk%3D",
+            "status": "已通过",
+            "chapterId": "1677125168427819010",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688659200000
+          },
+          {
+            "resourceId": "1677153959141179393",
+            "resourcename": "pic",
+            "type": "图片",
+            "url": "http://skillup.oss-cn-beijing.aliyuncs.com/img/51ed7714ae60e173aa2413cc0458276b.jpg?Expires=1689304438&OSSAccessKeyId=LTAI5tAt7gkcszfPjSdNZEhn&Signature=AHHVwF%2BsdZX1MGdb4xue8WjiIjU%3D",
+            "status": "已通过",
+            "chapterId": "1677125168427819010",
+            "classname": "马克思主义原理",
+            "classId": "1677124232632459265",
+            "updatetime": 1688659200000
+          }
+        ],
+        "chapters": [
+          {
+            "chapter": {
+              "chapterid": "1677125717604818946",
+              "classid": "1677124232632459265",
+              "introduction": null,
+              "status": "已通过",
+              "chaptername": "资本主义的本质及规律",
+              "chapternum": 3
+            },
+            "status": null
+          },
+          {
+            "chapter": {
+              "chapterid": "1677494818923708417",
+              "classid": "1677124232632459265",
+              "introduction": "世界的物质性",
+              "status": "已通过",
+              "chaptername": "世界的物质性",
+              "chapternum": 5
+            },
+            "status": null
+          }
+        ]
       }
     ]
   }

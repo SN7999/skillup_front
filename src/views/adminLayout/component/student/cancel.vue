@@ -97,6 +97,46 @@ const goback = () => {
   // 跳转到另一个界面
   router.push('/admin/student')
 }
+
+//同意注销
+const acceptCancel = async (studentid) => {
+  const result = await getAgreeCancelStudentAPI(studentid)
+  if (result.data.code == 200) {
+    ElMessage.success('同意用户注销成功')
+  } else {
+    ElMessage.error('同意注销失败！')
+  }
+}
+
+const cancelDialogVisible = ref(false)
+const rejectid = ref(null)
+const rejectReason = ref(null)
+//驳回注销
+const rejectCancel = (studentid) => {
+  rejectid.value = studentid
+  cancelDialogVisible.value = true
+}
+
+const agreeReject = async () => {
+  if (!rejectReason.value) {
+    ElMessage.error('驳回原因不能为空')
+    return
+  }
+  console.log('rejectid' + rejectid.value)
+  console.log('rejectReason' + rejectReason.value)
+  const result = await getRejectCancelStudentAPI(
+    rejectid.value,
+    rejectReason.value
+  )
+  if (result.data.code == 200) {
+    ElMessage.success('驳回用户注销成功')
+  } else {
+    ElMessage.error('驳回注销失败！')
+  }
+  rejectid.value = null
+  rejectReason.value = null
+  cancelDialogVisible.value = false
+}
 </script>
 
 <template>
@@ -117,11 +157,16 @@ const goback = () => {
           <span>{{ scope.row.gender ? '男' : '女' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="classNum" label="学生选课个数"></el-table-column>
+      <el-table-column prop="canceltime" label="申请注销时间">
+        <template #default="scope">
+          <span>`{{ `${scope.row.canceltime[0]}-${String(scope.row.canceltime[1]).padStart(2, '0')}-${String(scope.row.canceltime[2]).padStart(2, '0')} ${String(scope.row.canceltime[3]).padStart(2, '0')}:${String(scope.row.canceltime[4]).padStart(2, '0')}:${String(scope.row.canceltime[5]).padStart(2, '0')}` }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" size="small" @click="searchStudentInfo(scope.row.id)">查看学生信息</el-button>
-          <el-button type="warning" size="small" @click="deleteStudent(scope.row.id)">删除</el-button>
+          <el-button type="warning" size="small" @click="acceptCancel(scope.row.id)">同意注销</el-button>
+          <el-button type="warning" size="small" @click="rejectCancel(scope.row.id)">驳回注销</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -167,6 +212,16 @@ const goback = () => {
         </div>
       </div>
     </el-drawer>
+    <el-dialog v-model="cancelDialogVisible" title="驳回请求">
+      <div>
+        此操作将驳回该用户的注销请求，请输入驳回原因：
+        <el-input type="textarea" :rows="2" placeholder="请输入驳回原因" v-model="rejectReason" style="margin-top: 20px;margin-bottom: 20px;"></el-input>
+      </div>
+      <div class="dialog-footer">
+        <el-button @click="cancelDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="agreeReject">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 

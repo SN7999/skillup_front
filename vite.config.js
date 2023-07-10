@@ -13,15 +13,15 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()]
     }),
     Components({
       //resolvers: [ElementPlusResolver()],
       resolvers: [
         //1.配置elementPlus采用sass样式配色系统
-        ElementPlusResolver({ importStyle: "sass" })
+        ElementPlusResolver({ importStyle: 'sass' })
       ]
-    }),
+    })
   ],
   resolve: {
     alias: {
@@ -29,13 +29,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  css:{
-    preprocessorOptions:{
-      scss:{
+  css: {
+    preprocessorOptions: {
+      scss: {
         //2.自动导入定制化样式文件进行样式覆盖
-        additionalData:`
+        additionalData: `
           @use "@/styles/element/index.scss" as *;
-        `,
+        `
       }
     }
   },
@@ -49,22 +49,25 @@ export default defineConfig({
         // 后台地址
         target: 'http://localhost:3000/',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api1/, '')
+        rewrite: (path) => path.replace(/^\/api1/, '')
       },
-      '/api2':{
-        target:'http://skillup.oss-cn-beijing.aliyuncs.com/',
+      '/api2': {
+        target: 'http://skillup.oss-cn-beijing.aliyuncs.com/',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api2/, '')
+        rewrite: (path) => path.replace(/^\/api2/, '')
       },
-      '/api3':{
-        target:'http://10.128.145.54:8080/',
+      '/api3': {
+        target: 'http://10.128.145.54:8080/',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api3/, '')
+        rewrite: (path) => path.replace(/^\/api3/, '')
+      },
+      '/api4': {
+        target: 'http://localhost:8080/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api4/, '')
       }
     }
-  },
-		
-
+  }
 
   // build: {
   //   outDir: 'lib',

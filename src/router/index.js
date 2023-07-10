@@ -25,10 +25,11 @@ import TeacherDetail from '@/views/teacherLayout/component/teacherDetail.vue'
 import TeacherPassDetail from '@/views/teacherLayout/component/class/passDetail.vue'
 import TeacherUnpassDetail from '@/views/teacherLayout/component/class/unpassDetail.vue'
 import TeacherRejectedDetail from '@/views/teacherLayout/component/class/rejectedDetail.vue'
-import AdminCurriculum from '@/views/adminLayout/component/adminCurriculum.vue'
+import AdminCurriculum from '@/views/adminLayout/component/class/adminCurriculum.vue'
 import AdminStudent from '@/views/adminLayout/component/student/adminStudent.vue'
 import AdminStudentCancel from '@/views/adminLayout/component/student/cancel.vue'
-import AdminTeacher from '@/views/adminLayout/component/adminTeacher.vue'
+import AdminTeacher from '@/views/adminLayout/component/teacher/adminTeacher.vue'
+import AdminTeacherCancel from '@/views/adminLayout/component/teacher/cancel.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -229,6 +230,14 @@ const router = createRouter({
           meta: {
             title: '学生注销处理',
             active: '/admin/student'
+          }
+        },
+        {
+          path: '/admin/teacher/cancel',
+          component: AdminTeacherCancel,
+          meta: {
+            title: '老师注销处理',
+            active: '/admin/teacher'
           }
         }
       ]
