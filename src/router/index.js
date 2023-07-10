@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user'
 
 import Open from '@/views/open/index.vue'
 import Login from '@/views/login/index.vue'
+import AdminLogin from '@/views/login/adminLogin.vue'
 import StudentLayout from '@/views/studentLayout/index.vue'
 import TeacherLayout from '@/views/teacherLayout/index.vue'
 import AdminLayout from '@/views/adminLayout/index.vue'
@@ -44,6 +45,13 @@ const router = createRouter({
       component: Login,
       meta: {
         title: '登录'
+      }
+    },
+    {
+      path: '/adminlogin',
+      component: AdminLogin,
+      meta: {
+        title: '管理员登录'
       }
     },
     {
