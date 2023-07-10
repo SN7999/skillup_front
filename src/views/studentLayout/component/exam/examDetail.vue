@@ -6,7 +6,6 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 const selected = 'unFinished';
 const route = useRoute();
-
 const classid = route.params.id;
 const detialInfo = ref(null);
 
@@ -54,8 +53,13 @@ const gotoPrevious = () => {
 
 //测试数据
 const handleButtonClick = (data) => {
-	router.push('/student/exam/detail/content/'+data.id);
-	console.log('点击了按钮', data);
+	router.push({
+		path:'/student/exam/detail/content/'+data.id,
+		query: { 
+		    time:data.totalTime
+		}
+	});
+	console.log('点击了按钮', data.totalTime);
 	// 在这里可以执行按钮点击后的逻辑操作
 }
 
