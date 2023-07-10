@@ -103,6 +103,7 @@ const acceptCancel = async (studentid) => {
   const result = await getAgreeCancelStudentAPI(studentid)
   if (result.data.code == 200) {
     ElMessage.success('同意用户注销成功')
+    getStudentList()
   } else {
     ElMessage.error('同意注销失败！')
   }
@@ -130,6 +131,7 @@ const agreeReject = async () => {
   )
   if (result.data.code == 200) {
     ElMessage.success('驳回用户注销成功')
+    getStudentList()
   } else {
     ElMessage.error('驳回注销失败！')
   }
@@ -150,19 +152,19 @@ const agreeReject = async () => {
       <el-button type="primary" @click="allAgreeCancel">批量同意</el-button>
     </div>
     <el-table :data="currentPageData">
-      <el-table-column prop="id" label="学生id"></el-table-column>
-      <el-table-column prop="name" label="学生姓名"></el-table-column>
-      <el-table-column prop="gender" label="性别">
+      <el-table-column prop="id" label="学生id" width="300"></el-table-column>
+      <el-table-column prop="name" label="学生姓名" width="200"></el-table-column>
+      <el-table-column prop="gender" label="性别" width="200">
         <template #default="scope">
           <span>{{ scope.row.gender ? '男' : '女' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="canceltime" label="申请注销时间">
+      <el-table-column prop="canceltime" label="申请注销时间" width="200">
         <template #default="scope">
           <span>`{{ `${scope.row.canceltime[0]}-${String(scope.row.canceltime[1]).padStart(2, '0')}-${String(scope.row.canceltime[2]).padStart(2, '0')} ${String(scope.row.canceltime[3]).padStart(2, '0')}:${String(scope.row.canceltime[4]).padStart(2, '0')}:${String(scope.row.canceltime[5]).padStart(2, '0')}` }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="300">
         <template #default="scope">
           <el-button type="primary" size="small" @click="searchStudentInfo(scope.row.id)">查看学生信息</el-button>
           <el-button type="warning" size="small" @click="acceptCancel(scope.row.id)">同意注销</el-button>

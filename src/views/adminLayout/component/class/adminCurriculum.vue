@@ -122,6 +122,7 @@ const formatDate = (timestamp) => {
 const drawerteacher = ref(false)
 const teacherInfo = ref([])
 const showTeacherInfo = async (teacherid) => {
+  console.log(`output->teacherid`, teacherid)
   const result = await getTeacherDetailAPI(teacherid)
   teacherInfo.value = result.data.data
   console.log('teacherInfo' + teacherInfo.value)
@@ -145,6 +146,7 @@ const agreeClassApply = async (classid) => {
     ElMessage.success('同意课程申请成功！')
     getUnpassClassList()
     getRejectClassList()
+    getPassList()
   } else {
     ElMessage.error('同意课程申请失败！')
   }
@@ -173,6 +175,9 @@ const agreeClassReject = async () => {
   )
   if (result.data.code == 200) {
     ElMessage.success('驳回课程申请成功')
+    getUnpassClassList()
+    getRejectClassList()
+    getPassList()
   } else {
     ElMessage.error('驳回课程申请失败！')
   }
@@ -290,7 +295,8 @@ const getSearchRejectResource = async () => {
 const searchPass = ref('')
 
 const getSearchPassById = async () => {
-  const result = await getRejectResourceAPI(searchRejectResource.value)
+  console.log(`output->searchPass`, searchPass.value)
+  const result = await getPassAPI(searchPass.value)
   passList.value = result.data.data
   console.log(`output->passList.value`, passList.value)
   currentPagePass.value = 1
@@ -317,6 +323,7 @@ const agreeResourceApply = async (resourceid) => {
     ElMessage.success('同意资源申请成功！')
     getUnpassResourceList()
     getRejectResourceList()
+    getPassList()
   } else {
     ElMessage.error('同意资源申请失败！')
   }
@@ -345,6 +352,9 @@ const agreeResourceReject = async () => {
   )
   if (result.data.code == 200) {
     ElMessage.success('驳回资源申请成功')
+    getUnpassResourceList()
+    getRejectResourceList()
+    getPassList()
   } else {
     ElMessage.error('驳回资源申请失败！')
   }
@@ -359,9 +369,84 @@ const downloadResource = (url) => {
 }
 
 const showDetail = ref(false)
+const detailInfo = ref(null)
 //展示课程资源、章节
 const showDetailClassInfo = (row) => {
   showDetail.value = true
+  detailInfo.value = row
+  console.log(`output->detailInfo.value`, detailInfo.value)
+}
+
+const backtoPass = () => {
+  showDetail.value = false
+  detailInfo.value = null
+}
+
+const chapterExpanded = ref({})
+
+function toggleCollapse(chapter) {
+  chapterExpanded.value[chapter.chapter.chapternum] =
+    !chapterExpanded.value[chapter.chapter.chapternum]
+}
+
+const showChapter = ref('')
+const showVideo = ref(false)
+const selectedVideo = ref('')
+const showTxtContent = ref(false)
+const txtContent = ref('')
+const selectedTxtUrl = ref('')
+
+const showVide = (chapterid, resource) => {
+  showChapter.value = chapterid
+  selectedVideo.value = resource.url.replace(/\?.*/, '')
+  showVideo.value = true
+}
+
+const getVideo = () => {
+  return selectedVideo.value
+}
+
+const videoBack = () => {
+  showChapter.value = null
+  selectedVideo.value = null
+  showVideo.value = false
+}
+
+const showTxt = (resource) => {
+  selectedTxtUrl.value = resource.url
+    .replace(/(http|https):\/\/[^\s/]+/, '')
+    .replace(/\?.*/, '')
+  getTxtContent('/api2' + selectedTxtUrl.value)
+}
+
+const getTxtContent = (url) => {
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.text()
+    })
+    .then((data) => {
+      txtContent.value = data
+      showTxtContent.value = true
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+    })
+}
+
+const txtBack = () => {
+  selectedTxtUrl.value = null
+  showTxtContent.value = false
+}
+
+const downloadDocument = (resource) => {
+  const link = document.createElement('a')
+  link.href = resource.url
+  link.target = '_blank'
+  link.setAttribute('download', resource.filename)
+  link.click()
 }
 
 onMounted(() => {
@@ -407,14 +492,14 @@ onMounted(() => {
     <div v-if="activeTab === 'classReview'" class="tab-content">
       <!-- 未审核的新课程申请 -->
       <el-table :data="currentUnpassClassPageData">
-        <el-table-column prop="classname" label="课程名称"></el-table-column>
-        <el-table-column prop="classid" label="课程ID"></el-table-column>
-        <el-table-column prop="applytime" label="课程申请时间">
+        <el-table-column prop="classname" label="课程名称" width="200"></el-table-column>
+        <el-table-column prop="classid" label="课程ID" width="300"></el-table-column>
+        <el-table-column prop="applytime" label="课程申请时间" width="300">
           <template #default="scope">
             <span>{{ formatDate(scope.row.applytime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="400">
           <template #default="scope">
             <el-button type="primary" size="small" @click="showClassInfo(scope.row.classid)">课程完整信息</el-button>
             <el-button type="primary" size="small" @click="showTeacherInfo(scope.row.teacherid)">课程老师信息</el-button>
@@ -452,16 +537,16 @@ onMounted(() => {
     <div v-if="activeTab === 'resourceReview'" class="tab-content">
       <!-- 未审核的课程资源申请 -->
       <el-table :data="currentUnpassResourcePageData">
-        <el-table-column prop="resourcename" label="资源名称"></el-table-column>
-        <el-table-column prop="resourceId" label="资源ID"></el-table-column>
-        <el-table-column prop="type" label="资源类型"></el-table-column>
-        <el-table-column prop="classname" label="资源所属课程"></el-table-column>
-        <el-table-column prop="updatetime" label="资源更新时间">
+        <el-table-column prop="resourcename" label="资源名称" width="200"></el-table-column>
+        <el-table-column prop="resourceId" label="资源ID" width="200"></el-table-column>
+        <el-table-column prop="type" label="资源类型" width="100"></el-table-column>
+        <el-table-column prop="classname" label="资源所属课程" width="200"></el-table-column>
+        <el-table-column prop="updatetime" label="资源更新时间" width="200">
           <template #default="scope">
             <span>{{ formatDate(scope.row.updatetime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="300">
           <template #default="scope">
             <el-button type="primary" size="small" @click="downloadResource(scope.row.url)">下载资源</el-button>
             <el-button type="success" size="small" @click="agreeResourceApply(scope.row.resourceId)">同意更新</el-button>
@@ -515,11 +600,93 @@ onMounted(() => {
         <el-pagination @current-change="handlePassPageChange" :current-page="currentPagePass" :page-size="pageSize" :total="passList.length" layout="prev, pager, next"></el-pagination>
       </div>
     </div>
+    <!-- 课程详情 -->
     <div v-if="activeTab === 'passClass'&&showDetail" class="tab-content">
       <el-row justify="start">
-        <el-button type="primary" @click="showDetail = false">返回</el-button>
+        <el-button type="primary" @click="backtoPass">返回</el-button>
         <el-button type="warning" @click="deleteClass">删除</el-button>
       </el-row>
+      <div style="padding: 20px">
+        <el-row>
+          <el-col :span="13">
+            <el-form>
+              <el-form-item>
+                <p v-if="detailInfo">课程名称：{{ detailInfo.classes.classname }}</p>
+              </el-form-item>
+              <el-form-item>
+                <p v-if="detailInfo">课程ID：{{ detailInfo.classes.classid }}</p>
+              </el-form-item>
+              <el-form-item>
+                <p v-if="detailInfo">课程介绍:{{ detailInfo.classes.introduction }}</p>
+              </el-form-item>
+              <el-form-item>
+                <p v-if="detailInfo && detailInfo.classes.starttime">课程时间：{{ detailInfo.classes.starttime }} ~ {{ detailInfo ? detailInfo.classes.endtime : '' }}</p>
+                <p v-if="detailInfo&& !detailInfo.classes.starttime">课程时间：到{{ detailInfo ? detailInfo.classes.endtime : '' }}截止</p>
+              </el-form-item>
+              <el-form-item>
+                <div v-if="detailInfo" class="curriculum-cover">
+                  课程封面：
+                  <img :src="detailInfo.classes.cover" />
+                </div>
+              </el-form-item>
+            </el-form>
+          </el-col>
+          <el-col :span="1">
+            <el-divider direction="vertical" class="custom-divider"></el-divider>
+          </el-col>
+          <el-col :span="10">
+            <div v-if="detailInfo">
+              <div v-if="!showVideo&&!showTxtContent">
+                <div v-for="chapter in detailInfo.chapters" :key="chapter.chapter.chapternum">
+                  <el-card style="margin-top: 10px;">
+                    <h3 class="chapter-title" @click="toggleCollapse(chapter)">
+                      <el-row :span="24">
+                        <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapter.chapternum]}"></span>
+                        第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
+                      </el-row>
+                    </h3>
+                    <div v-show="chapterExpanded[chapter.chapter.chapternum]" class="chapter-content">
+                      <div style="margin-top: 3px;font-size: 70%;">
+                        {{ chapter.chapter.introduction }}
+                      </div>
+                      <div style="margin-top: 10px;" v-for="resource in detailInfo.resources" :key="resource.resourceId">
+                        <div v-if="resource.chapterId == chapter.chapter.chapterid&&resource.status == '已通过'">
+                          <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid, resource)">
+                            <p class="resource-text">视频：{{ resource.resourcename }}</p>
+                          </div>
+                          <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
+                            <p class="resource-text">文本：{{ resource.resourcename }}</p>
+                          </div>
+                          <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
+                            <p class="resource-text">图片：{{ resource.resourcename }}</p>
+                          </div>
+                          <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                            <p class="resource-text">文档：{{ resource.resourcename }}</p>
+                          </div>
+                          <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                            <p class="resource-text">PPT：{{ resource.resourcename }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </el-card>
+                </div>
+              </div>
+            </div>
+            <div v-if="showVideo">
+              <!-- 视频展示界面 -->
+              <video :src="getVideo()" id="playVideos" controls preload @ended="sendEnd(showChapter)">
+              </video>
+              <button @click="videoBack()">返回</button>
+            </div>
+            <div v-if="showTxtContent">
+              <!-- 根据需要设置文本展示区域的样式 -->
+              <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>
+              <button @click="txtBack()">返回</button>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
   <!-- 老师详情 -->
@@ -608,7 +775,7 @@ onMounted(() => {
   </el-dialog>
   <el-dialog v-model="rejectResourceDialogVisible" title="驳回请求">
     <div>
-      此操作将驳回该课程的申请请求，请输入驳回原因：
+      此操作将驳回该资源的申请请求，请输入驳回原因：
       <el-input type="textarea" :rows="2" placeholder="请输入驳回原因" v-model="rejectResourceReason" style="margin-top: 20px;margin-bottom: 20px;"></el-input>
     </div>
     <div class="dialog-footer">
@@ -713,5 +880,53 @@ li.active::after {
 
 .detail-value {
   margin-left: 5px;
+}
+
+.chapter-title {
+  position: relative;
+  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.chapter-indicator {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #333;
+  transition: transform 0.3s ease;
+}
+.chapter-indicator.expanded {
+  transform: translateY(-50%) rotate(90deg);
+}
+.chapter-content {
+  margin-top: 10px;
+}
+
+.resource-box {
+  display: inline-block;
+  padding: 1px 1px;
+  border: 2px solid green;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.video {
+  border-color: green;
+}
+
+.document {
+  border-color: green;
+}
+
+.resource-text {
+  color: green;
+  font-size: 90%;
+  line-height: 1;
+  margin: 1px;
 }
 </style>

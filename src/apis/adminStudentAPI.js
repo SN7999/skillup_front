@@ -19,7 +19,7 @@ export const getStudentInfoAPI = () => {
 export const getSearchStudentAPI = (input) => {
   return request({
     url: '/admin/searchStudent',
-    data: {
+    params: {
       input
     }
   })
@@ -28,10 +28,9 @@ export const getSearchStudentAPI = (input) => {
 //显示学生详细信息 这里接口文档写的不清楚
 export const getStudentDetailAPI = (studentid) => {
   return request({
+    method: 'POST',
     url: '/admin/studentInfo',
-    data: {
-      studentid
-    }
+    data: studentid
   })
 }
 
@@ -62,10 +61,9 @@ export const getStudentDetailAPI = (studentid) => {
 //删除学生 这里接口文档写的不清楚
 export const getDeleteStudentAPI = (studentid) => {
   return request({
+    method: 'POST',
     url: '/admin/deleteStudent',
-    data: {
-      studentid
-    }
+    data: studentid
   })
 }
 
@@ -96,22 +94,20 @@ export const getSearchStudentCancelAPI = (input) => {
 //同意注销 这里接口文档写的不清楚
 export const getAgreeCancelStudentAPI = (studentid) => {
   return request({
+    method: 'POST',
     url: '/admin/agreeStuCancel',
-    data: {
-      studentid
-    }
+    data: studentid
   })
 }
 
 //驳回注销 这里接口文档写的不清楚
 export const getRejectCancelStudentAPI = (studentid, reason) => {
   return request({
+    method: 'POST',
     url: '/admin/rejectStuCancel',
     params: {
       reason
     },
-    data: {
-      studentid
-    }
+    data: studentid
   })
 }

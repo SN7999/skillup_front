@@ -55,7 +55,7 @@ const getSearchByStudent = async () => {
     if (checkIsChEnNum(searchByStudent.value)) {
       const result = await getSearchStudentListByStudent(searchByStudent.value)
       studentList.value = result.data
-      // console.log('彳亍'+searchByStudent.value);
+      console.log('studentList' + studentList.value)
     } else {
       ElMessage.error('请输入数字或中文或组成的课程名')
       searchByStudent.value = ''
@@ -94,6 +94,7 @@ const deleteStudent = async (studentid) => {
   const result = await getDeleteStudentAPI(studentid)
   if (result.data.code == 200) {
     ElMessage.success('删除用户成功')
+    getStudentList()
   } else {
     ElMessage.error('删除用户失败')
   }
