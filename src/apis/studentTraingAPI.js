@@ -87,4 +87,14 @@ export const getRandomUp = (res) => {
   })
 }
 
-//
+//根据章节id随机组卷
+export const getChapterTest = (chapterid, num) => {
+  return request({
+    method: 'POST',
+    url: '/chapter/chapterTest',
+    params: {
+      chapterid,
+      num
+    }
+  })
+}

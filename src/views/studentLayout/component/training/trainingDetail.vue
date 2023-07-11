@@ -5,7 +5,8 @@ import {
   getChapterFinishAPI,
   getRandomAPI,
   getRandomTest,
-  getRandomUp
+  getRandomUp,
+  getChapterTest
 } from '@/apis/studentTraingAPI'
 import {
   getUnFinishedExamAPI,
@@ -225,6 +226,59 @@ const sendEnd = async (chapterid) => {
   console.log('章节完成' + result)
   getDetailInfo()
 }
+
+const test = ref([])
+const showTest = ref(false)
+const selectedOptionList = ref([])
+const getTest = async (chapterid) => {
+  const result = await getChapterTest(chapterid, 5)
+  test.value = result.data.data
+  console.log(`output->test.value`, test.value)
+  if (test.value.length == 0) {
+    ElMessage.error('本章节还没有题目！')
+  }
+  if (test.value.length != 0) {
+    ElMessage.success(result.data.msg)
+    showTest.value = true
+  }
+}
+
+const showTestAnswer = ref(false)
+const results = ref([]) // 存储批改结果的数组
+
+const submitTestAnswer = () => {
+  for (let i = 0; i < test.value.length; i++) {
+    const selectedOption1 = selectedOptionList.value[i]
+    const correctOption = test.value[i].answer
+    const isCorrect = selectedOption1 === correctOption
+
+    // 将选项内容映射到对应的选项
+    const optionMap = {
+      A: 'A ' + test.value[i].optionA,
+      B: 'B ' + test.value[i].optionB,
+      C: 'C ' + test.value[i].optionC,
+      D: 'D ' + test.value[i].optionD
+    }
+
+    results.value.push({
+      question: test.value[i].question,
+      selectedOption1: optionMap[selectedOption1],
+      correctOption: optionMap[correctOption],
+      isCorrect: isCorrect
+    })
+  }
+
+  showTestAnswer.value = true
+  console.log('output->showTestAnswer.value', showTestAnswer.value)
+}
+
+const gobackTest = () => {
+  showTest.value = false
+  test.value = []
+  selectedOptionList.value = []
+  results.value = []
+  showTestAnswer.value = false
+}
 </script>
 
 <template>
@@ -268,8 +322,43 @@ const sendEnd = async (chapterid) => {
           </div>
         </div>
         <div v-if="selectedMenuItem === 'quiz'">
-          <h2>测验内容</h2>
-          <!-- 测验界面的内容 -->
+          <div v-if="!showTest">
+            <h2>测验</h2>
+            <!-- 测验界面的内容 -->
+            <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum">
+              <el-card style="margin-top: 10px;">
+                <h3 class="chapter-title" @click="getTest(chapter.chapter.chapterid)">
+                  第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
+                </h3>
+              </el-card>
+            </div>
+          </div>
+          <div v-if="showTest&&!showTestAnswer">
+            <div v-for="(t, index) in test" :key="index">
+              <el-card style="margin-top: 10px;">
+                {{ t.question }}
+                <el-radio-group v-model="selectedOptionList[index]">
+                  <el-radio label="A" size="large">{{ t.optionA }}</el-radio>
+                  <el-radio label="B" size="large">{{ t.optionB }}</el-radio>
+                  <el-radio label="C" size="large">{{ t.optionC }}</el-radio>
+                  <el-radio label="D" size="large">{{ t.optionD }}</el-radio>
+                </el-radio-group>
+              </el-card>
+            </div>
+            <el-button @click="submitTestAnswer" type="primary" style="margin-top: 20px;">提交</el-button>
+            <el-button @click="gobackTest" style="margin-top: 20px;">返回</el-button>
+          </div>
+          <div v-if="showTestAnswer">
+            <div v-for="(result, index) in results" :key="index">
+              <el-card style="margin-top: 10px;">
+                <h3>{{ result.question }}</h3>
+                <div>选中的答案：<span style="color: blue">{{ result.selectedOption1 }}</span></div>
+                <div>正确的答案：<span style="color: blue">{{ result.correctOption }}</span></div>
+                <div>您的答案是否正确：<span style="color: blue">{{ result.isCorrect ? '正确' : '错误' }}</span></div>
+              </el-card>
+            </div>
+            <el-button @click="gobackTest" style="margin-top: 20px;">返回</el-button>
+          </div>
         </div>
         <div v-if="selectedMenuItem === 'courseware'">
           <h2>课件</h2>
