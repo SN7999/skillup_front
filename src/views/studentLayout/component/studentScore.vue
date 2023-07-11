@@ -1,14 +1,13 @@
 <script setup>
-	import { getScoreAPI, getSelfScoreAPI, getSearchScoreExamAPI, getSearchScoreClassAPI, getSearchScoreDateAPI } from '@/apis/studentScoreAPI';
+	import { getScoreAPI, getSelfScoreAPI, getSearchScoreExamAPI, getSearchScoreClassAPI } from '@/apis/studentScoreAPI';
 	import { onMounted, ref, computed } from 'vue';
 	import { Search } from "@element-plus/icons-vue"
 	import { ElMessage } from 'element-plus';
 	
 	const searchExamName = ref('');
 	const searchClassName = ref('');
-	const searchDate = ref('');
 	const getSearchScore = () => {
-		console.log(searchExamName.value+' '+searchClassName.value+' '+searchDate.value)
+		console.log(searchExamName.value+' '+searchClassName.value)
 	};
 	//校验
 	const checkIsChEnNum = str => {
@@ -39,19 +38,15 @@
 	
 	const getSearchScoreListExam = async examName => {
 		const result = await getSearchScoreExamAPI(examName);
-		scoreList.value = result.data;
+		scoreList.value = result.data.data;
 		currentPage.value = 1;
 	};
 	const getSearchScoreListClass = async className => {
 		const result = await getSearchScoreClassAPI(className);
-		scoreList.value = result.data;
+		scoreList.value = result.data.data;
 		currentPage.value = 1;
 	};
-	const getSearchScoreListDate = async date => {
-		const result = await getSearchScoreDateAPI(date);
-		scoreList.value = result.data;
-		currentPage.value = 1;
-	};
+
 	const getSearchScoreExam = () => {
 		if (searchExamName.value == '') {
 			getScoreList();
@@ -80,15 +75,7 @@
 			}
 		}
 	};
-	const getSearchScoreDate = () => {
-		if (searchDate.value == '') {
-			getScoreList();
-		}
-		if (searchDate.value) {
-			// getSearchScoreListDate(searchDate.value);
-			console.log('彳亍'+searchDate.value);
-		}
-	};
+
 	
 	
 	const currentPage = ref(1);
@@ -131,14 +118,6 @@
 				:prefix-icon="Search"
 				@keyup.enter="getSearchScoreClass"
 				style="width: 25%; margin-right: 10px;"
-			/>
-			<el-date-picker
-				v-model="searchDate"
-				type="date"
-				placeholder="日期"
-				size="large"
-				style="width: 25%; margin-right: 10px;"
-				@change="getSearchScoreDate"
 			/>
 			<el-button type="primary" @click="getSelfScore()">导出excel文件</el-button>
 		</div>

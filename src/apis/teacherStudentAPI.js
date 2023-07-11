@@ -30,9 +30,7 @@ export const getSearchStudentListByClassAPI = (classname) => {
     return request({
         method:'POST',
         url: '/teacher/getSelectClassByClassName',
-		data:{
-			classname
-		}
+		data:classname
     })
 }
 
@@ -41,9 +39,7 @@ export const getSearchStudentListByStudentAPI = (studentname) => {
     return request({
         method:'POST',
         url: '/teacher/getSelectClassByIdOrName',
-		data:{
-			studentname
-		}
+		data:studentname
     })
 }
 
@@ -59,9 +55,11 @@ export const getSearchStudentListByStudentAPI = (studentname) => {
 // }
 
 // 测试用
-export const searchStudentInfoAPI = (id) => {
-	console.log('getSearchStudentListByStudentAPI执行了'+id)
+export const searchStudentInfoAPI = (studentid) => {
+	console.log('searchStudentInfoAPI执行了'+studentid)
     return request({
-        url: '/studentInfo'
+        method: 'POST',
+        url: '/admin/studentInfo',
+        data: studentid
     })
 }

@@ -32,9 +32,7 @@ export const getSearchScoreExamAPI = (examname) => {
     return request({
         method:'POST',
         url: '/student/getGradeByExamName',
-		data:{
-			examname
-		}
+		data:examname
     })
 }
 
@@ -43,19 +41,16 @@ export const getSearchScoreClassAPI = (classname) => {
     return request({
         method:'POST',
         url: '/student/getGradeByExamName',
-		data:{
-			classname
-		}
+		data:classname
+		
     })
 }
-export const getSearchScoreDateAPI = (date) => {
-	console.log('getSearchScoreDateAPI执行了'+date)
-    return request({
-        method:'POST',
-        url: '/',
-		data:{
-			date
-		}
-    })
-}
+// export const getSearchScoreDateAPI = (date) => {
+// 	console.log('getSearchScoreDateAPI执行了'+date)
+//     return request({
+//         method:'POST',
+//         url: '/',
+// 		data:date
+//     })
+// }
 

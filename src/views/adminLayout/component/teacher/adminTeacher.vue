@@ -35,7 +35,7 @@ const getTeacherList = async () => {
 //获取搜索学生
 const getSearchTeacherListByTeacher = async (teacher) => {
   const result = await getSearchTeacherAPI(teacher)
-  teacherList.value = result.data
+  teacherList.value = result.data.data
   currentPage.value = 1
 }
 
@@ -46,7 +46,7 @@ const getSearchByTeacher = async () => {
   if (searchByTeacher.value) {
     if (checkIsChEnNum(searchByTeacher.value)) {
       const result = await getSearchTeacherListByTeacher(searchByTeacher.value)
-      teacherList.value = result.data
+      // teacherList.value = result.data
       console.log('teacherList' + teacherList.value)
     } else {
       ElMessage.error('请输入数字或中文或组成的课程名')

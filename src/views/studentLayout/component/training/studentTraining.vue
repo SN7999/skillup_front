@@ -59,7 +59,7 @@
 
         <!-- 课程列表 -->
         <div class='curriculum-list' >
-            <div  class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(curriculum,index) in curriculumList" :key="index">
+            <div  class="curriculum-item" style='background:#f6f6f6;width:32%;height: 500px;' v-for="(curriculum,index) in curriculumList" :key="index">
                 <RouterLink :to="'/student/training/detail/'+curriculum.classid" class="router-link">
                     <img :src="curriculum.cover">
                     <div style='font-weight: 400;
