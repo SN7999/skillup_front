@@ -198,11 +198,12 @@ li.active::after {
 
   img {
     width: 100%;
-    height: 150px;
+    height: 300px;
   }
 }
 
 .curriculum-list {
+	width:100%;
   flex-wrap: wrap;
   justify-content: space-between;
   margin-left: 20px;

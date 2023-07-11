@@ -27,10 +27,12 @@ const checkIsChEnNum = str => {
 
 const getSearchExamList = async examName => {
 	const result = await getSearchAPI(examName);
-	examList.value = result.data;
+	console.log('搜索返回的东西：');
+	console.log(result);
+	examList.value = result.data.data;
 };
 
-const getSerchExam = () => {
+const getSearchExam = () => {
 	if (searchExam.value == '') {
 		getExamList();
 	}
@@ -48,13 +50,13 @@ const getSerchExam = () => {
 
 <template>
 	<div>
-		<el-input v-model.trim="searchExam" class="w-50 m-2" size="large" placeholder="请输入数字或中文或字母组成的课程名" :prefix-icon="Search" @keyup.enter="getSerchExam" />
+		<el-input v-model.trim="searchExam" class="w-50 m-2" size="large" placeholder="请输入数字或中文或字母组成的课程名" :prefix-icon="Search" @keyup.enter="getSearchExam" />
 
 		<!-- 课程列表 -->
 		<div class="exam-list">
 			<div class="exam-item" style="background:#f6f6f6;width:32%" v-for="(exam, index) in examList" :key="index">
 				<RouterLink :to="'/student/exam/detail/'+exam.classid" class="router-link">
-					<img :src="exam.imageUrl" />
+					<img :src="exam.cover" />
 					<div
 						style="font-weight: 400;
                     font-size:20px;margin-left:10px;

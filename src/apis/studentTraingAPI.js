@@ -18,13 +18,13 @@ export const getSelectCurriculumAPI = () => {
 
 //搜索课程 url待改
 export const getSearchAPI = (classname) => {
-  return request({
-    url: '/classes/likeQueryClasses',
-    method: 'POST',
-    params: {
-      classname
-    }
-  })
+    return request({
+      url: '/student/showSelectClasses',
+      method:'POST',
+      params:{
+		classname
+	  }
+    })
 }
 
 /////trainingDetail 学生培训详情界面调用方法

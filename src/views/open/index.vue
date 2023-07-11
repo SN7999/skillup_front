@@ -16,8 +16,8 @@
         <h1 class="logo">
           <RouterLink to="/">Skillup</RouterLink>
         </h1>
-        <a class="entry" href="/login">
-          登录/注册
+        <a class="entry" href="/adminlogin">
+          =ω=
         </a>
       </div>
     </header>
@@ -142,6 +142,7 @@
 				background: #4095e5;
 				width: 20%;
 				color: #fff;
+				border:none;
 			}
 		}
 	}

@@ -47,14 +47,13 @@ export const getFailExamAPI = (classid) => {
 //搜索考试名称
 export const getSearchAPI = (classname) => {
     return request({
-      url: '/',
+      url: '/DTO/showExams',
       method:'POST',
-      data:{
-        classname
-      }
+      params:{
+		classname
+	  }
     })
 }
-
 
 export const getExamDetailAPI = (classid) => {
 	// console.log(classid)
