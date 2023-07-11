@@ -1,27 +1,19 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import {
-  getStudentDetailAPI,
-  getStudentCancelAPI,
-  getSearchStudentCancelAPI,
-  getAgreeCancelStudentAPI,
-  getRejectCancelStudentAPI
-} from '@/apis/adminStudentAPI'
+  getTeacherDetailAPI,
+  getTeacherCancelAPI,
+  getSearchTeacherCancelAPI,
+  getAgreeCancelTeacherAPI,
+  getRejectCancelTeacherAPI
+} from '@/apis/adminTeacherAPI'
 import { Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const drawer = ref(false)
-const searchByStudent = ref('')
-//校验
-// const checkIsChEnNum = (str) => {
-//   //如果值为空，通过校验
-//   if (str == '') return true
-//   var pattern = /^[A-Za-z0-9\u4e00-\u9fa5]+$/gi
-//   if (pattern.test(str)) return true
-//   else return false
-// }
+const searchByTeacher = ref('')
 
 const checkIsChEnNum = (str) => {
   // 如果值为空，通过校验
@@ -35,32 +27,32 @@ const checkIsChEnNum = (str) => {
 }
 
 //学生总表
-const studentList = ref([])
-const getStudentList = async () => {
-  const result = await getStudentCancelAPI()
-  studentList.value = result.data.data
-  console.log(studentList.value)
+const teacherList = ref([])
+const getTeacherList = async () => {
+  const result = await getTeacherCancelAPI()
+  teacherList.value = result.data.data
+  console.log(teacherList.value)
 }
 
 //获取搜索学生
-const getSearchStudentListByStudent = async (student) => {
-  const result = await getSearchStudentCancelAPI(student)
-  studentList.value = result.data
+const getSearchTeacherListByTeacher = async (teacher) => {
+  const result = await getSearchTeacherCancelAPI(teacher)
+  teacherList.value = result.data
   currentPage.value = 1
 }
 
 const getSearchByStudent = async () => {
-  if (searchByStudent.value == '') {
-    getStudentList()
+  if (searchByTeacher.value == '') {
+    getTeacherList()
   }
-  if (searchByStudent.value) {
-    if (checkIsChEnNum(searchByStudent.value)) {
-      const result = await getSearchStudentListByStudent(searchByStudent.value)
-      studentList.value = result.data
+  if (searchByTeacher.value) {
+    if (checkIsChEnNum(searchByTeacher.value)) {
+      const result = await getSearchTeacherListByTeacher(searchByTeacher.value)
+      teacherList.value = result.data
       // console.log('彳亍'+searchByStudent.value);
     } else {
       ElMessage.error('请输入数字或中文或组成的课程名')
-      searchByStudent.value = ''
+      searchByTeacher.value = ''
     }
   }
 }
@@ -74,17 +66,17 @@ const handlePageChange = (page) => {
 const currentPageData = computed(() => {
   const startIndex = (currentPage.value - 1) * pageSize
   const endIndex = startIndex + pageSize
-  console.log(studentList.value.slice(startIndex, endIndex))
-  return studentList.value.slice(startIndex, endIndex)
+  console.log(teacherList.value.slice(startIndex, endIndex))
+  return teacherList.value.slice(startIndex, endIndex)
 })
 
 onMounted(() => {
-  getStudentList()
+  getTeacherList()
 })
 const searchInfo = ref([])
 //查询学生信息方法
-const searchStudentInfo = async (studentid) => {
-  const result = await getStudentDetailAPI(studentid)
+const searchTeacherInfo = async (teacherid) => {
+  const result = await getTeacherDetailAPI(teacherid)
   searchInfo.value = result.data
   // await Promise.resolve();
   drawer.value = true
@@ -95,15 +87,15 @@ const searchStudentInfo = async (studentid) => {
 //跳转到管理学生界面
 const goback = () => {
   // 跳转到另一个界面
-  router.push('/admin/student')
+  router.push('/admin/teacher')
 }
 
 //同意注销
-const acceptCancel = async (studentid) => {
-  const result = await getAgreeCancelStudentAPI(studentid)
+const acceptCancel = async (teacherid) => {
+  const result = await getAgreeCancelTeacherAPI(teacherid)
   if (result.data.code == 200) {
     ElMessage.success('同意用户注销成功')
-    getStudentList()
+    getTeacherList()
   } else {
     ElMessage.error('同意注销失败！')
   }
@@ -113,8 +105,8 @@ const cancelDialogVisible = ref(false)
 const rejectid = ref(null)
 const rejectReason = ref(null)
 //驳回注销
-const rejectCancel = (studentid) => {
-  rejectid.value = studentid
+const rejectCancel = (teacherid) => {
+  rejectid.value = teacherid
   cancelDialogVisible.value = true
 }
 
@@ -125,13 +117,13 @@ const agreeReject = async () => {
   }
   console.log('rejectid' + rejectid.value)
   console.log('rejectReason' + rejectReason.value)
-  const result = await getRejectCancelStudentAPI(
+  const result = await getRejectCancelTeacherAPI(
     rejectid.value,
     rejectReason.value
   )
   if (result.data.code == 200) {
     ElMessage.success('驳回用户注销成功')
-    getStudentList()
+    getTeacherList()
   } else {
     ElMessage.error('驳回注销失败！')
   }
@@ -148,25 +140,25 @@ const agreeReject = async () => {
     <div class="searchBox" style="display: flex; align-items: center; margin-top: 10px;">
       <el-button type="primary" @click="goback">返回</el-button>
       <h36 style="margin-left: 20px;margin-right: 20px;">注销申请处理</h36>
-      <el-input v-model.trim="searchByStudent" class="w-50 m-2" size="large" placeholder="请输入学生姓名" :prefix-icon="Search" @keyup.enter="getSearchByStudent" style="width: 30%; margin-right: 10px;" />
+      <el-input v-model.trim="searchByTeacher" class="w-50 m-2" size="large" placeholder="请输入老师姓名" :prefix-icon="Search" @keyup.enter="getSearchByStudent" style="width: 30%; margin-right: 10px;" />
       <el-button type="primary" @click="allAgreeCancel">批量同意</el-button>
     </div>
     <el-table :data="currentPageData">
-      <el-table-column prop="id" label="学生id" width="300"></el-table-column>
-      <el-table-column prop="name" label="学生姓名" width="200"></el-table-column>
+      <el-table-column prop="id" label="老师id" width="300"></el-table-column>
+      <el-table-column prop="name" label="老师姓名" width="200"></el-table-column>
       <el-table-column prop="gender" label="性别" width="200">
         <template #default="scope">
           <span>{{ scope.row.gender ? '男' : '女' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="canceltime" label="申请注销时间" width="200">
-        <template #default="scope">
+        <!-- <template #default="scope">
           <span>`{{ `${scope.row.canceltime[0]}-${String(scope.row.canceltime[1]).padStart(2, '0')}-${String(scope.row.canceltime[2]).padStart(2, '0')} ${String(scope.row.canceltime[3]).padStart(2, '0')}:${String(scope.row.canceltime[4]).padStart(2, '0')}:${String(scope.row.canceltime[5]).padStart(2, '0')}` }}</span>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column label="操作" width="300">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="searchStudentInfo(scope.row.id)">查看学生信息</el-button>
+          <el-button type="primary" size="small" @click="searchTeacherInfo(scope.row.id)">查看老师信息</el-button>
           <el-button type="warning" size="small" @click="acceptCancel(scope.row.id)">同意注销</el-button>
           <el-button type="warning" size="small" @click="rejectCancel(scope.row.id)">驳回注销</el-button>
         </template>
@@ -174,10 +166,10 @@ const agreeReject = async () => {
     </el-table>
     <!-- 分页器 -->
     <div class="pagination-container">
-      <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" :total="studentList.length" layout="prev, pager, next"></el-pagination>
+      <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" :total="teacherList.length" layout="prev, pager, next"></el-pagination>
     </div>
     <!-- 展示学生个人信息的部分 -->
-    <el-drawer v-model="drawer" title="学生信息" :direction="direction">
+    <el-drawer v-model="drawer" title="老师信息" :direction="direction">
       <div class="profile">
         <div class="profile-picture"><img class="avatar" :src="searchInfo.data.imageurl" alt="头像" /></div>
         <div class="profile-details">

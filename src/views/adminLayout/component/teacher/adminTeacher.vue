@@ -1,27 +1,19 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import {
-  getStudentInfoAPI,
-  getSearchStudentAPI,
-  getStudentDetailAPI,
-  getDeleteStudentAPI
-} from '@/apis/adminStudentAPI'
+  getTeacherInfoAPI,
+  getSearchTeacherAPI,
+  getTeacherDetailAPI,
+  getDeleteTeacherAPI
+} from '@/apis/adminTeacherAPI'
 import { Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const drawer = ref(false)
-const searchByStudent = ref('')
+const searchByTeacher = ref('')
 //校验
-// const checkIsChEnNum = (str) => {
-//   //如果值为空，通过校验
-//   if (str == '') return true
-//   var pattern = /^[A-Za-z0-9\u4e00-\u9fa5]+$/gi
-//   if (pattern.test(str)) return true
-//   else return false
-// }
-
 const checkIsChEnNum = (str) => {
   // 如果值为空，通过校验
   if (str.trim() === '') return true
@@ -34,31 +26,31 @@ const checkIsChEnNum = (str) => {
 }
 
 //学生总表
-const studentList = ref([])
-const getStudentList = async () => {
-  const result = await getStudentInfoAPI()
-  studentList.value = result.data.data
+const teacherList = ref([])
+const getTeacherList = async () => {
+  const result = await getTeacherInfoAPI()
+  teacherList.value = result.data.data
 }
 
 //获取搜索学生
-const getSearchStudentListByStudent = async (student) => {
-  const result = await getSearchStudentAPI(student)
-  studentList.value = result.data
+const getSearchTeacherListByTeacher = async (teacher) => {
+  const result = await getSearchTeacherAPI(teacher)
+  teacherList.value = result.data
   currentPage.value = 1
 }
 
-const getSearchByStudent = async () => {
-  if (searchByStudent.value == '') {
-    getStudentList()
+const getSearchByTeacher = async () => {
+  if (searchByTeacher.value == '') {
+    getTeacherList()
   }
-  if (searchByStudent.value) {
-    if (checkIsChEnNum(searchByStudent.value)) {
-      const result = await getSearchStudentListByStudent(searchByStudent.value)
-      studentList.value = result.data
-      console.log('studentList' + studentList.value)
+  if (searchByTeacher.value) {
+    if (checkIsChEnNum(searchByTeacher.value)) {
+      const result = await getSearchTeacherListByTeacher(searchByTeacher.value)
+      teacherList.value = result.data
+      console.log('teacherList' + teacherList.value)
     } else {
       ElMessage.error('请输入数字或中文或组成的课程名')
-      searchByStudent.value = ''
+      searchByTeacher.value = ''
     }
   }
 }
@@ -72,16 +64,16 @@ const handlePageChange = (page) => {
 const currentPageData = computed(() => {
   const startIndex = (currentPage.value - 1) * pageSize
   const endIndex = startIndex + pageSize
-  return studentList.value.slice(startIndex, endIndex)
+  return teacherList.value.slice(startIndex, endIndex)
 })
 
 onMounted(() => {
-  getStudentList()
+  getTeacherList()
 })
 const searchInfo = ref([])
 //查询学生信息方法
-const searchStudentInfo = async (studentid) => {
-  const result = await getStudentDetailAPI(studentid)
+const searchTeacherInfo = async (teacherid) => {
+  const result = await getTeacherDetailAPI(teacherid)
   searchInfo.value = result.data
   // await Promise.resolve();
   drawer.value = true
@@ -90,11 +82,11 @@ const searchStudentInfo = async (studentid) => {
 }
 
 //删除用户界面
-const deleteStudent = async (studentid) => {
-  const result = await getDeleteStudentAPI(studentid)
+const deleteTeacher = async (teacherid) => {
+  const result = await getDeleteTeacherAPI(teacherid)
   if (result.data.code == 200) {
     ElMessage.success('删除用户成功')
-    getStudentList()
+    getTeacherList()
   } else {
     ElMessage.error('删除用户失败')
   }
@@ -103,7 +95,7 @@ const deleteStudent = async (studentid) => {
 //跳转到注销处理界面
 const dealCancel = () => {
   // 跳转到另一个界面
-  router.push('/admin/student/cancel')
+  router.push('/admin/teacher/cancel')
 }
 </script>
 
@@ -111,32 +103,31 @@ const dealCancel = () => {
   <div>
     <!-- 搜索导出栏 -->
     <div class="searchBox" style="display: flex; align-items: center; margin-top: 10px;">
-      <el-input v-model.trim="searchByStudent" class="w-50 m-2" size="large" placeholder="请输入学生姓名" :prefix-icon="Search" @keyup.enter="getSearchByStudent" style="width: 30%; margin-right: 10px;" />
+      <el-input v-model.trim="searchByTeacher" class="w-50 m-2" size="large" placeholder="请输入老师姓名" :prefix-icon="Search" @keyup.enter="getSearchByTeacher" style="width: 30%; margin-right: 10px;" />
       <el-button type="primary" @click="dealCancel">注销处理</el-button>
     </div>
-
     <el-table :data="currentPageData">
-      <el-table-column prop="student.id" label="学生id"></el-table-column>
-      <el-table-column prop="student.name" label="学生姓名"></el-table-column>
-      <el-table-column prop="student.gender" label="性别">
+      <el-table-column prop="teacher.id" label="老师id"></el-table-column>
+      <el-table-column prop="teacher.name" label="老师姓名"></el-table-column>
+      <el-table-column prop="teacher.gender" label="性别">
         <template #default="scope">
-          <span>{{ scope.row.student.gender ? '男' : '女' }}</span>
+          <span>{{ scope.row.teacher.gender ? '男' : '女' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="classNum" label="学生选课个数"></el-table-column>
+      <el-table-column prop="classNum" label="老师课程数"></el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="searchStudentInfo(scope.row.student.id)">查看学生信息</el-button>
-          <el-button type="warning" size="small" @click="deleteStudent(scope.row.student.id)">删除</el-button>
+          <el-button type="primary" size="small" @click="searchTeacherInfo(scope.row.teacher.id)">查看老师信息</el-button>
+          <el-button type="warning" size="small" @click="deleteTeacher(scope.row.teacher.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页器 -->
     <div class="pagination-container">
-      <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" :total="studentList.length" layout="prev, pager, next"></el-pagination>
+      <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" :total="teacherList.length" layout="prev, pager, next"></el-pagination>
     </div>
     <!-- 展示学生个人信息的部分 -->
-    <el-drawer v-model="drawer" title="学生信息" :direction="direction">
+    <el-drawer v-model="drawer" title="老师信息" :direction="direction">
       <div class="profile">
         <div class="profile-picture"><img class="avatar" :src="searchInfo.data.imageurl" alt="头像" /></div>
         <div class="profile-details">

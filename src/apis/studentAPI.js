@@ -4,9 +4,9 @@ import request from '@/utils/http'
 // 获取课程封面和名字
 // 最终使用
 export const getCurriculumAPI = () => {
-    return request({
-      url: '/classes/showClassesname',
-    })
+  return request({
+    url: '/classes/showClassesname'
+  })
 }
 
 //测试使用
@@ -20,8 +20,8 @@ export const getCurriculumAPI = () => {
 export const getSearchCurriculumAPI = (classname) => {
   return request({
     url: '/',
-    method:'POST',
-    data:{
+    method: 'POST',
+    data: {
       classname
     }
   })
@@ -29,14 +29,14 @@ export const getSearchCurriculumAPI = (classname) => {
 
 /////curriculumDetail 学生选课界面调用方法
 //根据课程名称查询课程信息
-export const getCurriculumDetailAPI = ( classname ) => {
+export const getCurriculumDetailAPI = (classname) => {
   return request({
     url: '/classes/showClassDetail',
     params: {
       classname
     }
-  });
-};
+  })
+}
 
 //测试使用
 // export const getCurriculumDetailAPI = () => {
@@ -46,32 +46,31 @@ export const getCurriculumDetailAPI = ( classname ) => {
 // }
 
 //获取学生已选课程
-export const getStudentSelectAPI = ( classname ) => {
+export const getStudentSelectAPI = (classname) => {
   return request({
     url: '/selectclass/showselectedclasses',
     params: {
       classname
     }
-  });
-};
+  })
+}
 
 //学生选课
 //最终使用
-import { getSessionCookie } from '@/cookie.js';
-const JSESSIONID = getSessionCookie();
+import { getSessionCookie } from '@/cookie.js'
+const JSESSIONID = getSessionCookie()
 
 export const getAttendAPI = (classid1) => {
-  console.log({classid1})
+  console.log({ classid1 })
   return request({
-    url:'/selectclass/selectclass',
-    method:'POST',
-    data: 
-      classid1,
-    headers:{
-      "Content-Type":'application/json',
-      //'Authorization': `Bearer ${JSESSIONID}` 
-      'X-Auth-Token':JSESSIONID
-    },
+    url: '/selectclass/selectclass',
+    method: 'POST',
+    data: classid1,
+    headers: {
+      'Content-Type': 'application/json',
+      //'Authorization': `Bearer ${JSESSIONID}`
+      'X-Auth-Token': JSESSIONID
+    }
   })
 }
 
@@ -99,10 +98,9 @@ export const getAttendAPI = (classid1) => {
 //最终使用
 export const getDropAPI = (classid1) => {
   return request({
-    url:'/selectclass/quitclass',
-    method:'POST',
-    data:
-      classid1,
+    url: '/selectclass/quitclass',
+    method: 'POST',
+    data: classid1
   })
 }
 
@@ -112,3 +110,11 @@ export const getDropAPI = (classid1) => {
 //     url:'/attend',
 //   })
 // }
+
+//学生签到
+export const getSignUp = () => {
+  return request({
+    url: '/signup/signup',
+    method: 'POST'
+  })
+}

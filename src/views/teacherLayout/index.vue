@@ -4,17 +4,19 @@ import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 //1.导入use打头的方法
 import { useEndoutStore } from '@/stores/endout'
+import { useUserStore } from '@/stores/user'
 //2.执行方法得到store实例对象
 const endoutStore = useEndoutStore()
 const getLogoStore = useLogoStore()
+const userStore = useUserStore().userInfo
 const getHeadImage = () => {
-    return new URL(`@/assets/images/logo.png`,import.meta.url).href
+  return new URL(`@/assets/images/logo.png`, import.meta.url).href
 }
 const userInfo = ref(false)
-const hideInfo = ()=>{
-  setTimeout(()=>{
+const hideInfo = () => {
+  setTimeout(() => {
     userInfo.value = false
-  },3000)
+  }, 3000)
 }
 const showInfo = () => {
   userInfo.value = true
@@ -22,14 +24,14 @@ const showInfo = () => {
 
 const route = useRoute()
 
-let activePath = () =>{
-    if(route.meta.active){
-      return route.meta.active
-    }
-    return route.path
+let activePath = () => {
+  if (route.meta.active) {
+    return route.meta.active
+  }
+  return route.path
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   activePath()
 })
 </script>
@@ -37,88 +39,77 @@ onBeforeMount(()=>{
 <template>
   <el-container class="container">
     <el-header class="fixed-header">
-      <el-menu
-      :ellipsis="false"
-      @select="handleSelect"
-      :default-active="activePath()"
-      class="el-menu-demo"
-      mode="horizontal"
-      background-color="#fff"
-      ext-color="#000"
-      active-text-color="#4095e5"
-      router  
-      >
-        <el-image style="height:45px;margin: auto;" :src="getLogoStore.logoUrl"/>
+      <el-menu :ellipsis="false" @select="handleSelect" :default-active="activePath()" class="el-menu-demo" mode="horizontal" background-color="#fff" ext-color="#000" active-text-color="#4095e5" router>
+        <el-image style="height:45px;margin: auto;" :src="getLogoStore.logoUrl" />
         <el-menu-item index="/teacher">我的课程信息</el-menu-item>
         <el-menu-item index="/teacher/student">查询学生信息</el-menu-item>
         <div class="flex-grow" />
         <el-menu-item index="/teacher/detail">个人中心</el-menu-item>
         <div class="box1">
-          <el-avatar :size="100" class="userMessage" :src="getHeadImage()" @mouseover="showInfo" @mouseleave="hideInfo"/>
+          <el-avatar :size="100" class="userMessage" :src="userStore.data.imageurl" @mouseover="showInfo" @mouseleave="hideInfo" />
           <div v-show="userInfo" class="box2">
             <p @click="endoutStore.endOut">退出</p>
-          </div> 
+          </div>
         </div>
       </el-menu>
     </el-header>
     <el-main class="main-content">
-    <!-- 二级路由入口 -->
-    <RouterView/>
+      <!-- 二级路由入口 -->
+      <RouterView />
     </el-main>
   </el-container>
 </template>
 
 <style lang="scss" scoped>
-  .container {
-    min-height: 100vh;
-    position: relative;
-  }
+.container {
+  min-height: 100vh;
+  position: relative;
+}
 
-  .fixed-header {
-    position: fixed;
+.fixed-header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  // z-index: 999;
+}
+
+.main-content {
+  margin-top: 40px; /* 根据 .fixed-header 的高度来调整 margin-top */
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+.box1 {
+  position: relative;
+  width: 7%;
+  height: 50px;
+  margin-right: 20px;
+  .userMessage {
     width: 100%;
-    top: 0;
-    left: 0;
-    // z-index: 999;
-  }
-
-  .main-content {
-  margin-top: 40px;  /* 根据 .fixed-header 的高度来调整 margin-top */
-  }
-
-  .flex-grow {
-      flex-grow: 1;
-  }
-  .box1{
-    position: relative;
-    width: 7%;
-    height: 50px;
-    margin-right: 20px;
-    .userMessage{
-        width: 100%;
-        height: 100%;
-        &:hover{
-            cursor: pointer;
-        }
+    height: 100%;
+    &:hover {
+      cursor: pointer;
     }
-  .box2{
-      position: absolute;
-      bottom: -38px;
-      right: -50%;
-      border: 1px solid #ccc;
-      width: 50px;
-      height: 35px;
-      background-color: #fff;
-      box-sizing: border-box;
-      p{
-          margin-top: 3px;
-          text-align: center;
-          font-size: 8px;
-          &:hover{
-              cursor: pointer;
-          }
+  }
+  .box2 {
+    position: absolute;
+    bottom: -38px;
+    right: -50%;
+    border: 1px solid #ccc;
+    width: 50px;
+    height: 35px;
+    background-color: #fff;
+    box-sizing: border-box;
+    p {
+      margin-top: 3px;
+      text-align: center;
+      font-size: 8px;
+      &:hover {
+        cursor: pointer;
       }
     }
   }
-
+}
 </style>

@@ -3,6 +3,10 @@ import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { ref, onMounted, computed } from 'vue'
 import {
+  getExamAPI,
+  postScoreAPI,
+  getQuestionAPI,
+  getMarkAPI,
   getClassDetailAPI,
   getResourceAPI,
   getAddChapterAPI,
@@ -382,6 +386,112 @@ const downloadTemplate = () => {
   }
 }
 
+const examList = ref([])
+const questionList = ref([])
+const markList = ref([])
+
+// // 测试数据
+// const examList = [
+//       { date: '2023-6-15', name: '母猪的产后护理', totalTime: '100' },
+//       { date: '2023-6-18', name: '霸道GPT爱上我', totalTime: '60' },
+//       { date: '2023-7-5', name: '怀民亦未寝', totalTime: '120' },
+// ];
+const markselected = ref('exampage')
+const questionshow = ref('')
+const questionscore = ref('')
+const questionidshow = ref('')
+const studentidshow = ref('')
+const studentnameshow = ref('')
+const studentanswershow = ref('')
+const scoreshow = ref(false)
+const nextbtn = ref(true)
+const score = ref()
+const setexampage = () => {
+  markselected.value = 'exampage'
+}
+const setquestionpage = () => {
+  markselected.value = 'questionpage'
+}
+const setmarkpage = () => {
+  markselected.value = 'markpage'
+}
+const setquestionshow = (question) => {
+  questionshow.value = question
+}
+const setquestionscore = (score) => {
+  questionscore.value = score
+}
+const setquestionidshow = (questionid) => {
+  questionidshow.value = questionid
+}
+// const hidenextbtn = () => {
+//   nextbtn.value = false
+// }
+const getExamLists = async (classid) => {
+  console.log('获取的classid' + classid)
+  const result = await getExamAPI(classid)
+  examList.value = result.data.data
+  // examList.value = examList.value.filter(item => item.status !== '未批改');
+  console.log(examList.value)
+}
+const getQuestionLists = async (examid) => {
+  console.log('获取的examid' + examid)
+  const result = await getQuestionAPI(examid)
+  questionList.value = result.data.data
+  // examList.value = examList.value.filter(item => item.status !== '未批改');
+  console.log(questionList.value)
+}
+const getMarkLists = async (questionid) => {
+  console.log('获取的questionid' + questionid)
+  const result = await getMarkAPI(questionid)
+  markList.value = result.data.data
+  // examList.value = examList.value.filter(item => item.status !== '未批改');
+  console.log(markList.value)
+  showNextAnswer()
+}
+const showNextAnswer = () => {
+  score.value = ''
+  let currentItemIndex = 0
+  console.log(markList.value.length)
+  while (currentItemIndex < markList.value.length) {
+    if (markList.value[currentItemIndex].score === 0) {
+      // 符合条件，显示该项
+      scoreshow.value = true
+      studentidshow.value = markList.value[currentItemIndex].studentid
+      studentnameshow.value = markList.value[currentItemIndex].studentname
+      studentanswershow.value = markList.value[currentItemIndex].studentanswer
+      console.log(scoreshow.value)
+      break
+    } else {
+      score.value = ''
+      scoreshow.value = false
+      studentidshow.value = ''
+      studentnameshow.value = ''
+      studentanswershow.value = ''
+    }
+
+    currentItemIndex++
+  }
+}
+const clearAll = () => {
+  score.value = ''
+  scoreshow.value = false
+  studentidshow.value = ''
+  studentnameshow.value = ''
+  studentanswershow.value = ''
+}
+const postscore = async (questionid, studentid, score) => {
+  console.log(questionid, studentid, score)
+  const result = await postScoreAPI(questionid, studentid, score)
+  if (result.data.code == 200) {
+    ElMessage({ type: 'success', message: '提交成功' })
+    console.log('questionidshow:' + questionidshow.value)
+    getMarkLists(questionidshow.value)
+  } else {
+    ElMessage({ type: 'error', message: '提交失败' })
+  }
+}
+
 onMounted(() => {
   //最终使用
   getClassDetail(classid)
@@ -396,42 +506,44 @@ onMounted(() => {
   <!-- 我是已审核课程详情 -->
   <!-- <div v-if="detialInfo"> -->
   <el-row>
-    <el-col :span="3">
-      <el-button @click="gotoPrevious()">
-        返回
-      </el-button>
-    </el-col>
-    <el-col v-if="detail" :span="12">
-      {{ detail.classname }}
-      -
-      {{ classid }}
-    </el-col>
+    <el-col :span="3"><el-button @click="gotoPrevious()">返回</el-button></el-col>
+    <el-col v-if="detail" :span="12">{{ detail.classname }} - {{ classid }}</el-col>
   </el-row>
   <!-- </div> -->
   <div class="page-container">
     <div class="content">
       <div class="sidebar">
-        <div class="menu-item" @click="selectMenuItem('classinfo')" :class="{ 'selected': selectedMenu === 'classinfo' }">
+        <div class="menu-item" @click="selectMenuItem('classinfo')" :class="{ selected: selectedMenu === 'classinfo' }">
           <el-icon name="el-icon-message"></el-icon>
           <span class="text">课程信息</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('classresource')" :class="{ 'selected': selectedMenu === 'classresource' }">
+        <div class="menu-item" @click="selectMenuItem('classresource')" :class="{ selected: selectedMenu === 'classresource' }">
           <el-icon name="el-icon-edit-outline"></el-icon>
           <span class="text">课程资料</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('publishexam')" :class="{ 'selected': selectedMenu === 'publishexam' }">
+        <div class="menu-item" @click="selectMenuItem('publishexam')" :class="{ selected: selectedMenu === 'publishexam' }">
           <el-icon name="el-icon-folder"></el-icon>
           <span class="text">发布试题</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('markpaper'); getExamLists()" :class="{ 'selected': selectedMenu === 'markpaper' }">
+        <div class="menu-item" @click="
+						selectMenuItem('markpaper');
+						getExamLists(classid);
+						setexampage();
+					" :class="{ selected: selectedMenu === 'markpaper' }">
           <el-icon name="el-icon-document"></el-icon>
           <span class="text">批改试卷</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('viewgrade'); getExamLists()" :class="{ 'selected': selectedMenu === 'viewgrade' }">
+        <div class="menu-item" @click="
+						selectMenuItem('viewgrade');
+						getExamLists();
+					" :class="{ selected: selectedMenu === 'viewgrade' }">
           <el-icon name="el-icon-document"></el-icon>
           <span class="text">查看成绩</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('publishannounce'); getExamLists()" :class="{ 'selected': selectedMenu === 'publishannounce' }">
+        <div class="menu-item" @click="
+						selectMenuItem('publishannounce');
+						getExamLists();
+					" :class="{ selected: selectedMenu === 'publishannounce' }">
           <el-icon name="el-icon-document"></el-icon>
           <span class="text">发布公告</span>
         </div>
@@ -442,52 +554,38 @@ onMounted(() => {
           <h2>课程信息</h2>
           <el-form>
             <el-form-item>
-              <p v-if="detail">
-                课程名称：{{detail.classname}}
-              </p>
+              <p v-if="detail">课程名称：{{ detail.classname }}</p>
             </el-form-item>
             <el-form-item>
-              <p v-if="detail">
-                课程ID：{{detail.classid}}
-              </p>
+              <p v-if="detail">课程ID：{{ detail.classid }}</p>
             </el-form-item>
             <el-form-item>
-              <p v-if="detail">
-                课程介绍:{{detail.introduction}}
-              </p>
+              <p v-if="detail">课程介绍:{{ detail.introduction }}</p>
             </el-form-item>
             <el-form-item>
-              <p v-if="detail&&detail.starttime">
-                课程时间：{{ detail.starttime }} ~ {{ detail ? detail.endtime : '' }}
-              </p>
-              <p v-if="detail&&!detail.starttime">
-                课程时间：到{{ detail ? detail.endtime : '' }}截止
-              </p>
+              <p v-if="detail && detail.starttime">课程时间：{{ detail.starttime }} ~ {{ detail ? detail.endtime : '' }}</p>
+              <p v-if="detail && !detail.starttime">课程时间：到{{ detail ? detail.endtime : '' }}截止</p>
             </el-form-item>
             <el-form-item>
               <div v-if="detail" class="curriculum-cover">
                 课程封面：
-                <img :src="detail.cover">
+                <img :src="detail.cover" />
               </div>
             </el-form-item>
           </el-form>
         </div>
         <div v-if="selectedMenuItem === 'classresource'">
           <!-- 课程资料的内容 -->
-          <div v-if="!updateChapterVisible&&!updateResourceVisible">
+          <div v-if="!updateChapterVisible && !updateResourceVisible">
             <el-row class="announcement-header">
               <el-col :span="5">
                 <h2>课程资料</h2>
               </el-col>
               <el-col :span="4">
-                <div class="announcement-button">
-                  <el-button type="primary" @click="updateChapter">更新章节</el-button>
-                </div>
+                <div class="announcement-button"><el-button type="primary" @click="updateChapter">更新章节</el-button></div>
               </el-col>
               <el-col :span="4">
-                <div class="announcement-button">
-                  <el-button type="primary" @click="updateResource">添加资料</el-button>
-                </div>
+                <div class="announcement-button"><el-button type="primary" @click="updateResource">添加资料</el-button></div>
               </el-col>
             </el-row>
             <nav class="navbar">
@@ -500,38 +598,36 @@ onMounted(() => {
             <div class="content">
               <div v-if="activeTab === 'myResource'" class="tab-content">
                 <div v-if="detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo&&!showTxtContent" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
                     <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                       <div style="width: 100%;">
                         <el-card style="margin-top: 10px;width: 100%;">
                           <h3 class="chapter-title" @click="toggleCollapse(chapter)">
                             <el-row>
                               <el-col span="24">
-                                <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapter.chapternum]}"></span>
+                                <span class="chapter-indicator" :class="{ expanded: chapterExpanded[chapter.chapter.chapternum] }"></span>
                                 第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
                               </el-col>
                             </el-row>
                           </h3>
                           <div v-show="chapterExpanded[chapter.chapter.chapternum]" class="chapter-content">
-                            <div style="margin-top: 3px;font-size: 70%;">
-                              {{ chapter.chapter.introduction }}
-                            </div>
+                            <div style="margin-top: 3px;font-size: 70%;">{{ chapter.chapter.introduction }}</div>
                             <div style="margin-top: 10px;" v-for="resource in detialInfo.resources" :key="resource.resourceId">
-                              <div v-if="resource.chapterId == chapter.chapter.chapterid&&resource.status == '已通过'">
-                                <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid,resource)">
-                                  <p class="resource-text">视频：{{resource.resourcename}}</p>
+                              <div v-if="resource.chapterId == chapter.chapter.chapterid && resource.status == '已通过'">
+                                <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid, resource)">
+                                  <p class="resource-text">视频：{{ resource.resourcename }}</p>
                                 </div>
                                 <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
-                                  <p class="resource-text">文本：{{resource.resourcename}}</p>
+                                  <p class="resource-text">文本：{{ resource.resourcename }}</p>
                                 </div>
                                 <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
-                                  <p class="resource-text">图片：{{resource.resourcename}}</p>
+                                  <p class="resource-text">图片：{{ resource.resourcename }}</p>
                                 </div>
                                 <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
-                                  <p class="resource-text">文档：{{resource.resourcename}}</p>
+                                  <p class="resource-text">文档：{{ resource.resourcename }}</p>
                                 </div>
                                 <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
-                                  <p class="resource-text">PPT：{{resource.resourcename}}</p>
+                                  <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                                 </div>
                               </div>
                             </div>
@@ -544,8 +640,8 @@ onMounted(() => {
               </div>
               <div v-if="activeTab === 'underReview'" class="tab-content">
                 <!-- 审核中资料 -->
-                <div v-if="unpassResource&&detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo&&!showTxtContent" style="width: 100%;">
+                <div v-if="unpassResource && detialInfo" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
                     <div v-for="resource in unpassResource" :key="resource.resourceId" style="width: 100%;">
                       <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                         <div v-if="resource.chapterId == chapter.chapter.chapterid">
@@ -553,29 +649,27 @@ onMounted(() => {
                             <h3 class="chapter-title" @click="toggleCollapse(chapter)">
                               <el-row>
                                 <el-col span="24">
-                                  <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapter.chapternum]}"></span>
+                                  <span class="chapter-indicator" :class="{ expanded: chapterExpanded[chapter.chapter.chapternum] }"></span>
                                   第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
                                 </el-col>
                               </el-row>
                             </h3>
                             <div v-show="chapterExpanded[chapter.chapter.chapternum]" class="chapter-content">
-                              <div style="margin-top: 3px;font-size: 70%;">
-                                {{ chapter.chapter.introduction }}
-                              </div>
-                              <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid,resource)">
-                                <p class="resource-text">视频：{{resource.resourcename}}</p>
+                              <div style="margin-top: 3px;font-size: 70%;">{{ chapter.chapter.introduction }}</div>
+                              <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid, resource)">
+                                <p class="resource-text">视频：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
-                                <p class="resource-text">文本：{{resource.resourcename}}</p>
+                                <p class="resource-text">文本：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">图片：{{resource.resourcename}}</p>
+                                <p class="resource-text">图片：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">文档：{{resource.resourcename}}</p>
+                                <p class="resource-text">文档：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">PPT：{{resource.resourcename}}</p>
+                                <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                               </div>
                             </div>
                           </el-card>
@@ -587,8 +681,8 @@ onMounted(() => {
               </div>
               <div v-if="activeTab === 'reviewFailed'" class="tab-content">
                 <!-- 审核未通过资料 -->
-                <div v-if="rejectResource&&detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo&&!showTxtContent" style="width: 100%;">
+                <div v-if="rejectResource && detialInfo" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
                     <div v-for="resource in rejectResource" :key="resource.resourceId" style="width: 100%;">
                       <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                         <div v-if="resource.chapterId == chapter.chapter.chapterid">
@@ -596,29 +690,27 @@ onMounted(() => {
                             <h3 class="chapter-title" @click="toggleCollapse(chapter)">
                               <el-row>
                                 <el-col span="24">
-                                  <span class="chapter-indicator" :class="{'expanded': chapterExpanded[chapter.chapter.chapternum]}"></span>
+                                  <span class="chapter-indicator" :class="{ expanded: chapterExpanded[chapter.chapter.chapternum] }"></span>
                                   第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
                                 </el-col>
                               </el-row>
                             </h3>
                             <div v-show="chapterExpanded[chapter.chapter.chapternum]" class="chapter-content">
-                              <div style="margin-top: 3px;font-size: 70%;">
-                                {{ chapter.chapter.introduction }}
-                              </div>
-                              <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid,resource)">
-                                <p class="resource-text">视频：{{resource.resourcename}}</p>
+                              <div style="margin-top: 3px;font-size: 70%;">{{ chapter.chapter.introduction }}</div>
+                              <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid, resource)">
+                                <p class="resource-text">视频：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
-                                <p class="resource-text">文本：{{resource.resourcename}}</p>
+                                <p class="resource-text">文本：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">图片：{{resource.resourcename}}</p>
+                                <p class="resource-text">图片：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">文档：{{resource.resourcename}}</p>
+                                <p class="resource-text">文档：{{ resource.resourcename }}</p>
                               </div>
                               <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
-                                <p class="resource-text">PPT：{{resource.resourcename}}</p>
+                                <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                               </div>
                             </div>
                           </el-card>
@@ -631,8 +723,7 @@ onMounted(() => {
             </div>
             <div v-if="showVideo">
               <!-- 视频展示界面 -->
-              <video :src="getVideo()" id="playVideos" controls preload>
-              </video>
+              <video :src="getVideo()" id="playVideos" controls preload></video>
               <button @click="videoBack()">返回</button>
             </div>
             <div v-if="showTxtContent">
@@ -645,45 +736,31 @@ onMounted(() => {
           <div v-if="updateChapterVisible">
             <el-row class="announcement-header">
               <el-col :span="2">
-                <div class="announcement-button">
-                  <el-button @click="hideUpdateChapter">返回</el-button>
-                </div>
+                <div class="announcement-button"><el-button @click="hideUpdateChapter">返回</el-button></div>
               </el-col>
               <el-col :span="5">
                 <h2>更新章节</h2>
               </el-col>
               <el-col :span="4">
-                <div class="announcement-button">
-                  <el-button type="primary" @click="addChapterDialogVisible = true">新增章节</el-button>
-                </div>
+                <div class="announcement-button"><el-button type="primary" @click="addChapterDialogVisible = true">新增章节</el-button></div>
               </el-col>
             </el-row>
             <p>现有的章节：</p>
             <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum">
               <el-card style="margin-top: 10px;width: 100%;">
                 <el-row>
-                  <el-col span="11">
-                    第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}
-                  </el-col>
-                  <el-col span="3" style="margin-left: 5%">
-                    <el-button @click="deleteChapter(chapter.chapter.chapterid)">删除</el-button>
-                  </el-col>
+                  <el-col span="11">第 {{ chapter.chapter.chapternum }} 章：{{ chapter.chapter.chaptername }}</el-col>
+                  <el-col span="3" style="margin-left: 5%"><el-button @click="deleteChapter(chapter.chapter.chapterid)">删除</el-button></el-col>
                 </el-row>
-                <div style="font-size: 80%;">
-                  {{ chapter.chapter.introduction }}
-                </div>
+                <div style="font-size: 80%;">{{ chapter.chapter.introduction }}</div>
               </el-card>
             </div>
           </div>
           <!-- 新增章节对话框 -->
           <el-dialog v-model="addChapterDialogVisible" title="新增章节">
             <el-form label-width="80px">
-              <el-form-item label="章节名称" required>
-                <el-input v-model="addChapterForm.name" placeholder="请输入章节名称"></el-input>
-              </el-form-item>
-              <el-form-item label="章节介绍" required>
-                <el-input v-model="addChapterForm.introduction" placeholder="请输入章节介绍"></el-input>
-              </el-form-item>
+              <el-form-item label="章节名称" required><el-input v-model="addChapterForm.name" placeholder="请输入章节名称"></el-input></el-form-item>
+              <el-form-item label="章节介绍" required><el-input v-model="addChapterForm.introduction" placeholder="请输入章节介绍"></el-input></el-form-item>
             </el-form>
             <div class="dialog-footer">
               <el-button @click="addChapterDialogVisible = false">取消</el-button>
@@ -694,9 +771,7 @@ onMounted(() => {
           <div v-if="updateResourceVisible">
             <el-row class="announcement-header">
               <el-col :span="2">
-                <div class="announcement-button">
-                  <el-button @click="hideUpdateResource">返回</el-button>
-                </div>
+                <div class="announcement-button"><el-button @click="hideUpdateResource">返回</el-button></div>
               </el-col>
               <el-col :span="5">
                 <h2>添加资料</h2>
@@ -705,8 +780,7 @@ onMounted(() => {
             <div style="display: flex; flex-direction: column; align-items: center; margin-top: 5%;">
               <div style="margin-bottom: 20px; text-align: center;zoom: 120%;">
                 <el-select v-model="selectedChapter" placeholder="请选择章节">
-                  <el-option v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" :label="'第 ' + chapter.chapter.chapternum + ' 章：' + chapter.chapter.chaptername" :value="chapter.chapter.chapterid">
-                  </el-option>
+                  <el-option v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" :label="'第 ' + chapter.chapter.chapternum + ' 章：' + chapter.chapter.chaptername" :value="chapter.chapter.chapterid"></el-option>
                 </el-select>
               </div>
               <div style="margin-bottom: 20px; text-align: center;zoom: 120%;">
@@ -749,25 +823,60 @@ onMounted(() => {
             </div>
           </el-dialog>
         </div>
-        <div v-if="selectedMenuItem === 'markpaper'">
+        <div v-if="selectedMenuItem === 'markpaper' && markselected === 'exampage'">
           <h2>批改试卷</h2>
-          <el-table :data="unFinishedExamList">
+          <el-table :data="examList">
             <el-table-column prop="date" label="考试时间">
               <template #default="{ row }">
                 <el-icon>
                   <Clock />
                 </el-icon>
-                {{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
+                {{ row.date }}
               </template>
             </el-table-column>
             <el-table-column prop="name" label="考试项目"></el-table-column>
-            <el-table-column prop="totalTime" label="考试时长(min)"></el-table-column>
             <el-table-column label="操作">
               <template #default="scope">
-                <el-button type="primary" size="small" @click="handleButtonClick(scope.row)">进入考试</el-button>
+                <el-button type="primary" size="middle" @click="setquestionpage();getQuestionLists(scope.row.id)">批改</el-button>
               </template>
             </el-table-column>
           </el-table>
+        </div>
+        <div v-if="selectedMenuItem === 'markpaper' && markselected === 'questionpage'">
+          <el-button @click="setexampage();">返回</el-button>
+          <el-table :data="questionList">
+            <el-table-column prop="questionnum" label="题号"></el-table-column>
+            <el-table-column prop="question" label="题目"></el-table-column>
+            <el-table-column label="操作">
+              <template #default="scope">
+                <el-button type="primary" size="middle" @click="setmarkpage();setquestionshow(scope.row.question);setquestionscore(scope.row.score);setquestionidshow(scope.row.questionid);getMarkLists(scope.row.questionid);clearAll();">批改</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div v-if="selectedMenuItem === 'markpaper' && markselected === 'markpage'">
+          <el-button @click="setquestionpage();">返回</el-button>
+          <br>
+          <div class="leftmark">
+            <el-table :data="markList">
+              <el-table-column prop="studentid" label="学生id"></el-table-column>
+              <el-table-column prop="studentname" label="姓名"></el-table-column>
+              <el-table-column prop="score" label="分数"></el-table-column>
+            </el-table>
+          </div>
+          <div class="rightmark">
+            <h2>题目：({{ questionscore }}分)</h2>
+            <!-- <h4>本题分数：{{questionscore}}</h4> -->
+            {{questionshow}}
+            <h4>学生id：{{studentidshow}}学生姓名：{{studentnameshow}}</h4>
+            <el-input type="text" v-model="score" v-if="scoreshow" style="width: 50px;"></el-input>
+            <el-button @click="postscore(questionidshow,studentidshow,score)" v-if="scoreshow">提交</el-button>
+            <!-- <el-button @click="showNextAnswer();hidenextbtn()" v-if="nextbtn">下一个</el-button> -->
+            <h2>答案：</h2>{{studentanswershow}}<br>
+
+          </div>
+
+          <!-- 批改题目界面 -->
         </div>
         <div v-if="selectedMenuItem === 'viewgrade'">
           <h2>查看成绩</h2>
@@ -779,9 +888,7 @@ onMounted(() => {
               <h2>发布公告</h2>
             </el-col>
             <el-col :span="12">
-              <div v-if="detail&&detail.announcement" class="announcement-button">
-                <el-button type="primary" @click="updateAnnounce">更新公告</el-button>
-              </div>
+              <div v-if="detail && detail.announcement" class="announcement-button"><el-button type="primary" @click="updateAnnounce">更新公告</el-button></div>
               <div v-else-if="detail == null || detail.announcement == null" class="announcement-button">
                 <el-button type="primary" @click="updateAnnounce">添加公告</el-button>
               </div>
@@ -805,8 +912,18 @@ onMounted(() => {
     </div>
   </div>
 </template>
-  
-  <style scoped lang="scss">
+
+<style scoped lang="scss">
+.leftmark {
+  float: left;
+  // margin: 0px;
+  width: 50%;
+  height: 80%;
+}
+.rightmark {
+  float: right;
+  width: 50%;
+}
 .page-container {
   height: 80vh;
   display: flex;

@@ -12,6 +12,8 @@ import {
 } from '@/apis/studentDetialAPI'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { useEndoutStore } from '@/stores/endout'
+const endoutStore = useEndoutStore()
 const userStore = useUserStore().userInfo
 console.log(userStore.userInfo)
 //获取学生信息
@@ -157,7 +159,10 @@ const getCancel = async (email, verCode) => {
   const result = await getCancelAPI(email, verCode)
   cancelMsg.value = result.data
   if (cancelMsg.value.code == 200) {
-    ElMessage.success('注销成功')
+    ElMessage.success(
+      '注销申请提交成功，15个工作日内会进行审核，结果将通过邮箱发送！'
+    )
+    endoutStore.endOut
   } else {
     ElMessage.error('注销失败')
   }
@@ -299,6 +304,9 @@ const onUploadSuccess = (response) => {
               <el-link type="primary" @click="showChangePwd = true">修改密码</el-link>
               <el-link type="primary" style="margin-left: 10px;" @click="showCancel = true">注销账号</el-link>
             </span>
+          </el-form-item>
+          <el-form-item label="用户昵称：">
+            <el-input v-if="infoList" v-model="infoList.name"></el-input>
           </el-form-item>
           <el-form-item label="邮箱：">
             <span class="value" v-if="infoList">{{ infoList.email }}</span>

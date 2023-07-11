@@ -230,14 +230,20 @@ const sendEnd = async (chapterid) => {
                     </div>
                     <div style="margin-top: 10px;" v-for="resource in detialInfo.resources" :key="resource.resourceId">
                       <div v-if="resource.chapterId == chapter.chapter.chapterid&&resource.status == '已通过'">
-                        <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid,resource)">
-                          <p class="resource-text">视频：{{resource.resourcename}}</p>
+                        <div v-if="resource.type === '视频'" class="resource-box video" @click="showVide(chapter.chapter.chapterid, resource)">
+                          <p class="resource-text">视频：{{ resource.resourcename }}</p>
                         </div>
                         <div v-if="resource.type === '文本'" class="resource-box text" @click="showTxt(resource)">
-                          <p class="resource-text">文本：{{resource.resourcename}}</p>
+                          <p class="resource-text">文本：{{ resource.resourcename }}</p>
+                        </div>
+                        <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
+                          <p class="resource-text">图片：{{ resource.resourcename }}</p>
+                        </div>
+                        <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                          <p class="resource-text">文档：{{ resource.resourcename }}</p>
                         </div>
                         <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
-                          <p class="resource-text">ppt：{{resource.resourcename}}</p>
+                          <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                         </div>
                       </div>
                     </div>

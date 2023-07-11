@@ -10,7 +10,7 @@ import { getSessionCookie } from '@/cookie.js'
 const JSESSIONID = getSessionCookie()
 
 const httpInstance = axios.create({
-  baseURL: '/api3',
+  baseURL: '/api4',
   // 允许跨域请求时携带cookie
   withCredentials: true,
   headers: {
