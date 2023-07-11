@@ -145,3 +145,14 @@ export const postAnswersAPI = (studentexamList,examid) => {
 		params:{examid}
     })
 }
+
+export const prepostAnswersAPI = (studentexamList,examid) => {
+	console.log(studentexamList)
+	console.log(examid)
+    return request({
+		method:'POST',
+        url: '/exam/presubmitAnswers',
+		data: studentexamList,
+		params:{examid}
+    })
+}

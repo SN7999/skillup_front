@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getQuestionsAPI, postAnswersAPI } from '@/apis/studentExamAPI';
+import { getQuestionsAPI, postAnswersAPI, prepostAnswersAPI } from '@/apis/studentExamAPI';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
@@ -9,6 +9,7 @@ const route = useRoute();
 const router = useRouter();
 const examid = route.params.id;
 const time = route.query.time;
+const date = route.query.date;
 const answers = ref({}); //答案数组
 const post = ref([]); //答案数组
 const questions = ref([]); //存储后台得到的考试题目内容
@@ -48,11 +49,24 @@ const submitForm = async () => {
 	// const convertedArr = Object.entries(answers.value).map(([key, value]) => ({ [key]: value }));
 	
 	// console.log(convertedArr); 
-	const result = await postAnswersAPI(post.value, examid);
+	const result = await prepostAnswersAPI(post.value, examid);
 	// for (const question of questions.value) {
 	// 	const answer = answers.value[question.questionid];
 	// 	console.log(`题目ID：${question.questionid}，答案：${answer}`);
 	// }
+	ElMessage.success(result.data.msg);
+	gotoPrevious();
+};
+
+const submitFormOver = async () => {
+	for (const question of questions.value) {
+		const answer = {questionid:question.questionid,studentanswer:answers.value[question.questionid]};
+		post.value.push(answer);
+		console.log(answer);
+	}
+	console.log(post.value);
+
+	const result = await postAnswersAPI(post.value, examid);
 	ElMessage.success(result.data.msg);
 	gotoPrevious();
 };
@@ -85,7 +99,14 @@ let countdownInterval = null; // 定时器变量，用于清除定时器
 
 const startCountdown = () => {
   showTimer.value = true; // 显示计时器
-  remainingTime.value = time*60; // 设定倒计时时间（秒）
+  
+  const backendTimeStr = date;
+  const backendTime = new Date(backendTimeStr.replace(" ", "T"));
+  const backendTimeISO = backendTime.toISOString().slice(0, -5);
+  const interval = time * 60 * 1000;
+  const currentTime = new Date();
+
+  remainingTime.value = Math.floor((backendTime.getTime() + interval - currentTime)/1000); // 设定倒计时时间（秒）
 
   // 创建定时器，每秒更新剩余时间
   countdownInterval = setInterval(() => {
@@ -103,12 +124,14 @@ const startCountdown = () => {
 const executeFunction = () => {
   // 在计时器结束后执行的函数
   ElMessage.warning('考试时间到，强制提交试卷');
-  submitForm();
+  submitFormOver();
   console.log('计时器结束，执行函数...');
 };
 const formatTime = (time) => {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time - hours * 3600) / 60);
+  // const testseconds = time % 60;
+  // const seconds = parseInt(testseconds.toString().slice(0,2));
   const seconds = time % 60;
   return `${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
 };
