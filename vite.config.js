@@ -58,7 +58,7 @@ export default defineConfig({
       },
       '/api3': {
         target: 'http://10.128.145.54:8080/',
-		// target: 'http://121.196.223.43:8080/',
+        // target: 'http://121.196.223.43:8080/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api3/, '')
       },

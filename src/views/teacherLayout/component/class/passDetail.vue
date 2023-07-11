@@ -363,9 +363,9 @@ const handleChange = (file) => {
 const dialogVisible = ref(false)
 const selectedOption = ref('')
 const downloadUrls = {
-  word: 'http://skillup.oss-cn-beijing.aliyuncs.com/word%E6%A8%A1%E6%9D%BF.docx?Expires=1689078548&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=xdEriczJhYyKcifUobOrrdVri0s%3D',
+  word: 'http://skillup.oss-cn-beijing.aliyuncs.com/word%E6%A8%A1%E6%9D%BF.docx',
   excel:
-    'http://skillup.oss-cn-beijing.aliyuncs.com/excel%E6%A8%A1%E6%9D%BF.xlsx?Expires=1689078658&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=FXPu2m16u73zuVmN3OTDk74NsoI%3D'
+    'http://skillup.oss-cn-beijing.aliyuncs.com/excel%E6%A8%A1%E6%9D%BF.xlsx'
 }
 
 const showDialog = () => {
@@ -387,7 +387,7 @@ const downloadTemplate = () => {
 
 const downloadTest = () => {
   window.location.href =
-    'http://skillup.oss-cn-beijing.aliyuncs.com/question%E6%A8%A1%E6%9D%BF.xlsx?Expires=1689097589&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=HA6bYqr%2BBsMpvLf8IZipmdnHGg4%3D'
+    'http://skillup.oss-cn-beijing.aliyuncs.com/question%E6%A8%A1%E6%9D%BF.xlsx'
 }
 
 const examList = ref([])

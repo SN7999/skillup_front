@@ -15,6 +15,7 @@ import {
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+
 const route = useRoute()
 const router = useRouter()
 const classid = route.params.id
@@ -58,17 +59,8 @@ const getDetailInfo = async () => {
   detialInfo.value = result.data.data
 }
 
-//测试使用
-// const getDetailInfo = async () => {
-//     const  result  = await getTrainingDetailAPI()
-//     detialInfo.value = result.data.data
-// }
-
 onMounted(() => {
-  //最终使用
   getDetailInfo()
-  //测试使用
-  //getDetailInfo()
 })
 
 //回退到上一页
@@ -94,7 +86,6 @@ function toggleCollapse(chapter) {
 const showChapter = ref('')
 const showVideo = ref(false)
 const selectedVideo = ref('')
-//let videos = document.getElementById('playVideos')
 const showTxtContent = ref(false)
 const txtContent = ref('')
 const selectedTxtUrl = ref('')
@@ -210,6 +201,7 @@ const downloadDocument = (resource) => {
 
 const showPt = ref(false)
 const selectedPPT = ref(null)
+
 const showPPT = (resource) => {
   console.log(`output->resource.url`, resource.url)
   selectedPPT.value =
