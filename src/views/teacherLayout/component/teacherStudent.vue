@@ -37,12 +37,12 @@ const getStudentList = async () => {
 
 const getSearchStudentListByClass = async className => {
 	const result = await getSearchStudentListByClassAPI(className);
-	studentList.value = result.data;
+	studentList.value = result.data.data;
 	currentPage.value = 1;
 };
 const getSearchStudentListByStudent = async student => {
 	const result = await getSearchStudentListByStudentAPI(student);
-	studentList.value = result.data;
+	studentList.value = result.data.data;
 	currentPage.value = 1;
 };
 const getSearchByClassName = async () => {
@@ -52,7 +52,7 @@ const getSearchByClassName = async () => {
 	if (searchByClassName.value) {
 		if (checkIsChEnNum(searchByClassName.value)) {
 			const result = await getSearchStudentListByClass(searchByClassName.value);
-			studentList.value = result.data;
+			// studentList.value = result.data;
 			// console.log('彳亍'+searchByClassName.value);
 		} else {
 			ElMessage.error('请输入数字或中文或字母组成的考试名');
@@ -67,7 +67,7 @@ const getSearchByStudent = async () => {
 	if (searchByStudent.value) {
 		if (checkIsChEnNum(searchByStudent.value)) {
 			const result = await getSearchStudentListByStudent(searchByStudent.value);
-			studentList.value = result.data;
+			// studentList.value = result.data;
 			// console.log('彳亍'+searchByStudent.value);
 		} else {
 			ElMessage.error('请输入数字或中文或组成的课程名');
