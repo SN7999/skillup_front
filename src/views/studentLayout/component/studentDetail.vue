@@ -12,10 +12,9 @@ import {
 } from '@/apis/studentDetialAPI'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
-import { useEndoutStore } from '@/stores/endout'
 import { removeSessionCookie } from '@/cookie.js'
 import Vrouter from '@/router'
-const endoutStore = useEndoutStore()
+
 const userStore = useUserStore().userInfo
 console.log(userStore.userInfo)
 //获取学生信息
