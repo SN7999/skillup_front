@@ -1,5 +1,5 @@
 <script setup>
-import { getStudentAPI, getSearchStudentListByClassAPI, getSearchStudentListByStudentAPI, searchStudentInfoAPI } from '@/apis/teacherStudentAPI';
+import { getStudentAPI, getSearchStudentListByClassAPI, getSearchStudentListByStudentAPI, searchStudentInfoAPI, getStudentsAPI } from '@/apis/teacherStudentAPI';
 import { onMounted, ref, computed } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
@@ -8,6 +8,16 @@ const drawer = ref(false);
 const searchByClassName = ref('');
 const searchByStudent = ref('');
 const getSearchStudent = () => {
+	console.log(searchByClassName.value + ' ' + searchByStudent.value);
+};
+const getStudents = async () => {
+	const result = await getStudentsAPI();
+	if (result.data.code==200){
+		ElMessage({ type: 'success', message: result.data.msg})
+		window.open(result.data.data);
+	}else{
+		ElMessage({ type: 'error', message:result.data.msg})
+	}
 	console.log(searchByClassName.value + ' ' + searchByStudent.value);
 };
 //校验
@@ -27,12 +37,12 @@ const getStudentList = async () => {
 
 const getSearchStudentListByClass = async className => {
 	const result = await getSearchStudentListByClassAPI(className);
-	studentList.value = result.data;
+	studentList.value = result.data.data;
 	currentPage.value = 1;
 };
 const getSearchStudentListByStudent = async student => {
 	const result = await getSearchStudentListByStudentAPI(student);
-	studentList.value = result.data;
+	studentList.value = result.data.data;
 	currentPage.value = 1;
 };
 const getSearchByClassName = async () => {
@@ -42,7 +52,7 @@ const getSearchByClassName = async () => {
 	if (searchByClassName.value) {
 		if (checkIsChEnNum(searchByClassName.value)) {
 			const result = await getSearchStudentListByClass(searchByClassName.value);
-			studentList.value = result.data;
+			// studentList.value = result.data;
 			// console.log('彳亍'+searchByClassName.value);
 		} else {
 			ElMessage.error('请输入数字或中文或字母组成的考试名');
@@ -57,7 +67,7 @@ const getSearchByStudent = async () => {
 	if (searchByStudent.value) {
 		if (checkIsChEnNum(searchByStudent.value)) {
 			const result = await getSearchStudentListByStudent(searchByStudent.value);
-			studentList.value = result.data;
+			// studentList.value = result.data;
 			// console.log('彳亍'+searchByStudent.value);
 		} else {
 			ElMessage.error('请输入数字或中文或组成的课程名');
@@ -118,7 +128,7 @@ const test = () => {
 				@keyup.enter="getSearchByStudent"
 				style="width: 30%; margin-right: 10px;"
 			/>
-			<el-button type="primary" @click="getSearchStudent">导出excel文件</el-button>
+			<el-button type="primary" @click="getStudents()">导出excel文件</el-button>
 		</div>
 
 		<el-table :data="currentPageData">

@@ -12,10 +12,11 @@
     onMounted(()=>{
         getCurriculumList()
     })
-    const searchCurriculumList = ref([])
-    const getSearchCurriculumList = async (curriculumName) => {
-        const result = await getSearchCurriculumAPI(curriculumName)
-        searchCurriculumList.value = result.data
+
+    const getSearchCurriculumList = async (classname) => {
+        const result = await getSearchCurriculumAPI(classname)
+		console.log(result)
+        curriculumList.value = result.data
     }
     const searchCurriculum = ref('')
     const checkIsChEnNum = (str) => {

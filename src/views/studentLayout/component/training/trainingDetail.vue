@@ -2,7 +2,10 @@
 import { onMounted, ref } from 'vue'
 import {
   getTrainingDetailAPI,
-  getChapterFinishAPI
+  getChapterFinishAPI,
+  getRandomAPI,
+  getRandomTest,
+  getRandomUp
 } from '@/apis/studentTraingAPI'
 import {
   getUnFinishedExamAPI,
@@ -11,6 +14,7 @@ import {
 } from '@/apis/studentExamAPI'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 const route = useRoute()
 const router = useRouter()
 const classid = route.params.id
@@ -49,7 +53,7 @@ const handleButtonClick = (data) => {
 //根据课程id获取课程信息
 //最终使用
 const detialInfo = ref(null)
-const getDetailInfo = async (classid) => {
+const getDetailInfo = async () => {
   const result = await getTrainingDetailAPI(classid)
   detialInfo.value = result.data.data
 }
@@ -62,7 +66,7 @@ const getDetailInfo = async (classid) => {
 
 onMounted(() => {
   //最终使用
-  getDetailInfo(classid)
+  getDetailInfo()
   //测试使用
   //getDetailInfo()
 })
@@ -109,8 +113,62 @@ const videoBack = () => {
   showChapter.value = null
   selectedVideo.value = null
   showVideo.value = false
-  getDetailInfo(classid)
+  getDetailInfo()
   selectedMenu.value = 'courseware'
+  videoDuration.value = 0
+  random.value = 0
+  randomTest.value = null
+  selectedOption.value = null
+}
+
+const videoDuration = ref(0)
+const getTotalDuration = () => {
+  const videoElement = document.getElementById('playVideos')
+  videoDuration.value = videoElement.duration
+}
+
+const random = ref(0)
+const videoRandom = async () => {
+  const result = await getRandomAPI(parseInt(videoDuration.value))
+  random.value = result.data.data
+  console.log(`output->random.value`, random.value)
+}
+
+const randomTest = ref(null)
+const dialogTestVisable = ref(false)
+const videoRandomTest = async () => {
+  console.log(`output->showChapter.value`, showChapter.value)
+  const result = await getRandomTest(showChapter.value)
+  randomTest.value = result.data.data
+  console.log(`output->randomTest.value`, randomTest.value)
+  if (randomTest.value) {
+    dialogTestVisable.value = true
+    console.log(`output->dialogTestVisable.value`, dialogTestVisable.value)
+  }
+}
+
+let isPaused = false
+const checkProgress = () => {
+  console.log('chackProgress')
+  const videoElement = document.getElementById('playVideos')
+  if (videoElement.currentTime >= random.value && !isPaused) {
+    videoElement.pause()
+    isPaused = true
+    videoRandomTest()
+  }
+}
+
+const selectedOption = ref(null)
+const submitRandomAnswer = async () => {
+  if (selectedOption.value === randomTest.value.answer) {
+    const result = await getRandomUp(1)
+    ElMessage.success(result.data.msg)
+    dialogTestVisable.value = false
+  } else {
+    const result = await getRandomUp(0)
+    ElMessage.error(result.data.msg + '正确答案为' + randomTest.value.answer)
+    dialogTestVisable.value = false
+  }
 }
 
 const showTxt = (resource) => {
@@ -154,6 +212,7 @@ const downloadDocument = (resource) => {
 const sendEnd = async (chapterid) => {
   const result = await getChapterFinishAPI(chapterid)
   console.log('章节完成' + result)
+  getDetailInfo()
 }
 </script>
 
@@ -254,8 +313,9 @@ const sendEnd = async (chapterid) => {
           </div>
           <div v-if="showVideo">
             <!-- 视频展示界面 -->
-            <video :src="getVideo()" id="playVideos" controls preload @ended="sendEnd(showChapter)">
+            <video :src="getVideo()" id="playVideos" controls preload @loadedmetadata="getTotalDuration" @play.once="videoRandom" @timeupdate="checkProgress" @ended="sendEnd(showChapter)">
             </video>
+            <p>视频总时长: {{ videoDuration }}</p>
             <button @click="videoBack()">返回</button>
           </div>
           <div v-if="showTxtContent">
@@ -264,7 +324,16 @@ const sendEnd = async (chapterid) => {
             <button @click="txtBack()">返回</button>
           </div>
         </div>
-
+        <el-dialog v-model="dialogTestVisable" title="请回答题目">
+          {{ randomTest.question }}
+          <el-radio-group v-model="selectedOption">
+            <el-radio label="A" size="large">{{ randomTest.optionA }}</el-radio>
+            <el-radio label="B" size="large">{{ randomTest.optionB }}</el-radio>
+            <el-radio label="C" size="large">{{ randomTest.optionC }}</el-radio>
+            <el-radio label="D" size="large">{{ randomTest.optionD }}</el-radio>
+          </el-radio-group>
+          <el-button @click="submitRandomAnswer">提交</el-button>
+        </el-dialog>
         <div v-if="selectedMenuItem === 'exam'">
           <nav class="navbar">
             <ul>

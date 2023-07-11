@@ -17,16 +17,16 @@ export const getCurriculumAPI = () => {
 // }
 
 //搜索课程 url待改
-export const getSearchCurriculumAPI = (classname) => {
-  return request({
-    url: '/',
-    method: 'POST',
-    data: {
-      classname
-    }
-  })
-}
 
+export const getSearchCurriculumAPI = (classname) => {
+    return request({
+      url: '/classes/likeQueryClasses',
+      method:'POST',
+      params:{
+		classname
+	  }
+    })
+}
 /////curriculumDetail 学生选课界面调用方法
 //根据课程名称查询课程信息
 export const getCurriculumDetailAPI = (classname) => {

@@ -32,7 +32,7 @@ const userStore = useUserStore()
 // 表单对象-登录
 const formLog = ref({
   identity: 'student',
-  email: '804@163.com',
+  email: '666@qq.com',
   password: '123456'
 })
 // 规则对象-登录
@@ -303,7 +303,7 @@ const doRegister = () => {
           ElMessage({ type: 'success', message: res.value.data.msg })
           testStatus.value = 0
         } else {
-          ElMessage({ type: 'error', message: '注册失败' })
+          ElMessage({ type: 'error', message: 'res.value.data.msg' })
         }
       }
     }
@@ -435,8 +435,8 @@ const doReset = () => {
 
               <el-form-item prop="identity" label="身份">
                 <el-select v-model="formFog.identity" placeholder="选择身份">
-                  <el-option label="学生注册" value="student" />
-                  <el-option label="老师注册" value="teacher" />
+                  <el-option label="学生" value="student" />
+                  <el-option label="老师" value="teacher" />
                 </el-select>
               </el-form-item>
 

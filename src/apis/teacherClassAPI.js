@@ -168,6 +168,25 @@ export const postScoreAPI = (questionid, studentid, score) => {
   })
 }
 
+// 查看成绩界面获取可查看成绩的考试列表
+export const getExamScoreAPI = (classid) => {
+  console.log('执行了获取可查看成绩的考试列表' + classid)
+  return request({
+    method: 'POST',
+    url: '/grade/getcheckedexam',
+    data: classid
+  })
+}
+// 查看点击进去的考试的成绩
+export const getScoreContentAPI = (examid) => {
+  console.log('执行了查看点击进去的考试的成绩列表' + examid)
+  return request({
+    method: 'POST',
+    url: '/grade/getgrade',
+    data: examid
+  })
+}
+
 export const getExamAPI = (classid) => {
   console.log('执行了获取可批改的考试列表' + classid)
   return request({
@@ -192,5 +211,80 @@ export const getMarkAPI = (questionid) => {
     method: 'POST',
     url: '/teacher/showStudentExams',
     params: { questionid }
+  })
+}
+
+//返回可选时间段
+export const getPeriodAPI = (date) => {
+  console.log(`output->date`, date)
+  return request({
+    method: 'POST',
+    url: '/teacher/getUsedPeriod',
+    data: date
+  })
+}
+
+//新增考试
+export const getSaveExamAPI = (name, totalTime, date, classid) => {
+  console.log(`output->name`, name)
+  console.log(`output->total_time`, totalTime)
+  console.log(`output->date`, date)
+  console.log(`output->classid`, classid)
+  return request({
+    method: 'POST',
+    url: '/teacher/saveExam',
+    data: {
+      name,
+      totalTime,
+      date,
+      classid
+    }
+  })
+}
+
+//教师查看考试
+export const getShowExamAPI = (classid) => {
+  return request({
+    method: 'POST',
+    url: '/teacher/showExams',
+    data: classid
+  })
+}
+
+//上传Excel文件
+export const getUploadExcelAPI = (formData, examid) => {
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  console.log(`output->examid`, examid)
+  return request({
+    url: '/teacher/examUpload',
+    method: 'POST',
+    params: {
+      examid
+    },
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data' // 设置请求头部的 Content-Type
+    }
+  })
+}
+
+//上传doc文件
+export const getUploadDocAPI = (formData, examid) => {
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  console.log(`output->examid`, examid)
+  return request({
+    url: '/teacher/examUploadDocx',
+    method: 'POST',
+    params: {
+      examid
+    },
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data' // 设置请求头部的 Content-Type
+    }
   })
 }

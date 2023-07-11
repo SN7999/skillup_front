@@ -1,8 +1,12 @@
 <script setup>
+import { ElMessage } from 'element-plus'
+import * as echarts from 'echarts'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import {
+  getExamScoreAPI,
+  getScoreContentAPI,
   getExamAPI,
   postScoreAPI,
   getQuestionAPI,
@@ -14,9 +18,14 @@ import {
   getUnpassResourceAPI,
   getRejectResourceAPI,
   getUpdateAnnounceAPI,
-  getUploadResourceAPI
+  getUploadResourceAPI,
+  getPeriodAPI,
+  getSaveExamAPI,
+  getShowExamAPI,
+  getUploadExcelAPI,
+  getUploadDocAPI
 } from '@/apis/teacherClassAPI'
-import { ElMessage } from 'element-plus'
+
 const route = useRoute()
 const classid = route.params.id
 const router = useRouter()
@@ -40,8 +49,8 @@ function changeTab(tab) {
 
 //获取课程信息
 const detail = ref(null)
-const getClassDetail = async (classid) => {
-  console.log(classid)
+const getClassDetail = async () => {
+  console.log('classid' + classid)
   const result = await getClassDetailAPI(classid)
   detail.value = result.data.data
 }
@@ -54,7 +63,7 @@ const getClassDetail = async (classid) => {
 //获取章节、资源
 //最终使用
 const detialInfo = ref(null)
-const getDetailInfo = async (classid) => {
+const getDetailInfo = async () => {
   console.log(classid)
   const result = await getResourceAPI(classid)
   detialInfo.value = result.data.data
@@ -364,9 +373,9 @@ const handleChange = (file) => {
 const dialogVisible = ref(false)
 const selectedOption = ref('')
 const downloadUrls = {
-  word: 'https://skillup.oss-cn-beijing.aliyuncs.com/word%E6%A8%A1%E6%9D%BF.docx?Expires=1688807371&OSSAccessKeyId=TMP.3Kf15AoPr4ePCmCeQJuD49AebwX65ykYYb2YREE8TmzcfJ8CVxhv2vctQK9fXr7RcVeqz1XdC5D86bR7JE6LnWcDH4F16f&Signature=a7%2FUBY5iJ1ve9rlZzJ8I%2F9PQG5w%3D',
+  word: 'http://skillup.oss-cn-beijing.aliyuncs.com/word%E6%A8%A1%E6%9D%BF.docx?Expires=1689078548&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=xdEriczJhYyKcifUobOrrdVri0s%3D',
   excel:
-    'https://skillup.oss-cn-beijing.aliyuncs.com/excel%E6%A8%A1%E6%9D%BF.xlsx?Expires=1688807322&OSSAccessKeyId=TMP.3Kf15AoPr4ePCmCeQJuD49AebwX65ykYYb2YREE8TmzcfJ8CVxhv2vctQK9fXr7RcVeqz1XdC5D86bR7JE6LnWcDH4F16f&Signature=5AkDYgW3thAHiNjxyDUJTGEs0WU%3D'
+    'http://skillup.oss-cn-beijing.aliyuncs.com/excel%E6%A8%A1%E6%9D%BF.xlsx?Expires=1689078658&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=FXPu2m16u73zuVmN3OTDk74NsoI%3D'
 }
 
 const showDialog = () => {
@@ -389,6 +398,8 @@ const downloadTemplate = () => {
 const examList = ref([])
 const questionList = ref([])
 const markList = ref([])
+const scoreShowList = ref([])
+const examScoreList = ref([])
 
 // // 测试数据
 // const examList = [
@@ -396,7 +407,10 @@ const markList = ref([])
 //       { date: '2023-6-18', name: '霸道GPT爱上我', totalTime: '60' },
 //       { date: '2023-7-5', name: '怀民亦未寝', totalTime: '120' },
 // ];
+const barChart = ref(null)
+const pieChart = ref(null)
 const markselected = ref('exampage')
+const scoreselected = ref('examscorepage')
 const questionshow = ref('')
 const questionscore = ref('')
 const questionidshow = ref('')
@@ -406,6 +420,67 @@ const studentanswershow = ref('')
 const scoreshow = ref(false)
 const nextbtn = ref(true)
 const score = ref()
+const totalScoreShow = ref('');
+// 初始化图表
+const initBarChart = () => {
+  nextTick(() => {
+    const myChart = echarts.init(barChart.value)
+
+    // 后台返回的成绩数据
+    const scores = scoreShowList.value;
+
+    // 根据成绩范围生成横轴刻度
+    const axisData = []
+    // for (let i = 100; i > 0; i -= 20) {
+    axisData.push(totalScoreShow.value+'~'+Math.round(totalScoreShow.value*0.8));
+	axisData.push(Math.round(totalScoreShow.value*0.8)+'~'+Math.round(totalScoreShow.value*0.6));
+	axisData.push(Math.round(totalScoreShow.value*0.6)+'~0');
+    // }
+
+    // 计算每个刻度范围内的成绩数量
+    const data = []
+    for (const axis of axisData) {
+      const range = axis.split('~')
+      const count = scores.filter(score => score.grade >= parseInt(range[1]) && score.grade <= parseInt(range[0])).length;
+      data.push({ axis, count })
+    }
+
+    myChart.setOption({
+      title: {
+        text: '成绩分布柱状图'
+      },
+      xAxis: {
+        type: 'category',
+        data: axisData
+      },
+      yAxis: {
+        type: 'value',
+		axisLabel: {
+		    formatter: function (value) {
+		      if (Number.isInteger(value)) {
+		        return value;
+		      }
+		      return '';
+		    }
+		  }
+      },
+      series: [
+        {
+          type: 'bar',
+          data: data.map((item) => item.count)
+        }
+      ]
+    })
+  })
+}
+
+
+const setexamscorepage = () => {
+  scoreselected.value = 'examscorepage'
+}
+const setexamscoredetailpage = () => {
+  scoreselected.value = 'examscoredetailpage'
+}
 const setexampage = () => {
   markselected.value = 'exampage'
 }
@@ -427,13 +502,22 @@ const setquestionidshow = (questionid) => {
 // const hidenextbtn = () => {
 //   nextbtn.value = false
 // }
+// 批改试卷界面获取考试列表
 const getExamLists = async (classid) => {
-  console.log('获取的classid' + classid)
+  console.log('批改试卷界面获取的classid' + classid)
   const result = await getExamAPI(classid)
   examList.value = result.data.data
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(examList.value)
 }
+// 查看成绩界面获取考试列表
+const getExamScoreLists = async (classid) => {
+  console.log('查看成绩界面获取的classid' + classid)
+  const result = await getExamScoreAPI(classid)
+  examScoreList.value = result.data.data
+  console.log(examScoreList.value)
+}
+//获取可批改的题目列表
 const getQuestionLists = async (examid) => {
   console.log('获取的examid' + examid)
   const result = await getQuestionAPI(examid)
@@ -441,9 +525,21 @@ const getQuestionLists = async (examid) => {
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(questionList.value)
 }
+//获取点击进去的考试的成绩
+const getScoreContent = async (exam) => {
+	console.log('获取的exam');
+  	console.log(exam.totalScore);
+  	totalScoreShow.value=exam.totalScore;
+  	const result = await getScoreContentAPI(exam.id);
+  scoreShowList.value = result.data.data
+  console.log(scoreShowList.value)
+  initBarChart();
+}
 const getMarkLists = async (questionid) => {
-  console.log('获取的questionid' + questionid)
-  const result = await getMarkAPI(questionid)
+  console.log('获取的exam');
+  	console.log(exam.totalScore);
+  	totalScoreShow.value=exam.totalScore;
+  	const result = await getScoreContentAPI(exam.id);
   markList.value = result.data.data
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(markList.value)
@@ -492,10 +588,170 @@ const postscore = async (questionid, studentid, score) => {
   }
 }
 
+const showDialogFile = ref(false)
+const showUploadDialog = ref(false)
+
+const showDialogExam = () => {
+  showDialogFile.value = true
+}
+
+const examname = ref(null)
+const date = ref(new Date())
+const period = ref(null)
+const starttime = ref(null)
+const duration = ref(0)
+
+const datePickerOptions = {
+  disabledDate: (time) => {
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
+    return time.getTime() < currentDate.getTime()
+  }
+}
+
+const periods = ref([0, 0, 0])
+const showPeriod = async () => {
+  const formattedDate = date.value.toISOString().split('T')[0]
+  console.log(`output->formattedDate`, formattedDate)
+  const result = await getPeriodAPI(formattedDate)
+  periods.value = result.data.data
+  console.log(`output->periods.value`, periods.value)
+}
+
+watch(date, showPeriod)
+
+const timePickerOptions = {
+  selectableRange: '08:30:00 - 20:30:00'
+}
+
+const uploadUrl = '' // Provide the upload URL
+
+const closeDialogFile = () => {
+  showDialogFile.value = false
+  date.value = null
+  period.value = null
+  starttime.value = null
+  duration.value = 0
+  periods.value = [0, 0, 0]
+}
+
+const examid = ref(null)
+
+const saveExam = async () => {
+  console.log(`output->examname.value`, examname.value)
+  console.log(`output->duration.value`, duration.value)
+  const formattedDate = date.value.toISOString().split('T')[0]
+  console.log(`output->formattedDate`, formattedDate)
+  const formattedTime = starttime.value.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+  console.log(`output->formattedTime`, formattedTime)
+  const time = formattedDate + ' ' + formattedTime
+  console.log(`output->time`, time)
+  const result = await getSaveExamAPI(
+    examname.value,
+    duration.value,
+    time,
+    classid
+  )
+  console.log(`output->result.data`, result.data)
+  if (result.data.code == 200) {
+    ElMessage.success('新增考试成功')
+    examid.value = result.data.data.id
+    console.log(`output->examid.value`, examid.value)
+    showDialogFile.value = false
+    date.value = null
+    period.value = null
+    starttime.value = null
+    duration.value = 0
+    periods.value = [0, 0, 0]
+    showUploadDialog.value = true
+  } else {
+    ElMessage.error('新增考试失败')
+  }
+}
+
+const myExam = ref([])
+const showExam = async () => {
+  const result = await getShowExamAPI(classid)
+  myExam.value = result.data.data
+  console.log(`output->myExam.value`, myExam.value)
+}
+
+const uploadMethod = ref(null)
+
+const handleBeforeUploadExcel = async (file) => {
+  console.log('handleBeforeUploadExcel called')
+  // 创建一个新的 FormData 对象
+  const formData = new FormData()
+  // 将文件添加到 FormData
+  formData.append('file', file.raw)
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  // 使用自定义的上传方法，将 formData 作为参数传递
+  const result = await getUploadExcelAPI(formData, examid.value)
+  if (result.data.code == 200) {
+    ElMessage.success('上传成功')
+    examid.value = null
+    uploadMethod.value = null
+    showUploadDialog.value = false
+    showExam()
+  } else {
+    ElMessage.error('上传失败')
+  }
+  // 阻止默认的上传行为
+  return false
+}
+
+const handleChangeExcel = (file) => {
+  console.log('handle change Excel')
+  if (file !== null) {
+    // 选择了文件，手动调用
+    handleBeforeUploadExcel(file)
+  }
+}
+
+const handleBeforeUploadDoc = async (file) => {
+  console.log('handleBeforeUploadExcel called')
+  // 创建一个新的 FormData 对象
+  const formData = new FormData()
+  // 将文件添加到 FormData
+  formData.append('file', file.raw)
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  // 使用自定义的上传方法，将 formData 作为参数传递
+  const result = await getUploadDocAPI(formData, examid.value)
+  if (result.data.code == 200) {
+    ElMessage.success('上传成功')
+    examid.value = null
+    uploadMethod.value = null
+    showUploadDialog.value = false
+    showExam()
+  } else {
+    ElMessage.error('上传失败')
+  }
+  // 阻止默认的上传行为
+  return false
+}
+
+const handleChangeDoc = (file) => {
+  console.log('handle change Doc')
+  if (file !== null) {
+    // 选择了文件，手动调用
+    handleBeforeUploadDoc(file)
+  }
+}
+
 onMounted(() => {
   //最终使用
-  getClassDetail(classid)
-  getDetailInfo(classid)
+  getClassDetail()
+  getDetailInfo()
+  showExam()
   //测试使用
   // getClassDetail()
   // getDetailInfo()
@@ -535,7 +791,8 @@ onMounted(() => {
         </div>
         <div class="menu-item" @click="
 						selectMenuItem('viewgrade');
-						getExamLists();
+						getExamScoreLists(classid);
+						setexamscorepage();
 					" :class="{ selected: selectedMenu === 'viewgrade' }">
           <el-icon name="el-icon-document"></el-icon>
           <span class="text">查看成绩</span>
@@ -810,7 +1067,27 @@ onMounted(() => {
         </div>
         <div v-if="selectedMenuItem === 'publishexam'">
           <!-- 发布试题界面的内容 -->
-          <el-button type="primary" @click="showDialog">下载考试模板</el-button>
+          <el-row class="announcement-header">
+            <el-col :span="5">
+              <h2>我的考试</h2>
+            </el-col>
+            <el-col :span="4">
+              <div class="announcement-button"><el-button type="primary" @click="showDialog">下载考试模板</el-button></div>
+            </el-col>
+            <el-col :span="4">
+              <div class="announcement-button"><el-button type="primary" @click="showDialogExam">上传考试文件</el-button></div>
+            </el-col>
+          </el-row>
+          <div>
+            <el-table :data="myExam" :border="false">
+              <el-table-column prop="id" label="考试ID"></el-table-column>
+              <el-table-column prop="name" label="考试名称"></el-table-column>
+              <el-table-column prop="totalScore" label="总分"></el-table-column>
+              <el-table-column prop="totalTime" label="总时间"></el-table-column>
+              <el-table-column prop="classid" label="考试所属课程ID"></el-table-column>
+              <el-table-column prop="date" label="考试时间"></el-table-column>
+            </el-table>
+          </div>
           <el-dialog v-model="dialogVisible" title="下载模板" @close="resetDialog" width="400px">
             <p>请选择要下载的模板类型：</p>
             <el-radio-group v-model="selectedOption" style="margin-top: 20px;">
@@ -821,6 +1098,44 @@ onMounted(() => {
               <el-button @click="resetDialog">取消</el-button>
               <el-button type="primary" @click="downloadTemplate">确定</el-button>
             </div>
+          </el-dialog>
+          <el-dialog v-model="showDialogFile" title="选择考试日期和时间" :before-close="closeDialogFile">
+            <el-form label-width="120px">
+              <el-form-item label="考试名称">
+                <el-input placeholder="请输入考试名称" v-model="examname"></el-input>
+              </el-form-item>
+              <el-form-item label="选择考试日期">
+                <el-date-picker v-model="date" type="date" :picker-options="datePickerOptions"></el-date-picker>
+              </el-form-item>
+              <el-form-item v-if="date" label="选择考试时间段">
+                <el-radio-group v-model="period">
+                  <el-radio :label="0" :disabled="periods[0] !== 1">8:30-11:30</el-radio>
+                  <el-radio :label="1" :disabled="periods[1] !== 1">13:30-16:30</el-radio>
+                  <el-radio :label="2" :disabled="periods[2] !== 1">17:30-20:30</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item v-if="period !== null" label="选择考试开始时间">
+                <el-time-picker v-model="starttime" :picker-options="timePickerOptions"></el-time-picker>
+              </el-form-item>
+              <el-form-item label="考试时长（分钟）">
+                <el-input-number v-model="duration" :min="1" :max="180" :step="1"></el-input-number>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="saveExam">新增考试</el-button>
+              </el-form-item>
+            </el-form>
+          </el-dialog>
+          <el-dialog v-model="showUploadDialog" title="选择上传方式">
+            <el-radio-group v-model="uploadMethod">
+              <el-radio label="excel">上传Excel</el-radio>
+              <el-radio label="word">上传Word</el-radio>
+            </el-radio-group>
+            <el-upload v-if="uploadMethod == 'excel'" :action="uploadUrl" :show-file-list="false" :before-upload="handleBeforeUploadExcel" accept=".xls,.xlsx" @change="handleChangeExcel">
+              <el-button>点击上传(xls、xlsx)</el-button>
+            </el-upload>
+            <el-upload v-if="uploadMethod == 'word'" :action="uploadUrl" :show-file-list="false" :before-upload="handleBeforeUploadDoc" accept=".docx" @change="handleChangeDoc">
+              <el-button>点击上传(docx)</el-button>
+            </el-upload>
           </el-dialog>
         </div>
         <div v-if="selectedMenuItem === 'markpaper' && markselected === 'exampage'">
@@ -837,26 +1152,40 @@ onMounted(() => {
             <el-table-column prop="name" label="考试项目"></el-table-column>
             <el-table-column label="操作">
               <template #default="scope">
-                <el-button type="primary" size="middle" @click="setquestionpage();getQuestionLists(scope.row.id)">批改</el-button>
+                <el-button type="primary" size="middle" @click="
+										setquestionpage();
+										getQuestionLists(scope.row.id);
+									">
+                  批改
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div v-if="selectedMenuItem === 'markpaper' && markselected === 'questionpage'">
-          <el-button @click="setexampage();">返回</el-button>
+          <el-button @click="setexampage()">返回</el-button>
           <el-table :data="questionList">
             <el-table-column prop="questionnum" label="题号"></el-table-column>
             <el-table-column prop="question" label="题目"></el-table-column>
             <el-table-column label="操作">
               <template #default="scope">
-                <el-button type="primary" size="middle" @click="setmarkpage();setquestionshow(scope.row.question);setquestionscore(scope.row.score);setquestionidshow(scope.row.questionid);getMarkLists(scope.row.questionid);clearAll();">批改</el-button>
+                <el-button type="primary" size="middle" @click="
+										setmarkpage();
+										setquestionshow(scope.row.question);
+										setquestionscore(scope.row.score);
+										setquestionidshow(scope.row.questionid);
+										getMarkLists(scope.row.questionid);
+										clearAll();
+									">
+                  批改
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div v-if="selectedMenuItem === 'markpaper' && markselected === 'markpage'">
-          <el-button @click="setquestionpage();">返回</el-button>
-          <br>
+          <el-button @click="setquestionpage()">返回</el-button>
+          <br />
           <div class="leftmark">
             <el-table :data="markList">
               <el-table-column prop="studentid" label="学生id"></el-table-column>
@@ -867,20 +1196,48 @@ onMounted(() => {
           <div class="rightmark">
             <h2>题目：({{ questionscore }}分)</h2>
             <!-- <h4>本题分数：{{questionscore}}</h4> -->
-            {{questionshow}}
-            <h4>学生id：{{studentidshow}}学生姓名：{{studentnameshow}}</h4>
+            {{ questionshow }}
+            <h4>学生id：{{ studentidshow }}学生姓名：{{ studentnameshow }}</h4>
             <el-input type="text" v-model="score" v-if="scoreshow" style="width: 50px;"></el-input>
-            <el-button @click="postscore(questionidshow,studentidshow,score)" v-if="scoreshow">提交</el-button>
+            <el-button @click="postscore(questionidshow, studentidshow, score)" v-if="scoreshow">提交</el-button>
             <!-- <el-button @click="showNextAnswer();hidenextbtn()" v-if="nextbtn">下一个</el-button> -->
-            <h2>答案：</h2>{{studentanswershow}}<br>
-
+            <h2>答案：</h2>
+            {{ studentanswershow }}
+            <br />
           </div>
-
-          <!-- 批改题目界面 -->
         </div>
-        <div v-if="selectedMenuItem === 'viewgrade'">
+        <div v-if="selectedMenuItem === 'viewgrade' && scoreselected === 'examscorepage' ">
           <h2>查看成绩</h2>
-          <!-- 查看成绩界面的内容 -->
+          <el-table :data="examScoreList">
+            <el-table-column prop="date" label="考试时间">
+              <template #default="{ row }">
+                <el-icon>
+                  <Clock />
+                </el-icon>
+                {{ row.date }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="考试项目"></el-table-column>
+            <el-table-column label="操作">
+              <template #default="scope">
+                <el-button type="primary" size="middle" @click="setexamscoredetailpage();getScoreContent(scope.row);">查看成绩</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div v-if="selectedMenuItem === 'viewgrade' && scoreselected === 'examscoredetailpage' ">
+          <el-button @click="setexamscorepage()">返回</el-button>
+          <br>
+          <div class="leftscore">
+            <el-table :data="scoreShowList">
+              <el-table-column prop="studentid" label="学生id"></el-table-column>
+              <el-table-column prop="studentname" label="姓名"></el-table-column>
+              <el-table-column prop="grade" label="分数"></el-table-column>
+            </el-table>
+          </div>
+          <div class="rightscore">
+            <div ref="barChart" style="width: 100%; height: 300px;"></div>
+          </div>
         </div>
         <div v-if="selectedMenuItem === 'publishannounce'">
           <el-row class="announcement-header">
@@ -923,6 +1280,16 @@ onMounted(() => {
 .rightmark {
   float: right;
   width: 50%;
+}
+.leftscore {
+  float: left;
+  // margin: 0px;
+  width: 40%;
+  height: 80%;
+}
+.rightscore {
+  float: right;
+  width: 60%;
 }
 .page-container {
   height: 80vh;
