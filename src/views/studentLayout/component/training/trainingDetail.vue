@@ -292,7 +292,7 @@ const sendEnd = async (chapterid) => {
                     <el-icon>
                       <Clock />
                     </el-icon>
-                    {{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]}}
+                    {{ row.date }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="name" label="考试项目"></el-table-column>
@@ -312,7 +312,7 @@ const sendEnd = async (chapterid) => {
                     <el-icon>
                       <Clock />
                     </el-icon>
-                    {{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]+':'+row.date[5] }}
+                    {{ row.date }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="examname" label="考试项目"></el-table-column>
@@ -327,7 +327,7 @@ const sendEnd = async (chapterid) => {
                     <el-icon>
                       <Clock />
                     </el-icon>
-                    {{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]+':'+row.date[5] }}
+                    {{ row.date }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="examname" label="考试项目"></el-table-column>

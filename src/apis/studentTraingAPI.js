@@ -19,7 +19,7 @@ export const getSelectCurriculumAPI = () => {
 //搜索课程 url待改
 export const getSearchAPI = (classname) => {
     return request({
-      url: '/classes/likeQueryClasses',
+      url: '/student/showSelectClasses',
       method:'POST',
       params:{
 		classname

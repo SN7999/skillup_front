@@ -20,7 +20,7 @@ export const getCurriculumAPI = () => {
 
 export const getSearchCurriculumAPI = (classname) => {
     return request({
-      url: '/classes/likeQueryClasses',
+      url: '/classes/showClassesname',
       method:'POST',
       params:{
 		classname

@@ -61,7 +61,7 @@
         <!-- 课程列表 -->
         <div class='curriculum-list' v-if="curriculumList">
             <div class="curriculum-item" style='background:#f6f6f6;width:32%' v-for="(curriculum,index) in curriculumList.data" :key="index">
-                <RouterLink :to="'/student/curriculum/'+curriculum.classname" class="router-link">
+                <RouterLink :to="'/student/curriculum/'+curriculum.classname" v-if="curriculum.status !='已结束'" class="router-link">
                     <img :src="curriculum.cover">
                     <div style='font-weight: 400;
                     font-size:20px;margin-left:10px;
