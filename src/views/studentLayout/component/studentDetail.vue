@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import {
   getStudentInfoAPI,
   getExamCountAPI,
@@ -13,6 +13,8 @@ import {
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { useEndoutStore } from '@/stores/endout'
+import { removeSessionCookie } from '@/cookie.js'
+import Vrouter from '@/router'
 const endoutStore = useEndoutStore()
 const userStore = useUserStore().userInfo
 console.log(userStore.userInfo)
@@ -46,6 +48,11 @@ const showChangePwd = ref(false)
 const oldPassword = ref('')
 const newPassword1 = ref('')
 const newPassword2 = ref('')
+const changePwd = () => {
+  showChangePwd.value = true
+  showCancel.value = false
+  showChangeEmail.value = false
+}
 //最终使用 待argue 感觉应该把旧密码一起传给后台校验 因为密码进行过加密，前端无法对密码进行比对
 const getPasswordReset = async (oldPassword, newPassword1, newPassword2) => {
   const rstPwdMsg = ref(null)
@@ -65,28 +72,15 @@ const getPasswordReset = async (oldPassword, newPassword1, newPassword2) => {
   newPassword2.value = ''
 }
 
-//测试使用 还需要对两个新的密码进行验证
-// const getPasswordReset = async () => {
-//     const rstPwdMsg = ref(null)
-//     const result = await getPasswordResetAPI()
-//     rstPwdMsg.value = result.data
-//     if(rstPwdMsg.value.code == 200 && rstPwdMsg.value.msg=="重置密码成功"){
-//         ElMessage.success('修改密码成功')
-//     }
-//     else{
-//     ElMessage.error('修改密码失败')
-//     }
-//     rstPwdMsg.value = null
-//     showChangePwd.value = false
-//     oldPassword.value = '';
-//     newPassword1.value = '';
-//     newPassword2.value = '';
-// }
-
 //修改邮箱
 const showChangeEmail = ref(false)
 const newEmail = ref('')
 const emailCode = ref('')
+const changeEmail = () => {
+  showChangePwd.value = false
+  showCancel.value = false
+  showChangeEmail.value = true
+}
 //最终使用
 const getEmailReset = async (newEmail, verCode) => {
   const rstEmailMsg = ref(null)
@@ -103,23 +97,6 @@ const getEmailReset = async (newEmail, verCode) => {
   emailCode.value = ''
   getStudentInfo()
 }
-//测试使用
-// const getEmailReset = async () => {
-//     const rstEmailMsg = ref(null)
-//     const result = await getEmailResetAPI()
-//     rstEmailMsg.value = result.data
-//     if(rstEmailMsg.value.code == 200 && rstEmailMsg.value.msg=="修改成功！"){
-//         ElMessage.success('修改邮箱成功')
-//     }
-//     else{
-//         ElMessage.error('修改邮箱失败')
-//     }
-//     rstEmailMsg.value = null
-//     showChangeEmail.value = false
-//     newEmail.value = ''
-//     emailCode.value = ''
-//     getStudentInfo()
-// }
 
 //获取验证码
 //最终使用
@@ -134,25 +111,17 @@ const getVercode = async (email) => {
   }
   getCodeMsg.value = null
 }
-//测试使用 还需要写邮箱的格式验证
-// const getVercode = async () => {
-//     const getCodeMsg = ref(null)
-//     const result = await getVercodeAPI()
-//     getCodeMsg.value = result.data
-//     if(getCodeMsg.value.code == 200){
-//         ElMessage.success(getCodeMsg.value.msg)
-//     }
-//     else{
-//         ElMessage.error('获取验证码失败')
-//     }
-//     getCodeMsg.value = null
-// }
 
 //注销账号
 const showCancel = ref(false)
 const cancelEmail = ref('')
 const cancelCode = ref('')
 const showFile = ref(false)
+const cancelAccount = () => {
+  showChangePwd.value = false
+  showCancel.value = true
+  showChangeEmail.value = false
+}
 //最终使用
 const getCancel = async (email, verCode) => {
   const cancelMsg = ref(null)
@@ -162,7 +131,13 @@ const getCancel = async (email, verCode) => {
     ElMessage.success(
       '注销申请提交成功，15个工作日内会进行审核，结果将通过邮箱发送！'
     )
-    endoutStore.endOut
+    localStorage.clear()
+    window.sessionStorage.clear()
+    removeSessionCookie()
+    const router = Vrouter
+    router.push({
+      path: '/'
+    })
   } else {
     ElMessage.error('注销失败')
   }
@@ -172,23 +147,6 @@ const getCancel = async (email, verCode) => {
   cancelCode.value = ''
   showFile.value = false
 }
-//测试使用
-// const getCancel = async () => {
-//     const cancelMsg = ref(null)
-//     const result = await getCancelAPI()
-//     cancelMsg.value = result.data
-//     if(cancelMsg.value.code == 200){
-//         ElMessage.success('注销成功')
-//     }
-//     else{
-//         ElMessage.error('获取验证码失败')
-//     }
-//     cancelMsg.value = null
-//     showCancel.value = false
-//     cancelEmail.value = ''
-//     cancelCode.value = ''
-//     showFile.value = false
-// }
 
 //这里应该还要验证，验证码是否正确 后台需要传数据给前端验证，看是否是获取验证码时就传过来，还是再调一个方法验证
 const gotoFile = () => {
@@ -224,24 +182,12 @@ const getSaveInfo = async (
   saveMsg.value = result.data
   if (saveMsg.value.code == 200) {
     ElMessage.success('更新个人信息成功')
+    getStudentInfo()
   } else {
     ElMessage.error('更新个人信息失败')
   }
   saveMsg.value = null
 }
-//测试使用
-// const getSaveInfo = async () => {
-//     const saveMsg = ref(null)
-//     const result = await getSaveInfoAPI()
-//     saveMsg.value = result.data
-//     if(saveMsg.value.code == 200){
-//         ElMessage.success('更新个人信息成功')
-//     }
-//     else{
-//         ElMessage.error('更新个人信息失败')
-//     }
-//     saveMsg.value = null
-// }
 
 onMounted(() => {
   getStudentInfo()
@@ -270,23 +216,13 @@ const onUploadSuccess = (response) => {
         <div>
           <!-- 用户头像 -->
           <el-avatar class="avatar" v-if="infoList" :src="infoList.imageurl" size="large"></el-avatar>
-          <el-upload class="upload" :action="uploadUrl" :show-file-list="false" :on-success="onUploadSuccess">
-            <el-button>上传头像</el-button>
-          </el-upload>
-          <el-dialog title="调整图片尺寸" v-model:visible="previewDialogVisible" :close-on-click-modal="false">
-            <div class="preview-container">
-              <img :src="previewImageUrl" alt="Preview" ref="previewImg" />
-              <div class="resize-box" ref="resizeBox"></div>
-            </div>
-            <div class="dialog-footer">
-              <el-button @click="cancelPreview">取消</el-button>
-              <el-button type="primary" @click="confirmPreview">确认</el-button>
-            </div>
-          </el-dialog>
         </div>
         <div class="info" style="margin-left: 20px">
           <div class="name" style="font-size: 120%;" v-if="infoList">{{ infoList.name }}</div>
           <div class="role" style="font-size: 80%;">学生</div>
+          <el-upload class="upload" :action="uploadUrl" :show-file-list="false" :on-success="onUploadSuccess">
+            <el-button size="mini" style="font-size: 12px;margin-top:10px">更改头像</el-button>
+          </el-upload>
         </div>
       </div>
       <div class="stats">
@@ -301,8 +237,8 @@ const onUploadSuccess = (response) => {
           <el-form-item label="用户ID：">
             <span class="value" v-if="infoList">{{ infoList.id }}</span>
             <span class="actions">
-              <el-link type="primary" @click="showChangePwd = true">修改密码</el-link>
-              <el-link type="primary" style="margin-left: 10px;" @click="showCancel = true">注销账号</el-link>
+              <el-link type="primary" @click="changePwd">修改密码</el-link>
+              <el-link type="primary" style="margin-left: 10px;" @click="cancelAccount">注销账号</el-link>
             </span>
           </el-form-item>
           <el-form-item label="用户昵称：">
@@ -310,21 +246,20 @@ const onUploadSuccess = (response) => {
           </el-form-item>
           <el-form-item label="邮箱：">
             <span class="value" v-if="infoList">{{ infoList.email }}</span>
-            <el-link type="primary" style="margin-left: 20px;" @click="showChangeEmail = true">修改邮箱</el-link>
+            <el-link type="primary" style="margin-left: 20px;" @click="changeEmail">修改邮箱</el-link>
           </el-form-item>
           <el-form-item label="联系方式：">
             <el-input v-if="infoList" v-model="infoList.contact"></el-input>
           </el-form-item>
           <el-form-item label="性别：">
-            <el-radio-group v-if="infoList" v-model="infoList.gender">
-              <!-- 待解决初始值不显示 -->
-              <el-radio label=true>男</el-radio>
-              <el-radio label=false>女</el-radio>
-            </el-radio-group>
+            <el-select v-if="infoList" v-model="infoList.gender" placeholder="请选择性别">
+              <el-option label="男" :value="true"></el-option>
+              <el-option label="女" :value="false"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="年龄：">
             <el-select v-if="infoList" v-model="infoList.age" placeholder="请选择">
-              <el-option v-for="n in 95" :key="n" :value="n">{{ n+5 }}</el-option>
+              <el-option v-for="n in 95" :key="n" :value="n">{{ n }}</el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="院系：">
