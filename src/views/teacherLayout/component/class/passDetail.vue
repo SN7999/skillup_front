@@ -420,40 +420,28 @@ const studentanswershow = ref('')
 const scoreshow = ref(false)
 const nextbtn = ref(true)
 const score = ref()
-
+const totalScoreShow = ref('');
 // 初始化图表
 const initBarChart = () => {
   nextTick(() => {
     const myChart = echarts.init(barChart.value)
 
     // 后台返回的成绩数据
-    const scores = [
-      { grade: 'A', score: 95 },
-      { grade: 'B', score: 82 },
-      { grade: 'C', score: 74 },
-      { grade: 'D', score: 68 },
-      { grade: 'E', score: 52 },
-      { grade: 'F', score: 10 },
-      { grade: 'G', score: 15 }
-      // ... 其他成绩数据
-    ]
+    const scores = scoreShowList.value;
 
     // 根据成绩范围生成横轴刻度
     const axisData = []
     // for (let i = 100; i > 0; i -= 20) {
-    axisData.push('100~80')
-    axisData.push('80~60')
-    axisData.push('60~0')
+    axisData.push(totalScoreShow.value+'~'+Math.round(totalScoreShow.value*0.8));
+	axisData.push(Math.round(totalScoreShow.value*0.8)+'~'+Math.round(totalScoreShow.value*0.6));
+	axisData.push(Math.round(totalScoreShow.value*0.6)+'~0');
     // }
 
     // 计算每个刻度范围内的成绩数量
     const data = []
     for (const axis of axisData) {
       const range = axis.split('~')
-      const count = scores.filter(
-        (score) =>
-          score.score >= parseInt(range[1]) && score.score <= parseInt(range[0])
-      ).length
+      const count = scores.filter(score => score.grade >= parseInt(range[1]) && score.grade <= parseInt(range[0])).length;
       data.push({ axis, count })
     }
 
@@ -466,7 +454,15 @@ const initBarChart = () => {
         data: axisData
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+		axisLabel: {
+		    formatter: function (value) {
+		      if (Number.isInteger(value)) {
+		        return value;
+		      }
+		      return '';
+		    }
+		  }
       },
       series: [
         {
@@ -478,34 +474,6 @@ const initBarChart = () => {
   })
 }
 
-const initPieChart = () => {
-  nextTick(() => {
-    const myChart = echarts.init(pieChart.value)
-
-    const data = [
-      { grade: 'A', count: 10 },
-      { grade: 'B', count: 20 },
-      { grade: 'C', count: 30 },
-      { grade: 'D', count: 15 },
-      { grade: 'F', count: 5 }
-    ]
-
-    myChart.setOption({
-      title: {
-        text: '成绩分布饼状图'
-      },
-      series: [
-        {
-          type: 'pie',
-          data: data.map((item) => ({
-            name: item.grade,
-            value: item.count
-          }))
-        }
-      ]
-    })
-  })
-}
 
 const setexamscorepage = () => {
   scoreselected.value = 'examscorepage'
@@ -558,15 +526,20 @@ const getQuestionLists = async (examid) => {
   console.log(questionList.value)
 }
 //获取点击进去的考试的成绩
-const getScoreContent = async (examid) => {
-  console.log('获取的examid' + examid)
-  const result = await getScoreContentAPI(examid)
+const getScoreContent = async (exam) => {
+	console.log('获取的exam');
+  	console.log(exam.totalScore);
+  	totalScoreShow.value=exam.totalScore;
+  	const result = await getScoreContentAPI(exam.id);
   scoreShowList.value = result.data.data
   console.log(scoreShowList.value)
+  initBarChart();
 }
 const getMarkLists = async (questionid) => {
-  console.log('获取的questionid' + questionid)
-  const result = await getMarkAPI(questionid)
+  console.log('获取的exam');
+  	console.log(exam.totalScore);
+  	totalScoreShow.value=exam.totalScore;
+  	const result = await getScoreContentAPI(exam.id);
   markList.value = result.data.data
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(markList.value)
@@ -1247,7 +1220,7 @@ onMounted(() => {
             <el-table-column prop="name" label="考试项目"></el-table-column>
             <el-table-column label="操作">
               <template #default="scope">
-                <el-button type="primary" size="middle" @click="setexamscoredetailpage();getScoreContent(scope.row.id);initBarChart();initPieChart();">查看成绩</el-button>
+                <el-button type="primary" size="middle" @click="setexamscoredetailpage();getScoreContent(scope.row);">查看成绩</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -1264,7 +1237,6 @@ onMounted(() => {
           </div>
           <div class="rightscore">
             <div ref="barChart" style="width: 100%; height: 300px;"></div>
-            <div ref="pieChart" style="width: 100%; height: 300px;"></div>
           </div>
         </div>
         <div v-if="selectedMenuItem === 'publishannounce'">
