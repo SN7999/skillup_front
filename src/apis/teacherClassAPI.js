@@ -213,3 +213,78 @@ export const getMarkAPI = (questionid) => {
     params: { questionid }
   })
 }
+
+//返回可选时间段
+export const getPeriodAPI = (date) => {
+  console.log(`output->date`, date)
+  return request({
+    method: 'POST',
+    url: '/teacher/getUsedPeriod',
+    data: date
+  })
+}
+
+//新增考试
+export const getSaveExamAPI = (name, totalTime, date, classid) => {
+  console.log(`output->name`, name)
+  console.log(`output->total_time`, totalTime)
+  console.log(`output->date`, date)
+  console.log(`output->classid`, classid)
+  return request({
+    method: 'POST',
+    url: '/teacher/saveExam',
+    data: {
+      name,
+      totalTime,
+      date,
+      classid
+    }
+  })
+}
+
+//教师查看考试
+export const getShowExamAPI = (classid) => {
+  return request({
+    method: 'POST',
+    url: '/teacher/showExams',
+    data: classid
+  })
+}
+
+//上传Excel文件
+export const getUploadExcelAPI = (formData, examid) => {
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  console.log(`output->examid`, examid)
+  return request({
+    url: '/teacher/examUpload',
+    method: 'POST',
+    params: {
+      examid
+    },
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data' // 设置请求头部的 Content-Type
+    }
+  })
+}
+
+//上传doc文件
+export const getUploadDocAPI = (formData, examid) => {
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  console.log(`output->examid`, examid)
+  return request({
+    url: '/teacher/examUploadDocx',
+    method: 'POST',
+    params: {
+      examid
+    },
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data' // 设置请求头部的 Content-Type
+    }
+  })
+}
