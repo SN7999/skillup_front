@@ -288,3 +288,32 @@ export const getUploadDocAPI = (formData, examid) => {
     }
   })
 }
+
+//上传测试题库
+export const getUploadTestAPI = (formData, chapterid) => {
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  console.log(`output->chapterid`, chapterid)
+  return request({
+    url: '/chapter/importQuestion',
+    method: 'POST',
+    params: {
+      chapterid
+    },
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data' // 设置请求头部的 Content-Type
+    }
+  })
+}
+
+//我的测试题库
+export const getMyTestAPI = (chapterid) => {
+  console.log(`output->chapterid`, chapterid)
+  return request({
+    url: '/question/getQuestions',
+    method: 'POST',
+    data: chapterid
+  })
+}

@@ -23,7 +23,9 @@ import {
   getSaveExamAPI,
   getShowExamAPI,
   getUploadExcelAPI,
-  getUploadDocAPI
+  getUploadDocAPI,
+  getUploadTestAPI,
+  getMyTestAPI
 } from '@/apis/teacherClassAPI'
 
 const route = useRoute()
@@ -47,6 +49,12 @@ function changeTab(tab) {
   activeTab.value = tab
 }
 
+const activeTab1 = ref('myExamList')
+
+function changeTab1(tab) {
+  activeTab1.value = tab
+}
+
 //获取课程信息
 const detail = ref(null)
 const getClassDetail = async () => {
@@ -54,11 +62,6 @@ const getClassDetail = async () => {
   const result = await getClassDetailAPI(classid)
   detail.value = result.data.data
 }
-
-// const getClassDetail = async () => {
-//     const  result  = await getClassDetailAPI()
-//     detail.value = result.data.data
-// }
 
 //获取章节、资源
 //最终使用
@@ -71,16 +74,6 @@ const getDetailInfo = async () => {
   getRejectResource(detialInfo.value.classes.classname)
 }
 
-//测试使用
-// const getDetailInfo = async () => {
-//     const  result  = await getResourceAPI()
-//     detialInfo.value = result.data.data
-//     // getUnpassResource(detialInfo.value.classes.classname)
-//     // getRejectResource(detialInfo.value.classes.classname)
-//     getUnpassResource()
-//     getRejectResource()
-// }
-
 const unpassResource = ref([])
 //获取未审核资源
 const getUnpassResource = async (classname) => {
@@ -88,23 +81,12 @@ const getUnpassResource = async (classname) => {
   unpassResource.value = result.data.data
 }
 
-// const getUnpassResource = async () =>{
-//   const result = await getUnpassResourceAPI()
-//   unpassResource.value = result.data.data
-//   console.log(unpassResource)
-// }
-
 const rejectResource = ref([])
 //获取已驳回资源
 const getRejectResource = async (classname) => {
   const result = await getRejectResourceAPI(classname)
   rejectResource.value = result.data.data
 }
-
-// const getRejectResource = async () =>{
-//   const result = await getRejectResourceAPI()
-//   rejectResource.value = result.data.data
-// }
 
 const announceDialogVisible = ref(false)
 const announce = ref(null)
@@ -138,6 +120,7 @@ const updateChapter = () => {
 //更新章节点击返回
 const hideUpdateChapter = () => {
   updateChapterVisible.value = false
+  getDetailInfo()
 }
 
 //删除章节
@@ -184,6 +167,7 @@ const updateResource = () => {
 //新增资源点击返回
 const hideUpdateResource = () => {
   updateResourceVisible.value = false
+  getDetailInfo()
 }
 
 const chapterExpanded = ref({})
@@ -336,8 +320,13 @@ const hasTexts = computed(() => {
 const uploadReApi =
   '/api3' + '/resource/upload?chapterid=' + selectedChapter.value
 
+const uploading1 = ref(false)
 const handleBeforeUpload = async (file) => {
   console.log('handleBeforeUpload called')
+  if (uploading1.value) {
+    return false
+  }
+  uploading1.value = true
   // 创建一个新的 FormData 对象
   const formData = new FormData()
   // 添加 classid 和 chapterid 到 FormData
@@ -358,6 +347,7 @@ const handleBeforeUpload = async (file) => {
   } else {
     ElMessage.error('上传失败')
   }
+  uploading1.value = true
   // 阻止默认的上传行为
   return false
 }
@@ -395,6 +385,11 @@ const downloadTemplate = () => {
   }
 }
 
+const downloadTest = () => {
+  window.location.href =
+    'http://skillup.oss-cn-beijing.aliyuncs.com/question%E6%A8%A1%E6%9D%BF.xlsx?Expires=1689097589&OSSAccessKeyId=TMP.3KgH1QSXHVyLVmknibFTx9TiX9A9N3gS1sMXNymtSLAZQZAdrrREYbjG7hghnzzi2gT1h6GyD67vUTsfYVEtSxLvj35rs7&Signature=HA6bYqr%2BBsMpvLf8IZipmdnHGg4%3D'
+}
+
 const examList = ref([])
 const questionList = ref([])
 const markList = ref([])
@@ -420,28 +415,37 @@ const studentanswershow = ref('')
 const scoreshow = ref(false)
 const nextbtn = ref(true)
 const score = ref()
-const totalScoreShow = ref('');
+const totalScoreShow = ref('')
 // 初始化图表
 const initBarChart = () => {
   nextTick(() => {
     const myChart = echarts.init(barChart.value)
 
     // 后台返回的成绩数据
-    const scores = scoreShowList.value;
+    const scores = scoreShowList.value
 
     // 根据成绩范围生成横轴刻度
     const axisData = []
     // for (let i = 100; i > 0; i -= 20) {
-    axisData.push(totalScoreShow.value+'~'+Math.round(totalScoreShow.value*0.8));
-	axisData.push(Math.round(totalScoreShow.value*0.8)+'~'+Math.round(totalScoreShow.value*0.6));
-	axisData.push(Math.round(totalScoreShow.value*0.6)+'~0');
+    axisData.push(
+      totalScoreShow.value + '~' + Math.round(totalScoreShow.value * 0.8)
+    )
+    axisData.push(
+      Math.round(totalScoreShow.value * 0.8) +
+        '~' +
+        Math.round(totalScoreShow.value * 0.6)
+    )
+    axisData.push(Math.round(totalScoreShow.value * 0.6) + '~0')
     // }
 
     // 计算每个刻度范围内的成绩数量
     const data = []
     for (const axis of axisData) {
       const range = axis.split('~')
-      const count = scores.filter(score => score.grade >= parseInt(range[1]) && score.grade <= parseInt(range[0])).length;
+      const count = scores.filter(
+        (score) =>
+          score.grade >= parseInt(range[1]) && score.grade <= parseInt(range[0])
+      ).length
       data.push({ axis, count })
     }
 
@@ -455,14 +459,14 @@ const initBarChart = () => {
       },
       yAxis: {
         type: 'value',
-		axisLabel: {
-		    formatter: function (value) {
-		      if (Number.isInteger(value)) {
-		        return value;
-		      }
-		      return '';
-		    }
-		  }
+        axisLabel: {
+          formatter: function (value) {
+            if (Number.isInteger(value)) {
+              return value
+            }
+            return ''
+          }
+        }
       },
       series: [
         {
@@ -473,7 +477,6 @@ const initBarChart = () => {
     })
   })
 }
-
 
 const setexamscorepage = () => {
   scoreselected.value = 'examscorepage'
@@ -527,19 +530,19 @@ const getQuestionLists = async (examid) => {
 }
 //获取点击进去的考试的成绩
 const getScoreContent = async (exam) => {
-	console.log('获取的exam');
-  	console.log(exam.totalScore);
-  	totalScoreShow.value=exam.totalScore;
-  	const result = await getScoreContentAPI(exam.id);
+  console.log('获取的exam')
+  console.log(exam.totalScore)
+  totalScoreShow.value = exam.totalScore
+  const result = await getScoreContentAPI(exam.id)
   scoreShowList.value = result.data.data
   console.log(scoreShowList.value)
-  initBarChart();
+  initBarChart()
 }
 const getMarkLists = async (questionid) => {
-  console.log('获取的exam');
-  	console.log(exam.totalScore);
-  	totalScoreShow.value=exam.totalScore;
-  	const result = await getScoreContentAPI(exam.id);
+  console.log('获取的exam')
+  console.log(exam.totalScore)
+  totalScoreShow.value = exam.totalScore
+  const result = await getScoreContentAPI(exam.id)
   markList.value = result.data.data
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(markList.value)
@@ -594,6 +597,66 @@ const showUploadDialog = ref(false)
 const showDialogExam = () => {
   showDialogFile.value = true
 }
+
+const showTestDialog = ref(false)
+const uploading = ref(false)
+//展示上传题库的dialog
+const showDialogTest = () => {
+  showTestDialog.value = true
+}
+
+//上传题库对应的章节
+const selectedTestChapter = ref('')
+
+const handleBeforeUploadTest = async (file) => {
+  console.log('handleBeforeUploadTest called')
+  if (uploading.value) {
+    return false
+  }
+  uploading.value = true
+  // 创建一个新的 FormData 对象
+  const formData = new FormData()
+  // 将文件添加到 FormData
+  formData.append('file', file.raw)
+  for (const entry of formData.entries()) {
+    console.log(entry)
+  }
+  // 使用自定义的上传方法，将 formData 作为参数传递
+  const result = await getUploadTestAPI(formData, selectedTestChapter.value)
+  if (result.data.code == 200) {
+    ElMessage.success('上传成功')
+    selectedTestChapter.value = null
+    showTestDialog.value = false
+  } else {
+    ElMessage.error('上传失败')
+  }
+  uploading.value = false
+  // 阻止默认的上传行为
+  return false
+}
+
+const handleChangeTest = (file) => {
+  console.log('handle change Test')
+  if (file !== null) {
+    // 选择了文件，手动调用
+    handleBeforeUploadTest(file)
+  }
+}
+
+const myTest = ref([])
+const showMyTest = async (chapterid) => {
+  const result = await getMyTestAPI(chapterid)
+  myTest.value = result.data.data
+  console.log(`output->myTest.value`, myTest.value)
+}
+
+const selectedTestChapterShow = ref('')
+
+// 监听 selectedTestChapterShow 的变化
+watch(selectedTestChapterShow, (newChapterId) => {
+  // 调用 showMtTest 方法
+  showMyTest(newChapterId)
+})
 
 const examname = ref(null)
 const date = ref(new Date())
@@ -683,8 +746,13 @@ const showExam = async () => {
 
 const uploadMethod = ref(null)
 
+const uploading2 = ref(false)
 const handleBeforeUploadExcel = async (file) => {
   console.log('handleBeforeUploadExcel called')
+  if (uploading2.value) {
+    return false
+  }
+  uploading2.value = true
   // 创建一个新的 FormData 对象
   const formData = new FormData()
   // 将文件添加到 FormData
@@ -703,6 +771,7 @@ const handleBeforeUploadExcel = async (file) => {
   } else {
     ElMessage.error('上传失败')
   }
+  uploading2.value = false
   // 阻止默认的上传行为
   return false
 }
@@ -715,8 +784,13 @@ const handleChangeExcel = (file) => {
   }
 }
 
+const uploading3 = ref(false)
 const handleBeforeUploadDoc = async (file) => {
   console.log('handleBeforeUploadExcel called')
+  if (uploading3.value) {
+    return false
+  }
+  uploading3.value = true
   // 创建一个新的 FormData 对象
   const formData = new FormData()
   // 将文件添加到 FormData
@@ -735,6 +809,7 @@ const handleBeforeUploadDoc = async (file) => {
   } else {
     ElMessage.error('上传失败')
   }
+  uploading3.value = false
   // 阻止默认的上传行为
   return false
 }
@@ -1069,7 +1144,7 @@ onMounted(() => {
           <!-- 发布试题界面的内容 -->
           <el-row class="announcement-header">
             <el-col :span="5">
-              <h2>我的考试</h2>
+              <h2>发布试题</h2>
             </el-col>
             <el-col :span="4">
               <div class="announcement-button"><el-button type="primary" @click="showDialog">下载考试模板</el-button></div>
@@ -1077,16 +1152,47 @@ onMounted(() => {
             <el-col :span="4">
               <div class="announcement-button"><el-button type="primary" @click="showDialogExam">上传考试文件</el-button></div>
             </el-col>
+            <el-col :span="4">
+              <div class="announcement-button"><el-button type="primary" @click="downloadTest">下载测试题库模板</el-button></div>
+            </el-col>
+            <el-col :span="4">
+              <div class="announcement-button"><el-button type="primary" @click="showDialogTest">上传测试题库</el-button></div>
+            </el-col>
           </el-row>
-          <div>
-            <el-table :data="myExam" :border="false">
-              <el-table-column prop="id" label="考试ID"></el-table-column>
-              <el-table-column prop="name" label="考试名称"></el-table-column>
-              <el-table-column prop="totalScore" label="总分"></el-table-column>
-              <el-table-column prop="totalTime" label="总时间"></el-table-column>
-              <el-table-column prop="classid" label="考试所属课程ID"></el-table-column>
-              <el-table-column prop="date" label="考试时间"></el-table-column>
-            </el-table>
+          <nav class="navbar">
+            <ul>
+              <li :class="{ active: activeTab1 === 'myExamList' }" @click="changeTab1('myExamList')">我的考试</li>
+              <li :class="{ active: activeTab1 === 'myTestList' }" @click="changeTab1('myTestList')">我的测试题库</li>
+            </ul>
+          </nav>
+          <div class="content">
+            <div v-if="activeTab1 === 'myExamList'" class="tab-content">
+              <el-table :data="myExam" :border="false">
+                <el-table-column prop="id" label="考试ID"></el-table-column>
+                <el-table-column prop="name" label="考试名称"></el-table-column>
+                <el-table-column prop="totalScore" label="总分"></el-table-column>
+                <el-table-column prop="totalTime" label="总时间"></el-table-column>
+                <el-table-column prop="classid" label="考试所属课程ID"></el-table-column>
+                <el-table-column prop="date" label="考试时间"></el-table-column>
+              </el-table>
+            </div>
+            <div v-if="activeTab1 === 'myTestList'" class="tab-content">
+              <div style="margin-bottom: 20px; text-align: center;zoom: 120%;">
+                <el-select v-model="selectedTestChapterShow" placeholder="请选择章节">
+                  <el-option v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" :label="'第 ' + chapter.chapter.chapternum + ' 章：' + chapter.chapter.chaptername" :value="chapter.chapter.chapterid"></el-option>
+                </el-select>
+                <el-table :data="myTest" :border="false">
+                  <el-table-column prop="questionid" label="测试题库ID"></el-table-column>
+                  <el-table-column prop="chapterid" label="所属章节ID"></el-table-column>
+                  <el-table-column prop="question" label="题干"></el-table-column>
+                  <el-table-column prop="answer" label="答案"></el-table-column>
+                  <el-table-column prop="optionA" label="选项A"></el-table-column>
+                  <el-table-column prop="optionB" label="选项B"></el-table-column>
+                  <el-table-column prop="optionC" label="选项C"></el-table-column>
+                  <el-table-column prop="optionD" label="选项D"></el-table-column>
+                </el-table>
+              </div>
+            </div>
           </div>
           <el-dialog v-model="dialogVisible" title="下载模板" @close="resetDialog" width="400px">
             <p>请选择要下载的模板类型：</p>
@@ -1135,6 +1241,17 @@ onMounted(() => {
             </el-upload>
             <el-upload v-if="uploadMethod == 'word'" :action="uploadUrl" :show-file-list="false" :before-upload="handleBeforeUploadDoc" accept=".docx" @change="handleChangeDoc">
               <el-button>点击上传(docx)</el-button>
+            </el-upload>
+          </el-dialog>
+          <el-dialog v-model="showTestDialog" title="上传题库文件">
+            请选择此题库对应的章节：
+            <div style="margin-bottom: 20px; text-align: center;zoom: 120%;">
+              <el-select v-model="selectedTestChapter" placeholder="请选择章节">
+                <el-option v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" :label="'第 ' + chapter.chapter.chapternum + ' 章：' + chapter.chapter.chaptername" :value="chapter.chapter.chapterid"></el-option>
+              </el-select>
+            </div>
+            <el-upload v-if="selectedTestChapter" :action="uploadUrl" :show-file-list="false" :before-upload="handleBeforeUploadTest" accept=".xls,.xlsx" @change="handleChangeTest">
+              <el-button>点击上传</el-button>
             </el-upload>
           </el-dialog>
         </div>
