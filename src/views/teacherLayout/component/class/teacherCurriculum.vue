@@ -1,5 +1,5 @@
 <script setup>
-import { getClassesAPI } from '@/apis/teacherAPI'
+import { getClassesAPI, getExportClassesAPI } from '@/apis/teacherAPI'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -10,8 +10,16 @@ function changeTab(tab) {
   activeTab.value = tab
 }
 
-const exportClasses = () => {
+const exportClasses = async () => {
   //调用导出所有课程方法，直接下载
+  const result = await getExportClassesAPI();
+  if (result.data.code==200){
+  	ElMessage({ type: 'success', message: result.data.msg})
+  	window.open(result.data.data);
+  }else{
+  	ElMessage({ type: 'error', message:result.data.msg})
+  }
+  console.log(searchByClassName.value + ' ' + searchByStudent.value);
 }
 
 const router = useRouter()
@@ -84,7 +92,7 @@ onMounted(() => {
         <li :class="{ active: activeTab === 'myCourses' }" @click="changeTab('myCourses')">我的课程</li>
         <li :class="{ active: activeTab === 'underReview' }" @click="changeTab('underReview')">审核中</li>
         <li :class="{ active: activeTab === 'reviewFailed' }" @click="changeTab('reviewFailed')">审核未通过</li>
-        <el-button type="primary" size="large" style="margin-left: 100px;" @click="exportClasses">导出所有课程信息</el-button>
+        <el-button type="primary" size="large" style="margin-left: 100px;" @click="exportClasses()">导出所有课程信息</el-button>
         <el-button type="primary" size="large" @click="publishClass">＋发布课程</el-button>
       </ul>
     </nav>

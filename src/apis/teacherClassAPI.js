@@ -168,6 +168,25 @@ export const postScoreAPI = (questionid, studentid, score) => {
   })
 }
 
+// 查看成绩界面获取可查看成绩的考试列表
+export const getExamScoreAPI = (classid) => {
+  console.log('执行了获取可查看成绩的考试列表' + classid)
+  return request({
+    method: 'POST',
+    url: '/grade/getcheckedexam',
+    data: classid
+  })
+}
+// 查看点击进去的考试的成绩
+export const getScoreContentAPI = (examid) => {
+  console.log('执行了查看点击进去的考试的成绩列表' + examid)
+  return request({
+    method: 'POST',
+    url: '/grade/getgrade',
+    data: examid
+  })
+}
+
 export const getExamAPI = (classid) => {
   console.log('执行了获取可批改的考试列表' + classid)
   return request({

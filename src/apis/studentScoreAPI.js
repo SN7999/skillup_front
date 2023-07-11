@@ -1,12 +1,21 @@
 import request from '@/utils/http'
 
 
+export const getSelfScoreAPI = (arr) => {
+	console.log('getSelfScoreAPI执行了arr是')
+	console.log(arr)
+    return request({
+		method:'POST',
+		url: '/student/exportGrade',
+		data:arr
+    })
+}
 //后台对接测试用
 export const getScoreAPI = () => {
 	console.log('getScoreAPI执行了')
     return request({
         method:'POST',
-        url: '/DTOForGrade/getGrade',
+        url: '/student/getGrade',
     })
 }
 //测试用

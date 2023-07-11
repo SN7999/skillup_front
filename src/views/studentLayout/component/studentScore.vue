@@ -1,5 +1,5 @@
 <script setup>
-	import { getScoreAPI, getSearchScoreExamAPI, getSearchScoreClassAPI, getSearchScoreDateAPI } from '@/apis/studentScoreAPI';
+	import { getScoreAPI, getSelfScoreAPI, getSearchScoreExamAPI, getSearchScoreClassAPI, getSearchScoreDateAPI } from '@/apis/studentScoreAPI';
 	import { onMounted, ref, computed } from 'vue';
 	import { Search } from "@element-plus/icons-vue"
 	import { ElMessage } from 'element-plus';
@@ -21,9 +21,20 @@
 	
 	const scoreList = ref([]);
 	const getScoreList = async () => {
+		
 		const result = await getScoreAPI();
 		scoreList.value = result.data.data;
 		console.log(result)
+	};
+	const getSelfScore = async () => {
+		const arr = ref(['1','1','1','1'])
+		const result = await getSelfScoreAPI(arr.value);
+		if (result.data.code==200){
+			ElMessage({ type: 'success', message: result.data.msg})
+			window.open(result.data.data);
+		}else{
+			ElMessage({ type: 'error', message:result.data.msg})
+		}
 	};
 	
 	const getSearchScoreListExam = async examName => {
@@ -92,6 +103,8 @@
 	  return scoreList.value.slice(startIndex, endIndex);
 	});
 	
+	
+	
 	onMounted(() => {
 		getScoreList();
 	});
@@ -127,7 +140,7 @@
 				style="width: 25%; margin-right: 10px;"
 				@change="getSearchScoreDate"
 			/>
-			<el-button type="primary" @click="getSearchScore">导出excel文件</el-button>
+			<el-button type="primary" @click="getSelfScore()">导出excel文件</el-button>
 		</div>
 		
 		<el-table :data="currentPageData">
@@ -139,7 +152,7 @@
 			</el-table-column>
 			<el-table-column prop="date" label="考试时间">
 				<template #default="{ row }">
-					{{ row.date[0]+'-'+row.date[1]+'-'+row.date[2]}}&nbsp;{{row.date[3]+':'+row.date[4]+':'+row.date[5] }}
+					{{ row.date }}
 				</template>
 			</el-table-column>
 			<el-table-column prop="grade" label="考试成绩"></el-table-column>

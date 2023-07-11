@@ -1,5 +1,19 @@
 import request from '@/utils/http'
 
+// 获取导出数据
+export const getExportClassesAPI = () => {
+	console.log('getExportClassesAPI执行了')
+    return request({
+		method:'POST',
+		url: '/teacher/exportClasses',
+		
+		// 测试用api
+        // url: '/getSelectClass',
+		
+    })
+}
+
+
 ///teacherCurriculum
 //教师根据状态获取课程
 export const getClassesAPI = (status) => {

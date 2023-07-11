@@ -32,7 +32,7 @@ const userStore = useUserStore()
 // 表单对象-登录
 const formLog = ref({
   identity: 'student',
-  email: '804@163.com',
+  email: '666@qq.com',
   password: '123456'
 })
 // 规则对象-登录

@@ -1,5 +1,18 @@
 import request from '@/utils/http'
 
+export const getStudentsAPI = () => {
+	console.log('getStudentsAPI执行了')
+    return request({
+		method:'POST',
+		url: '/teacher/exportStudent',
+		
+		// 测试用api
+        // url: '/getSelectClass',
+		
+    })
+}
+
+
 export const getStudentAPI = () => {
 	console.log('getStudentAPI执行了')
     return request({
