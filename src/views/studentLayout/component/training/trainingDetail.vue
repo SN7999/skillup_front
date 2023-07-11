@@ -175,7 +175,6 @@ const showTxt = (resource) => {
   selectedTxtUrl.value = resource.url
     .replace(/(http|https):\/\/[^\s/]+/, '')
     .replace(/\?.*/, '')
-  //console.log('/api2'+selectedTxtUrl.value)
   getTxtContent('/api2' + selectedTxtUrl.value)
 }
 
@@ -207,6 +206,26 @@ const downloadDocument = (resource) => {
   link.target = '_blank'
   link.setAttribute('download', resource.filename)
   link.click()
+}
+
+const showPt = ref(false)
+const selectedPPT = ref(null)
+const showPPT = (resource) => {
+  console.log(`output->resource.url`, resource.url)
+  selectedPPT.value =
+    'https://view.officeapps.live.com/op/view.aspx?src=' +
+    resource.url.split('?')[0]
+  console.log(`output->selectedPPT.value`, selectedPPT.value)
+  showPt.value = true
+}
+
+const getPPT = () => {
+  return selectedPPT.value
+}
+
+const pptBack = () => {
+  showPt.value = false
+  selectedPPT.value = null
 }
 
 const sendEnd = async (chapterid) => {
@@ -264,7 +283,7 @@ const sendEnd = async (chapterid) => {
           <h2>课件</h2>
           <!-- 课件界面的内容 -->
           <div v-if="detialInfo">
-            <div v-if="!showVideo&&!showTxtContent">
+            <div v-if="!showVideo&&!showTxtContent&&!showPt">
               <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum">
                 <el-card style="margin-top: 10px;">
                   <h3 class="chapter-title" @click="toggleCollapse(chapter)">
@@ -301,7 +320,7 @@ const sendEnd = async (chapterid) => {
                         <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
                           <p class="resource-text">文档：{{ resource.resourcename }}</p>
                         </div>
-                        <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                        <div v-if="resource.type === 'ppt'" class="resource-box document" @click="showPPT(resource)">
                           <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                         </div>
                       </div>
@@ -315,13 +334,17 @@ const sendEnd = async (chapterid) => {
             <!-- 视频展示界面 -->
             <video :src="getVideo()" id="playVideos" controls preload @loadedmetadata="getTotalDuration" @play.once="videoRandom" @timeupdate="checkProgress" @ended="sendEnd(showChapter)">
             </video>
-            <p>视频总时长: {{ videoDuration }}</p>
             <button @click="videoBack()">返回</button>
           </div>
           <div v-if="showTxtContent">
             <!-- 根据需要设置文本展示区域的样式 -->
             <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>
             <button @click="txtBack()">返回</button>
+          </div>
+          <div v-if="showPt">
+            <!-- 根据需要设置PPT展示区域的样式 -->
+            <iframe :src="getPPT()" frameborder="0" width="100%" height="600"></iframe>
+            <button @click="pptBack()">返回</button>
           </div>
         </div>
         <el-dialog v-model="dialogTestVisable" title="请回答题目">
