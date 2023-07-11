@@ -161,7 +161,7 @@ const agreeReject = async () => {
       </el-table-column>
       <el-table-column prop="canceltime" label="申请注销时间" width="200">
         <template #default="scope">
-          <span>`{{ `${scope.row.canceltime[0]}-${String(scope.row.canceltime[1]).padStart(2, '0')}-${String(scope.row.canceltime[2]).padStart(2, '0')} ${String(scope.row.canceltime[3]).padStart(2, '0')}:${String(scope.row.canceltime[4]).padStart(2, '0')}:${String(scope.row.canceltime[5]).padStart(2, '0')}` }}</span>
+          <span>{{ new Date(scope.row.canceltime).toISOString().split('T')[0] }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="300">
