@@ -371,11 +371,11 @@ const doReset = () => {
               </el-form-item>
 
               <el-form-item prop="email" label="账号">
-                <el-input type="text" v-model="formLog.email" />
+                <el-input type="text" v-model="formLog.email" @keyup.enter="doLogin" />
               </el-form-item>
 
               <el-form-item prop="password" label="密码">
-                <el-input type="password" v-model="formLog.password" />
+                <el-input type="password" v-model="formLog.password" @keyup.enter="doLogin" />
               </el-form-item>
 
               <div class="txtBox">
@@ -398,21 +398,20 @@ const doReset = () => {
               </el-form-item>
 
               <el-form-item prop="email" label="注册邮箱">
-                <el-input type="text" v-model="formReg.email" />
+                <el-input type="text" v-model="formReg.email" @keyup.enter="doRegister" />
               </el-form-item>
 
               <el-form-item prop="password" label="输入密码">
-                <el-input type="password" v-model="formReg.password" />
+                <el-input type="password" v-model="formReg.password" @keyup.enter="doRegister" />
               </el-form-item>
 
               <el-form-item prop="passwordCK" label="确认密码">
-                <el-input type="password" v-model="formReg.passwordCK" />
+                <el-input type="password" v-model="formReg.passwordCK" @keyup.enter="doRegister" />
               </el-form-item>
 
               <div class="formBox">
                 <div class="leftBox">
                   <el-form-item prop="verCode" label="验证码">
-                    <el-input type="text" v-model="formReg.verCode" />
                   </el-form-item>
                 </div>
                 <div class="rightBox">
@@ -441,21 +440,21 @@ const doReset = () => {
               </el-form-item>
 
               <el-form-item prop="email" label="邮箱">
-                <el-input type="text" v-model="formFog.email" />
+                <el-input type="text" v-model="formFog.email" @keyup.enter="doReset" />
               </el-form-item>
 
               <el-form-item prop="password" label="新密码">
-                <el-input type="password" v-model="formFog.password" />
+                <el-input type="password" v-model="formFog.password" @keyup.enter="doReset" />
               </el-form-item>
 
               <el-form-item prop="passwordCK" label="确认密码">
-                <el-input type="password" v-model="formFog.passwordCK" />
+                <el-input type="password" v-model="formFog.passwordCK" @keyup.enter="doReset" />
               </el-form-item>
 
               <div class="formBox">
                 <div class="leftBox">
                   <el-form-item prop="verCode" label="验证码">
-                    <el-input type="text" v-model="formFog.verCode" />
+                    <el-input type="text" v-model="formFog.verCode" @keyup.enter="doReset" />
                   </el-form-item>
                 </div>
                 <div class="rightBox">
