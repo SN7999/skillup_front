@@ -239,6 +239,27 @@ const downloadDocument = (resource) => {
   link.click()
 }
 
+const showPt = ref(false)
+const selectedPPT = ref(null)
+
+const showPPT = (resource) => {
+  console.log(`output->resource.url`, resource.url)
+  selectedPPT.value =
+    'https://view.officeapps.live.com/op/view.aspx?src=' +
+    resource.url.split('?')[0]
+  console.log(`output->selectedPPT.value`, selectedPPT.value)
+  showPt.value = true
+}
+
+const getPPT = () => {
+  return selectedPPT.value
+}
+
+const pptBack = () => {
+  showPt.value = false
+  selectedPPT.value = null
+}
+
 //新增资源选择的章节
 const selectedChapter = ref('')
 const selectedType = ref('')
@@ -930,7 +951,7 @@ onMounted(() => {
             <div class="content">
               <div v-if="activeTab === 'myResource'" class="tab-content">
                 <div v-if="detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent&&!showPt" style="width: 100%;">
                     <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                       <div style="width: 100%;">
                         <el-card style="margin-top: 10px;width: 100%;">
@@ -955,10 +976,10 @@ onMounted(() => {
                                 <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
                                   <p class="resource-text">图片：{{ resource.resourcename }}</p>
                                 </div>
-                                <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                                <div v-if="resource.type === '文档'" class="resource-box document" @click="showPPT(resource)">
                                   <p class="resource-text">文档：{{ resource.resourcename }}</p>
                                 </div>
-                                <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                                <div v-if="resource.type === 'ppt'" class="resource-box document" @click="showPPT(resource)">
                                   <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                                 </div>
                               </div>
@@ -973,7 +994,7 @@ onMounted(() => {
               <div v-if="activeTab === 'underReview'" class="tab-content">
                 <!-- 审核中资料 -->
                 <div v-if="unpassResource && detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent &&!showPt" style="width: 100%;">
                     <div v-for="resource in unpassResource" :key="resource.resourceId" style="width: 100%;">
                       <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                         <div v-if="resource.chapterId == chapter.chapter.chapterid">
@@ -997,10 +1018,10 @@ onMounted(() => {
                               <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
                                 <p class="resource-text">图片：{{ resource.resourcename }}</p>
                               </div>
-                              <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                              <div v-if="resource.type === '文档'" class="resource-box document" @click="showPPT(resource)">
                                 <p class="resource-text">文档：{{ resource.resourcename }}</p>
                               </div>
-                              <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                              <div v-if="resource.type === 'ppt'" class="resource-box document" @click="showPPT(resource)">
                                 <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                               </div>
                             </div>
@@ -1014,7 +1035,7 @@ onMounted(() => {
               <div v-if="activeTab === 'reviewFailed'" class="tab-content">
                 <!-- 审核未通过资料 -->
                 <div v-if="rejectResource && detialInfo" style="width: 100%;">
-                  <div v-if="!showVideo && !showTxtContent" style="width: 100%;">
+                  <div v-if="!showVideo && !showTxtContent&&!showPt" style="width: 100%;">
                     <div v-for="resource in rejectResource" :key="resource.resourceId" style="width: 100%;">
                       <div v-for="chapter in detialInfo.chapters" :key="chapter.chapter.chapternum" style="width: 100%;">
                         <div v-if="resource.chapterId == chapter.chapter.chapterid">
@@ -1038,10 +1059,10 @@ onMounted(() => {
                               <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
                                 <p class="resource-text">图片：{{ resource.resourcename }}</p>
                               </div>
-                              <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                              <div v-if="resource.type === '文档'" class="resource-box document" @click="showPPT(resource)">
                                 <p class="resource-text">文档：{{ resource.resourcename }}</p>
                               </div>
-                              <div v-if="resource.type === 'ppt'" class="resource-box document" @click="downloadDocument(resource)">
+                              <div v-if="resource.type === 'ppt'" class="resource-box document" @click="showPPT(resource)">
                                 <p class="resource-text">PPT：{{ resource.resourcename }}</p>
                               </div>
                             </div>
@@ -1062,6 +1083,11 @@ onMounted(() => {
               <!-- 根据需要设置文本展示区域的样式 -->
               <textarea v-model="txtContent" rows="10" cols="50" readonly></textarea>
               <button @click="txtBack()">返回</button>
+            </div>
+            <div v-if="showPt">
+              <!-- 根据需要设置PPT展示区域的样式 -->
+              <iframe :src="getPPT()" frameborder="0" width="100%" height="600"></iframe>
+              <button @click="pptBack()">返回</button>
             </div>
           </div>
           <!-- 更新章节界面 -->

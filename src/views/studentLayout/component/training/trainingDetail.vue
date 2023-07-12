@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import {
   getTrainingDetailAPI,
   getChapterFinishAPI,
@@ -48,31 +48,33 @@ const getExamLists = (classid) => {
 }
 
 const checktime = (data) => {
-	const backendTimeStr = data.date;
-	const backendTime = new Date(backendTimeStr.replace(" ", "T"));
-	const backendTimeISO = backendTime.toISOString().slice(0, -5);
-	const interval = data.totalTime * 60 * 1000;
-	const currentTime = new Date();
-	
-	if (currentTime.toISOString().slice(0, -5) >= backendTimeISO && currentTime <= backendTime.getTime() + interval) {
-		
-		handleButtonClick(data);
-	    console.log('能用');
-		console.log(backendTime.getTime() + interval - currentTime)
-	} else {
-		ElMessage.warning('未在考试时间内');
-	}
-	console.log(currentTime)
+  const backendTimeStr = data.date
+  const backendTime = new Date(backendTimeStr.replace(' ', 'T'))
+  const backendTimeISO = backendTime.toISOString().slice(0, -5)
+  const interval = data.totalTime * 60 * 1000
+  const currentTime = new Date()
+
+  if (
+    currentTime.toISOString().slice(0, -5) >= backendTimeISO &&
+    currentTime <= backendTime.getTime() + interval
+  ) {
+    handleButtonClick(data)
+    console.log('能用')
+    console.log(backendTime.getTime() + interval - currentTime)
+  } else {
+    ElMessage.warning('未在考试时间内')
+  }
+  console.log(currentTime)
 }
 const handleButtonClick = (data) => {
   router.push({
-  	path:'/student/exam/detail/content/'+data.id,
-  	query: { 
-  		date:data.date,
-  	    time:data.totalTime
-  	}
-  });
-  console.log('点击了按钮', data.totalTime);
+    path: '/student/exam/detail/content/' + data.id,
+    query: {
+      date: data.date,
+      time: data.totalTime
+    }
+  })
+  console.log('点击了按钮', data.totalTime)
 }
 
 //根据课程id获取课程信息
@@ -321,13 +323,13 @@ const gobackTest = () => {
           <el-icon name="el-icon-message"></el-icon>
           <span class="text">公告</span>
         </div>
-        <div class="menu-item" @click="selectMenuItem('quiz')" :class="{ 'selected': selectedMenu === 'quiz' }">
-          <el-icon name="el-icon-edit-outline"></el-icon>
-          <span class="text">测验</span>
-        </div>
         <div class="menu-item" @click="selectMenuItem('courseware')" :class="{ 'selected': selectedMenu === 'courseware' }">
           <el-icon name="el-icon-folder"></el-icon>
           <span class="text">课件</span>
+        </div>
+        <div class="menu-item" @click="selectMenuItem('quiz')" :class="{ 'selected': selectedMenu === 'quiz' }">
+          <el-icon name="el-icon-edit-outline"></el-icon>
+          <span class="text">测验</span>
         </div>
         <div class="menu-item" @click="selectMenuItem('exam'); getExamLists(classid)" :class="{ 'selected': selectedMenu === 'exam' }">
           <el-icon name="el-icon-document"></el-icon>
@@ -421,7 +423,7 @@ const gobackTest = () => {
                         <div v-if="resource.type === '图片'" class="resource-box document" @click="downloadDocument(resource)">
                           <p class="resource-text">图片：{{ resource.resourcename }}</p>
                         </div>
-                        <div v-if="resource.type === '文档'" class="resource-box document" @click="downloadDocument(resource)">
+                        <div v-if="resource.type === '文档'" class="resource-box document" @click="showPPT(resource)">
                           <p class="resource-text">文档：{{ resource.resourcename }}</p>
                         </div>
                         <div v-if="resource.type === 'ppt'" class="resource-box document" @click="showPPT(resource)">
@@ -436,7 +438,7 @@ const gobackTest = () => {
           </div>
           <div v-if="showVideo">
             <!-- 视频展示界面 -->
-            <video :src="getVideo()" id="playVideos" controls preload @loadedmetadata="getTotalDuration" @play.once="videoRandom" @timeupdate="checkProgress" @ended="sendEnd(showChapter)">
+            <video :src="getVideo()" id="playVideos" ref="videoElement" controls preload @loadedmetadata="getTotalDuration" @play.once="videoRandom" @timeupdate="checkProgress" @ended="sendEnd(showChapter)">
             </video>
             <button @click="videoBack()">返回</button>
           </div>
@@ -617,6 +619,10 @@ const gobackTest = () => {
   border-color: green;
 }
 
+.text {
+  border-color: green;
+}
+
 .document {
   border-color: green;
 }
@@ -625,7 +631,8 @@ const gobackTest = () => {
   color: green;
   font-size: 90%;
   line-height: 1;
-  margin: 1px;
+  margin: 1px 1px 1px 0;
+  // margin: 1px;
 }
 
 .chapter-title {
