@@ -104,3 +104,46 @@ onMounted(() => {
     </div>
   </el-drawer>
 </template>
+
+<style scoped lang="scss">
+	.pagination-container {
+		display: flex;
+		justify-content: center;
+		margin-top: 20px;
+	}
+	
+	.profile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.profile-picture {
+		width: height;
+		height: 100%;
+		border-radius: 50%;
+		background-color: lightgray;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+	
+	.avatar {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+	}
+	
+	.profile-details {
+		font-size:20px;
+		text-align: left;
+	}
+	.detail-label {
+		font-weight: bold;
+	}
+	
+	.detail-value {
+		margin-left: 5px;
+	}
+</style>
