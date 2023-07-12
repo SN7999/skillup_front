@@ -346,9 +346,7 @@ const doReset = () => {
         <h1 class="logo">
           <RouterLink to="/">Skillup</RouterLink>
         </h1>
-        <a class="entry" href="/">
-          进入开屏页
-        </a>
+        <RouterLink class="entry" to="/">进入开屏页</RouterLink>
       </div>
     </header>
     <section class="login-section">

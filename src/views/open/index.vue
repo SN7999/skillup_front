@@ -16,9 +16,7 @@ const goLogin = () => {
         <h1 class="logo">
           <RouterLink to="/">Skillup</RouterLink>
         </h1>
-        <a class="entry" href="/adminlogin">
-          =ω=
-        </a>
+        <RouterLink class="entry" to="/adminlogin">=ω=</RouterLink>
       </div>
     </header>
 
