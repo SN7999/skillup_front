@@ -61,7 +61,7 @@ export const getVercodeAPI = (email) => {
 //注销账号
 export const getCancelAPI = (email, verCode) => {
   return request({
-    url: '/teacher/changePassword',
+    url: '/teacher/cancelAccount',
     method: 'POST',
     params: {
       email,
