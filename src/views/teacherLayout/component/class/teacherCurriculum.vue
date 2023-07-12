@@ -192,9 +192,10 @@ li.active::after {
 
 .curriculum-item {
   text-align: center;
-  float: left;
+
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-right: 10px;
 
   img {
     width: 100%;
@@ -205,7 +206,7 @@ li.active::after {
 .curriculum-list {
 	width:100%;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-left: 20px;
   margin-right: 20px;
   display: flex;

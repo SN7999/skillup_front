@@ -76,13 +76,13 @@ const getSearchExam = () => {
 <style scoped lang="scss">
 	.exam-item{
 	text-align: center;
-	float: left;
+
 	margin-top:20px;
 	margin-bottom:20px;
-	
+	margin-right: 10px;
 		img{
 		  width: 100%;
-		  height: 150px;
+		  height: 250px;
 		}
 	}
 	.router-link{
@@ -94,7 +94,7 @@ const getSearchExam = () => {
 	}
 	.exam-list{
 	    flex-wrap: wrap;
-	    justify-content: space-between;
+	    justify-content: flex-start;
 	    margin-left:20px;
 	    margin-right:20px;
 	    display: flex;

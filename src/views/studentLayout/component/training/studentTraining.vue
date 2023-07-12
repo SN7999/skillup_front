@@ -76,10 +76,10 @@
 <style lang = "scss">
     .curriculum-item{
     text-align: center;
-    float: left;
+
     margin-top:20px;
     margin-bottom:20px;
-
+	margin-right: 10px;
     img{
       width: 100%;
       height: 250px;
@@ -87,7 +87,7 @@
     }
     .curriculum-list{
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         margin-left:20px;
         margin-right:20px;
         display: flex;
