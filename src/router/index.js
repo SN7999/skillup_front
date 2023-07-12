@@ -78,6 +78,7 @@ const router = createRouter({
           path: '/student/exam',
           component: StudentExam,
           meta: {
+			active: '/student/exam',
             isLogin: true,
             title: '学生考试'
           }
@@ -86,6 +87,7 @@ const router = createRouter({
           path: '/student/score',
           component: StudentScore,
           meta: {
+			active: '/student/score',
             isLogin: true,
             title: '学生成绩'
           }
@@ -94,7 +96,8 @@ const router = createRouter({
           path: '/student/training',
           component: StudentTraining,
           meta: {
-            isLogin: true,
+            active: '/student/training',
+			isLogin: true,
             title: '学生培训'
           }
         },
@@ -102,7 +105,8 @@ const router = createRouter({
           path: '/student/detail',
           component: StudentDetail,
           meta: {
-            isLogin: true,
+            active: '/student/detail',
+			isLogin: true,
             title: '学生个人中心'
           }
         },
