@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import {
   getTrainingDetailAPI,
   getChapterFinishAPI,
@@ -59,12 +59,12 @@ const checktime = (data) => {
     currentTime <= backendTime.getTime() + interval
   ) {
     handleButtonClick(data)
-    console.log('能用')
-    console.log(backendTime.getTime() + interval - currentTime)
+    // console.log('能用')
+    // console.log(backendTime.getTime() + interval - currentTime)
   } else {
     ElMessage.warning('未在考试时间内')
   }
-  console.log(currentTime)
+  // console.log(currentTime)
 }
 const handleButtonClick = (data) => {
   router.push({
@@ -74,7 +74,7 @@ const handleButtonClick = (data) => {
       time: data.totalTime
     }
   })
-  console.log('点击了按钮', data.totalTime)
+  // console.log('点击了按钮', data.totalTime)
 }
 
 //根据课程id获取课程信息
@@ -148,25 +148,25 @@ const random = ref(0)
 const videoRandom = async () => {
   const result = await getRandomAPI(parseInt(videoDuration.value))
   random.value = result.data.data
-  console.log(`output->random.value`, random.value)
+  // console.log(`output->random.value`, random.value)
 }
 
 const randomTest = ref(null)
 const dialogTestVisable = ref(false)
 const videoRandomTest = async () => {
-  console.log(`output->showChapter.value`, showChapter.value)
+  // console.log(`output->showChapter.value`, showChapter.value)
   const result = await getRandomTest(showChapter.value)
   randomTest.value = result.data.data
-  console.log(`output->randomTest.value`, randomTest.value)
+  // console.log(`output->randomTest.value`, randomTest.value)
   if (randomTest.value) {
     dialogTestVisable.value = true
-    console.log(`output->dialogTestVisable.value`, dialogTestVisable.value)
+    // console.log(`output->dialogTestVisable.value`, dialogTestVisable.value)
   }
 }
 
 let isPaused = false
 const checkProgress = () => {
-  console.log('chackProgress')
+  // console.log('chackProgress')
   const videoElement = document.getElementById('playVideos')
   if (videoElement.currentTime >= random.value && !isPaused) {
     videoElement.pause()
@@ -229,11 +229,11 @@ const showPt = ref(false)
 const selectedPPT = ref(null)
 
 const showPPT = (resource) => {
-  console.log(`output->resource.url`, resource.url)
+  // console.log(`output->resource.url`, resource.url)
   selectedPPT.value =
     'https://view.officeapps.live.com/op/view.aspx?src=' +
     resource.url.split('?')[0]
-  console.log(`output->selectedPPT.value`, selectedPPT.value)
+  // console.log(`output->selectedPPT.value`, selectedPPT.value)
   showPt.value = true
 }
 
@@ -258,7 +258,7 @@ const selectedOptionList = ref([])
 const getTest = async (chapterid) => {
   const result = await getChapterTest(chapterid, 5)
   test.value = result.data.data
-  console.log(`output->test.value`, test.value)
+  // console.log(`output->test.value`, test.value)
   if (test.value.length == 0) {
     ElMessage.error('本章节还没有题目！')
   }
@@ -268,15 +268,19 @@ const getTest = async (chapterid) => {
   }
 }
 
+// 是否展示答案批改界面
 const showTestAnswer = ref(false)
-const results = ref([]) // 存储批改结果的数组
-
+// 存储批改结果的数组
+const results = ref([])
+// 学生提交答案
 const submitTestAnswer = () => {
   for (let i = 0; i < test.value.length; i++) {
+    //学生选择的答案
     const selectedOption1 = selectedOptionList.value[i]
+    //该题正确的答案
     const correctOption = test.value[i].answer
+    //学生回答是否正确
     const isCorrect = selectedOption1 === correctOption
-
     // 将选项内容映射到对应的选项
     const optionMap = {
       A: 'A ' + test.value[i].optionA,
@@ -284,7 +288,6 @@ const submitTestAnswer = () => {
       C: 'C ' + test.value[i].optionC,
       D: 'D ' + test.value[i].optionD
     }
-
     results.value.push({
       question: test.value[i].question,
       selectedOption1: optionMap[selectedOption1],
@@ -292,9 +295,7 @@ const submitTestAnswer = () => {
       isCorrect: isCorrect
     })
   }
-
   showTestAnswer.value = true
-  console.log('output->showTestAnswer.value', showTestAnswer.value)
 }
 
 const gobackTest = () => {

@@ -12,14 +12,14 @@ function changeTab(tab) {
 
 const exportClasses = async () => {
   //调用导出所有课程方法，直接下载
-  const result = await getExportClassesAPI();
-  if (result.data.code==200){
-  	ElMessage({ type: 'success', message: result.data.msg})
-  	window.open(result.data.data);
-  }else{
-  	ElMessage({ type: 'error', message:result.data.msg})
+  const result = await getExportClassesAPI()
+  if (result.data.code == 200) {
+    ElMessage({ type: 'success', message: result.data.msg })
+    window.open(result.data.data)
+  } else {
+    ElMessage({ type: 'error', message: result.data.msg })
   }
-  console.log(searchByClassName.value + ' ' + searchByStudent.value);
+  console.log(searchByClassName.value + ' ' + searchByStudent.value)
 }
 
 const router = useRouter()
@@ -204,7 +204,7 @@ li.active::after {
 }
 
 .curriculum-list {
-	width:100%;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: flex-start;
   margin-left: 20px;

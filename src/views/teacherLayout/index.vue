@@ -46,7 +46,7 @@ onBeforeMount(() => {
         <div class="flex-grow" />
         <el-menu-item index="/teacher/detail">个人中心</el-menu-item>
         <el-avatar :size="50" shape="circle" class="userMessage" :src="userStore.data.imageurl" @mouseover="showInfo" @mouseleave="hideInfo" />
-		<div class="box1">
+        <div class="box1">
           <div v-show="userInfo" class="box2">
             <p @click="endoutStore.endOut">退出</p>
           </div>

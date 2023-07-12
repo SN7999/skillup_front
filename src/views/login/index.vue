@@ -601,14 +601,14 @@ const doReset = () => {
   }
   .txtBox {
     .leftTxt {
-		width: 40%;
-		margin-left: 10px;
-		float: left;
+      width: 40%;
+      margin-left: 10px;
+      float: left;
     }
     .rightTxt {
-		width: 40%;
-		margin-right: 10px;
-		float: right;
+      width: 40%;
+      margin-right: 10px;
+      float: right;
     }
   }
 }
