@@ -560,10 +560,16 @@ const getScoreContent = async (exam) => {
   initBarChart()
 }
 const getMarkLists = async (questionid) => {
-  console.log('获取的exam')
-  console.log(exam.totalScore)
-  totalScoreShow.value = exam.totalScore
-  const result = await getScoreContentAPI(exam.id)
+  // console.log('获取的exam')
+  // console.log(exam.totalScore)
+  // totalScoreShow.value = exam.totalScore
+  // const result = await getScoreContentAPI(exam.id)
+  // markList.value = result.data.data
+  // // examList.value = examList.value.filter(item => item.status !== '未批改');
+  // console.log(markList.value)
+  // showNextAnswer()
+  console.log('获取的questionid' + questionid)
+  const result = await getMarkAPI(questionid)
   markList.value = result.data.data
   // examList.value = examList.value.filter(item => item.status !== '未批改');
   console.log(markList.value)
