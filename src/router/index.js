@@ -59,7 +59,7 @@ const router = createRouter({
       path: '/student',
       component: StudentLayout,
       meta: {
-        //isLogin:true,
+        isLogin: true,
         active: '/student',
         title: '学生主页'
       },
@@ -68,6 +68,7 @@ const router = createRouter({
           path: '/student',
           component: StudentCurriculum,
           meta: {
+            isLogin: true,
             active: '/student',
             title: '学生课程'
           }
@@ -76,6 +77,7 @@ const router = createRouter({
           path: '/student/exam',
           component: StudentExam,
           meta: {
+            isLogin: true,
             title: '学生考试'
           }
         },
@@ -83,6 +85,7 @@ const router = createRouter({
           path: '/student/score',
           component: StudentScore,
           meta: {
+            isLogin: true,
             title: '学生成绩'
           }
         },
@@ -90,6 +93,7 @@ const router = createRouter({
           path: '/student/training',
           component: StudentTraining,
           meta: {
+            isLogin: true,
             title: '学生培训'
           }
         },
@@ -97,6 +101,7 @@ const router = createRouter({
           path: '/student/detail',
           component: StudentDetail,
           meta: {
+            isLogin: true,
             title: '学生个人中心'
           }
         },
@@ -104,6 +109,7 @@ const router = createRouter({
           path: '/student/curriculum/:id',
           component: studentCurriculumDetail,
           meta: {
+            isLogin: true,
             active: '/student',
             title: '学生选课'
           }
@@ -112,6 +118,7 @@ const router = createRouter({
           path: '/student/training/detail/:id',
           component: TrainingDetail,
           meta: {
+            isLogin: true,
             active: '/student/training',
             title: '培训详情'
           }
@@ -120,6 +127,7 @@ const router = createRouter({
           path: '/student/exam/detail/:id',
           component: ExamDetail,
           meta: {
+            isLogin: true,
             active: '/student/exam',
             title: '考试详情'
           }
@@ -128,6 +136,7 @@ const router = createRouter({
           path: '/student/exam/detail/content/:id',
           component: ExamDetailContent,
           meta: {
+            isLogin: true,
             active: '/student/exam',
             title: '考试内容'
           }
@@ -138,6 +147,7 @@ const router = createRouter({
       path: '/teacher',
       component: TeacherLayout,
       meta: {
+        isLogin: true,
         title: '老师课程'
       },
       children: [
@@ -145,6 +155,7 @@ const router = createRouter({
           path: '/teacher',
           component: TeacherCurriculum,
           meta: {
+            isLogin: true,
             title: '老师课程'
           }
         },
@@ -152,6 +163,7 @@ const router = createRouter({
           path: '/teacher/student',
           component: TeacherStudent,
           meta: {
+            isLogin: true,
             title: '老师查看学生'
           }
         },
@@ -159,6 +171,7 @@ const router = createRouter({
           path: '/teacher/detail',
           component: TeacherDetail,
           meta: {
+            isLogin: true,
             title: '老师个人中心'
           }
         },
@@ -166,6 +179,7 @@ const router = createRouter({
           path: '/teacher/publish',
           component: TeachetPublishClass,
           meta: {
+            isLogin: true,
             title: '老师发布课程',
             active: '/teacher'
           }
@@ -174,6 +188,7 @@ const router = createRouter({
           path: '/teacher/passdetail/:id',
           component: TeacherPassDetail,
           meta: {
+            isLogin: true,
             title: '老师通过课程详情',
             active: '/teacher'
           }
@@ -182,6 +197,7 @@ const router = createRouter({
           path: '/teacher/unpassdetail/:id',
           component: TeacherUnpassDetail,
           meta: {
+            isLogin: true,
             title: '老师审核中课程详情',
             active: '/teacher'
           }
@@ -190,6 +206,7 @@ const router = createRouter({
           path: '/teacher/rejectdetail/:id',
           component: TeacherRejectedDetail,
           meta: {
+            isLogin: true,
             title: '老师已驳回课程详情',
             active: '/teacher'
           }
@@ -200,6 +217,7 @@ const router = createRouter({
       path: '/admin',
       component: AdminLayout,
       meta: {
+        isLogin: true,
         title: '管理员主页'
       },
       children: [
@@ -207,6 +225,7 @@ const router = createRouter({
           path: '/admin',
           component: AdminCurriculum,
           meta: {
+            isLogin: true,
             title: '管理员课程'
           }
         },
@@ -214,6 +233,7 @@ const router = createRouter({
           path: '/admin/student',
           component: AdminStudent,
           meta: {
+            isLogin: true,
             title: '管理学生'
           }
         },
@@ -221,6 +241,7 @@ const router = createRouter({
           path: '/admin/teacher',
           component: AdminTeacher,
           meta: {
+            isLogin: true,
             title: '管理老师'
           }
         },
@@ -228,6 +249,7 @@ const router = createRouter({
           path: '/admin/student/cancel',
           component: AdminStudentCancel,
           meta: {
+            isLogin: true,
             title: '学生注销处理',
             active: '/admin/student'
           }
@@ -236,6 +258,7 @@ const router = createRouter({
           path: '/admin/teacher/cancel',
           component: AdminTeacherCancel,
           meta: {
+            isLogin: true,
             title: '老师注销处理',
             active: '/admin/teacher'
           }
