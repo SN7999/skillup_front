@@ -695,7 +695,12 @@ const datePickerOptions = {
 
 const periods = ref([0, 0, 0])
 const showPeriod = async () => {
-  const formattedDate = date.value.toISOString().split('T')[0]
+  console.log(`output->date`, date.value)
+  const year = date.value.getFullYear()
+  const month = String(date.value.getMonth() + 1).padStart(2, '0')
+  const day = String(date.value.getDate()).padStart(2, '0')
+  const formattedDate = `${year}-${month}-${day}`
+  // const formattedDate = date.value.toISOString().split('T')[0]
   console.log(`output->formattedDate`, formattedDate)
   const result = await getPeriodAPI(formattedDate)
   periods.value = result.data.data
@@ -724,7 +729,11 @@ const examid = ref(null)
 const saveExam = async () => {
   console.log(`output->examname.value`, examname.value)
   console.log(`output->duration.value`, duration.value)
-  const formattedDate = date.value.toISOString().split('T')[0]
+  // const formattedDate = date.value.toISOString().split('T')[0]
+  const year = date.value.getFullYear()
+  const month = String(date.value.getMonth() + 1).padStart(2, '0')
+  const day = String(date.value.getDate()).padStart(2, '0')
+  const formattedDate = `${year}-${month}-${day}`
   console.log(`output->formattedDate`, formattedDate)
   const formattedTime = starttime.value.toLocaleTimeString('en-US', {
     hour12: false,
