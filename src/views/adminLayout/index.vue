@@ -60,6 +60,7 @@ onBeforeMount(() => {
         <el-menu-item index="/admin">课程管理</el-menu-item>
         <el-menu-item index="/admin/student">学生管理</el-menu-item>
         <el-menu-item index="/admin/teacher">教师管理</el-menu-item>
+        <el-menu-item index="/admin/point">积分排行</el-menu-item>
         <div class="flex-grow" />
         <el-button class="adminButton" type="primary" @click="addNewAdmin">新增管理员</el-button>
         <el-button class="adminButton" type="primary" @click="endoutStore.endOut">退出</el-button>

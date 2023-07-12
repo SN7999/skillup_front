@@ -8,13 +8,6 @@ export const getStudentInfoAPI = () => {
   })
 }
 
-//测试
-// export const getStudentInfoAPI = () => {
-//   return request({
-//     url: '/showStudents'
-//   })
-// }
-
 //搜索学生
 export const getSearchStudentAPI = (input) => {
   return request({
@@ -34,30 +27,6 @@ export const getStudentDetailAPI = (studentid) => {
   })
 }
 
-//测试
-// export const getStudentDetailAPI = () => {
-//   return request({
-//     url: '/studentinfo'
-//   })
-// }
-
-//显示学生成绩列表 这里接口文档写的不清楚
-// export const getStudentScoreAPI = (studentid) => {
-//   return request({
-//     url: '/studentinfo',
-//     data: {
-//       studentid
-//     }
-//   })
-// }
-
-//测试
-// export const getStudentScoreAPI = () => {
-//   return request({
-//     url: '/studentscore'
-//   })
-// }
-
 //删除学生 这里接口文档写的不清楚
 export const getDeleteStudentAPI = (studentid) => {
   return request({
@@ -73,13 +42,6 @@ export const getStudentCancelAPI = () => {
     url: '/admin/showApply4StuCancel'
   })
 }
-
-//测试
-// export const getStudentCancelAPI = () => {
-//   return request({
-//     url: '/showApply4StuCancel'
-//   })
-// }
 
 //搜索注销学生
 export const getSearchStudentCancelAPI = (input) => {
@@ -109,5 +71,14 @@ export const getRejectCancelStudentAPI = (studentid, reason) => {
       reason
     },
     data: studentid
+  })
+}
+
+//展示最高积分的几位学生
+export const getShowHighScoreAPI = (num) => {
+  return request({
+    method: 'POST',
+    url: '/admin/showHighScoreStu',
+    data: num
   })
 }

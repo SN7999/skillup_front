@@ -30,6 +30,7 @@ import AdminStudent from '@/views/adminLayout/component/student/adminStudent.vue
 import AdminStudentCancel from '@/views/adminLayout/component/student/cancel.vue'
 import AdminTeacher from '@/views/adminLayout/component/teacher/adminTeacher.vue'
 import AdminTeacherCancel from '@/views/adminLayout/component/teacher/cancel.vue'
+import AdminPoint from '@/views/adminLayout/component/point/pointRank.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -243,6 +244,14 @@ const router = createRouter({
           meta: {
             isLogin: true,
             title: '管理老师'
+          }
+        },
+        {
+          path: '/admin/point',
+          component: AdminPoint,
+          meta: {
+            isLogin: true,
+            title: '积分排行'
           }
         },
         {

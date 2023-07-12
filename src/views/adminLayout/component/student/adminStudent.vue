@@ -114,7 +114,6 @@ const dealCancel = () => {
       <el-input v-model.trim="searchByStudent" class="w-50 m-2" size="large" placeholder="请输入学生姓名" :prefix-icon="Search" @keyup.enter="getSearchByStudent" style="width: 30%; margin-right: 10px;" />
       <el-button type="primary" @click="dealCancel">注销处理</el-button>
     </div>
-
     <el-table :data="currentPageData">
       <el-table-column prop="student.id" label="学生id"></el-table-column>
       <el-table-column prop="student.name" label="学生姓名"></el-table-column>
