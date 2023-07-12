@@ -1,7 +1,7 @@
 // createRouter: 创建router实例对象
 // createWebHistory：创建history模式的路由
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { getSessionCookie } from '@/cookie.js'
 
 import Open from '@/views/open/index.vue'
 import Login from '@/views/login/index.vue'
@@ -271,13 +271,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
     // 判断当前路由是否需要路由验证
-    const userStore = useUserStore()
-    const token = userStore.userInfo.token
-    // 测试打印
-    console.log('if函数成功执行hengaaa')
-    // let user = JSON.parse(localStorage.getItem('user'));
-    if (token) {
-      // 判断当前的token是否存在
+    const JSESSIONID = getSessionCookie()
+    if (JSESSIONID) {
+      // 判断当前的session是否存在
       next() // 存在继续执行
     } else {
       next('/login') //不存在需要跳到登陆页
