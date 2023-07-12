@@ -29,11 +29,26 @@ const getQuestions = async examid => {
 	questions.value = result.data.data;
 	// console.log('questions为'+questions.value);
 };
-
+const bindScrollToQuestion = () => {
+  const questions = document.querySelectorAll(".scroll-to-question");
+  questions.forEach((question) => {
+    question.addEventListener("click", (event) => {
+      event.preventDefault();
+      const targetId = question.getAttribute("href");
+      const targetElement = document.querySelector(targetId);
+      const yOffset = targetElement.getBoundingClientRect().top - 100;
+      window.scrollTo({
+        top: yOffset,
+        behavior: "smooth",
+      });
+    });
+  });
+};
 onMounted(() => {
 	console.log('examid:'+examid+' time:'+time)
 	startCountdown();
 	getQuestions(examid);
+	bindScrollToQuestion();
 });
 const gotoPrevious = () => {
 	router.go(-1);
@@ -169,7 +184,7 @@ const formatNumber = (number) => {
 		<div style="margin: 20px 0" />
 		<!-- 提交按钮 -->
 		<div style="text-align: center;"><el-button type="primary" @click="submitForm">提交</el-button></div>
-
+		
 		<div class="handle" @mouseenter="showDrawer">
 			<span class="handle-icon">目录</span>
 		</div>
@@ -182,7 +197,7 @@ const formatNumber = (number) => {
 		>
 			<div v-for="(question, index) in questions" :key="question.questionid">
 				<span class="indicator" :class="{ active: indicatorStatus[question.questionid] }"></span>
-			    <a :href="'#question-' + (index + 1)">
+			    <a :href="'#question-' + (index + 1)" class="scroll-to-question">
 					第{{ index + 1 }}题：({{question.type}}){{ truncateText(question.question) }}
 				</a>
 			</div>

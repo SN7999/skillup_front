@@ -56,7 +56,6 @@
         :prefix-icon="Search"
         @keyup.enter="getSerchCurriculum"
         />
-
         <!-- 课程列表 -->
         <div class='curriculum-list' >
             <div  class="curriculum-item" style='background:#f6f6f6;width:32%;' v-for="(curriculum,index) in curriculumList" :key="index">
@@ -83,7 +82,7 @@
 
     img{
       width: 100%;
-      height: 150px;
+      height: 250px;
     }
     }
     .curriculum-list{

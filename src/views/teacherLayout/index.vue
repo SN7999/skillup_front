@@ -16,7 +16,7 @@ const userInfo = ref(false)
 const hideInfo = () => {
   setTimeout(() => {
     userInfo.value = false
-  }, 3000)
+  }, 1000)
 }
 const showInfo = () => {
   userInfo.value = true
@@ -45,8 +45,8 @@ onBeforeMount(() => {
         <el-menu-item index="/teacher/student">查询学生信息</el-menu-item>
         <div class="flex-grow" />
         <el-menu-item index="/teacher/detail">个人中心</el-menu-item>
-        <div class="box1">
-          <el-avatar :size="100" class="userMessage" :src="userStore.data.imageurl" @mouseover="showInfo" @mouseleave="hideInfo" />
+        <el-avatar :size="50" shape="circle" class="userMessage" :src="userStore.data.imageurl" @mouseover="showInfo" @mouseleave="hideInfo" />
+		<div class="box1">
           <div v-show="userInfo" class="box2">
             <p @click="endoutStore.endOut">退出</p>
           </div>
@@ -81,18 +81,16 @@ onBeforeMount(() => {
 .flex-grow {
   flex-grow: 1;
 }
+.userMessage:hover {
+  cursor: pointer;
+}
+
 .box1 {
   position: relative;
-  width: 7%;
+  width: auto;
   height: 50px;
   margin-right: 20px;
-  .userMessage {
-    width: 100%;
-    height: 100%;
-    &:hover {
-      cursor: pointer;
-    }
-  }
+
   .box2 {
     position: absolute;
     bottom: -38px;
