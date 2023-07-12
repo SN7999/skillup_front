@@ -46,10 +46,33 @@ const getExamLists = (classid) => {
   getPassExamList(classid)
   getFailExamList(classid)
 }
+
+const checktime = (data) => {
+	const backendTimeStr = data.date;
+	const backendTime = new Date(backendTimeStr.replace(" ", "T"));
+	const backendTimeISO = backendTime.toISOString().slice(0, -5);
+	const interval = data.totalTime * 60 * 1000;
+	const currentTime = new Date();
+	
+	if (currentTime.toISOString().slice(0, -5) >= backendTimeISO && currentTime <= backendTime.getTime() + interval) {
+		
+		handleButtonClick(data);
+	    console.log('能用');
+		console.log(backendTime.getTime() + interval - currentTime)
+	} else {
+		ElMessage.warning('未在考试时间内');
+	}
+	console.log(currentTime)
+}
 const handleButtonClick = (data) => {
-  router.push('/student/exam/detail/content/' + data.id)
-  console.log('点击了按钮', data)
-  // 在这里可以执行按钮点击后的逻辑操作
+  router.push({
+  	path:'/student/exam/detail/content/'+data.id,
+  	query: { 
+  		date:data.date,
+  	    time:data.totalTime
+  	}
+  });
+  console.log('点击了按钮', data.totalTime);
 }
 
 //根据课程id获取课程信息
@@ -472,7 +495,7 @@ const gobackTest = () => {
                 <el-table-column prop="totalTime" label="考试时长(min)"></el-table-column>
                 <el-table-column label="操作">
                   <template #default="scope">
-                    <el-button type="primary" size="small" @click="handleButtonClick(scope.row)">进入考试</el-button>
+                    <el-button type="primary" size="small" @click="checktime(scope.row)">进入考试</el-button>
                   </template>
                 </el-table-column>
               </el-table>
